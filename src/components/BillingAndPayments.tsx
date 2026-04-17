@@ -6,16 +6,23 @@ import {
   Plus,
   FileText,
   Calendar,
-  ArrowRightLeft
+  ArrowRightLeft,
+  CheckCircle2,
+  Building2,
+  Wallet
 } from 'lucide-react';
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
+import { motion } from 'motion/react';
 
 export default function BillingAndPayments() {
   const { bills, paymentMethods, subscriptions } = useCustomer();
   const [autoPay, setAutoPay] = useState(true);
   const [billingLevel, setBillingLevel] = useState<'Account' | 'Subscription'>('Account');
   const [selectedSubId, setSelectedSubId] = useState<string>(subscriptions[0]?.id || '');
+  const [showPaymentFlow, setShowPaymentFlow] = useState(false);
+  const [preferredMethodId, setPreferredMethodId] = useState<string>(paymentMethods.find(m => m.isDefault)?.id || paymentMethods[0]?.id || '');
+  const [addingMethodType, setAddingMethodType] = useState<'Credit Card' | 'Debit Card' | 'BACS' | null>(null);
 
   const filteredBills = billingLevel === 'Account' 
     ? bills.filter(b => !b.subscriptionId) // Showing only account-level bills
@@ -97,14 +104,62 @@ export default function BillingAndPayments() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="px-5 py-2.5 bg-primary text-white text-[13px] font-bold rounded-md hover:bg-opacity-90 shadow-sm transition-all whitespace-nowrap">
-              Pay Statement
+            <button 
+              onClick={() => setShowPaymentFlow(true)}
+              className="px-5 py-2.5 bg-primary text-white text-[13px] font-bold rounded-md hover:bg-opacity-90 shadow-sm transition-all whitespace-nowrap flex items-center gap-2"
+            >
+              <CreditCard size={14} /> Pay Statement
             </button>
-            <button className="px-5 py-2.5 bg-white border border-border-main text-text-main text-[13px] font-bold rounded-md hover:bg-bg-app transition-all flex items-center gap-2 whitespace-nowrap">
+            <button 
+              onClick={() => window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', '_blank')}
+              className="px-5 py-2.5 bg-white border border-border-main text-text-main text-[13px] font-bold rounded-md hover:bg-bg-app transition-all flex items-center gap-2 whitespace-nowrap"
+            >
               <Download size={14} /> Download PDF
             </button>
           </div>
         </div>
+
+        {showPaymentFlow && (
+          <div className="p-6 bg-primary/5 border-t border-primary/10">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-[14px] font-bold text-primary uppercase tracking-tight">Complete Payment</h4>
+              <button onClick={() => setShowPaymentFlow(false)} className="text-[11px] font-bold text-primary hover:underline">Cancel</button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+              {paymentMethods.map((method) => (
+                <div 
+                  key={method.id}
+                  onClick={() => setPreferredMethodId(method.id)}
+                  className={cn(
+                    "p-4 border rounded-lg cursor-pointer transition-all flex flex-col gap-2 relative",
+                    preferredMethodId === method.id ? "border-primary bg-white shadow-md" : "border-border-main bg-white/50 hover:bg-white"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    {method.type === 'BACS' ? <Building2 size={18} className="text-primary" /> : <CreditCard size={18} className="text-primary" />}
+                    {preferredMethodId === method.id && <CheckCircle2 size={14} className="text-primary fill-primary text-white" />}
+                  </div>
+                  <div>
+                    <span className="block text-[11px] font-bold text-text-main uppercase tracking-tighter">{method.type}</span>
+                    <span className="block text-[12px] text-text-muted font-medium">
+                      {method.type === 'BACS' ? `••••${method.accountNumber?.slice(-4)}` : `•••• ${method.last4}`}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              <div 
+                className="p-4 border border-dashed border-border-main rounded-lg cursor-pointer hover:border-primary/50 flex flex-col items-center justify-center gap-1 group"
+                onClick={() => setAddingMethodType('Credit Card')}
+              >
+                <Plus size={16} className="text-text-muted group-hover:text-primary" />
+                <span className="text-[11px] font-bold text-text-muted uppercase group-hover:text-primary">New Method</span>
+              </div>
+            </div>
+            <button className="w-full py-3 bg-primary text-white text-[14px] font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all">
+              Confirm Payment of ${currentBill.amount.toLocaleString()}
+            </button>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border-main bg-bg-app">
           {[
@@ -151,7 +206,10 @@ export default function BillingAndPayments() {
                     <td className="px-4 py-3 text-[12px] text-text-muted font-medium">{bill.date}</td>
                     <td className="px-4 py-3 text-[13px] font-extrabold text-text-main text-right">${bill.amount.toLocaleString()}</td>
                     <td className="px-4 py-3 text-center">
-                      <button className="p-1.5 text-text-muted hover:text-primary transition-colors">
+                      <button 
+                        onClick={() => window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', '_blank')}
+                        className="p-1.5 text-text-muted hover:text-primary transition-colors"
+                      >
                         <Download className="w-4 h-4" />
                       </button>
                     </td>
@@ -166,33 +224,92 @@ export default function BillingAndPayments() {
         <div className="bg-white rounded-lg border border-border-main shadow-sm flex flex-col overflow-hidden">
           <div className="p-4 border-b border-border-main flex items-center justify-between bg-bg-app/50">
             <h3 className="text-[12px] font-extrabold text-text-main uppercase tracking-widest">Payment Methods</h3>
-            <button className="text-[11px] font-bold text-primary flex items-center gap-1 hover:underline">
-              <Plus className="w-3 h-3" /> Add New
-            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-text-muted">ADD:</span>
+              <div className="flex border border-border-main rounded overflow-hidden">
+                <button 
+                  onClick={() => setAddingMethodType('Credit Card')}
+                  className={cn("p-1.5 hover:bg-primary/5 transition-colors", addingMethodType === 'Credit Card' && "bg-primary/10")}
+                  title="Add Credit Card"
+                >
+                  <CreditCard size={14} className={cn("text-text-muted", addingMethodType === 'Credit Card' && "text-primary")} />
+                </button>
+                <button 
+                  onClick={() => setAddingMethodType('Debit Card')}
+                  className={cn("p-1.5 hover:bg-primary/5 transition-colors border-l border-r border-border-main", addingMethodType === 'Debit Card' && "bg-primary/10")}
+                  title="Add Debit Card"
+                >
+                  <Wallet size={14} className={cn("text-text-muted", addingMethodType === 'Debit Card' && "text-primary")} />
+                </button>
+                <button 
+                  onClick={() => setAddingMethodType('BACS')}
+                  className={cn("p-1.5 hover:bg-primary/5 transition-colors", addingMethodType === 'BACS' && "bg-primary/10")}
+                  title="Add BACS"
+                >
+                  <Building2 size={14} className={cn("text-text-muted", addingMethodType === 'BACS' && "text-primary")} />
+                </button>
+              </div>
+            </div>
           </div>
           <div className="p-4 space-y-3">
-            <div className="flex gap-2 mb-4">
-               {['Credit Card', 'Debit Card', 'BACS'].map((type) => (
-                 <button key={type} className="flex-1 py-2 border border-border-main rounded text-[11px] font-bold text-text-muted hover:border-primary hover:text-primary transition-all">
-                   {type}
-                 </button>
-               ))}
-            </div>
-            {paymentMethods.map((method) => (
-              <div key={method.id} className="bg-white border border-border-main p-3 rounded-md flex items-center justify-between group hover:border-primary/20 transition-all shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#f1f3f5] rounded-md border border-border-main">
-                    {method.type === 'BACS' ? (
-                      <ArrowRightLeft className="w-5 h-5 text-primary" />
+            {addingMethodType && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="bg-primary/5 border border-primary/20 rounded-md p-4 mb-4"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[11px] font-bold text-primary">ADD NEW {addingMethodType.toUpperCase()}</span>
+                  <button onClick={() => setAddingMethodType(null)} className="text-[10px] font-bold text-text-muted hover:text-text-main">CANCEL</button>
+                </div>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Full Name on Account" className="col-span-2 bg-white border border-border-main rounded px-3 py-2 text-[12px] outline-none focus:border-primary/50" />
+                    {addingMethodType === 'BACS' ? (
+                      <>
+                        <input type="text" placeholder="Sort Code" className="bg-white border border-border-main rounded px-3 py-2 text-[12px] outline-none focus:border-primary/50" />
+                        <input type="text" placeholder="Account Number" className="bg-white border border-border-main rounded px-3 py-2 text-[12px] outline-none focus:border-primary/50" />
+                      </>
                     ) : (
-                      <CreditCard className="w-5 h-5 text-text-muted" />
+                      <>
+                        <input type="text" placeholder="Card Number" className="col-span-2 bg-white border border-border-main rounded px-3 py-2 text-[12px] outline-none focus:border-primary/50" />
+                        <input type="text" placeholder="MM/YY" className="bg-white border border-border-main rounded px-3 py-2 text-[12px] outline-none focus:border-primary/50" />
+                        <input type="text" placeholder="CVV" className="bg-white border border-border-main rounded px-3 py-2 text-[12px] outline-none focus:border-primary/50" />
+                      </>
+                    )}
+                  </div>
+                  <button className="w-full py-2 bg-primary text-white text-[12px] font-bold rounded shadow-md shadow-primary/10 hover:bg-opacity-90">Save Method</button>
+                </div>
+              </motion.div>
+            )}
+
+            {paymentMethods.map((method) => (
+              <div 
+                key={method.id} 
+                onClick={() => setPreferredMethodId(method.id)}
+                className={cn(
+                  "bg-white border p-3 rounded-md flex items-center justify-between group transition-all shadow-sm cursor-pointer",
+                  preferredMethodId === method.id ? "border-primary ring-1 ring-primary/10" : "border-border-main hover:border-primary/20"
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={cn(
+                    "p-2 rounded-md border",
+                    preferredMethodId === method.id ? "bg-primary/5 border-primary/20" : "bg-[#f1f3f5] border-border-main"
+                  )}>
+                    {method.type === 'BACS' ? (
+                      <Building2 className={cn("w-5 h-5", preferredMethodId === method.id ? "text-primary" : "text-text-muted")} />
+                    ) : method.type === 'Debit' ? (
+                      <Wallet className={cn("w-5 h-5", preferredMethodId === method.id ? "text-primary" : "text-text-muted")} />
+                    ) : (
+                      <CreditCard className={cn("w-5 h-5", preferredMethodId === method.id ? "text-primary" : "text-text-muted")} />
                     )}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[13px] font-bold text-text-main uppercase">{method.type}</span>
-                      {method.isDefault && (
-                        <span className="text-[9px] font-bold bg-primary-light text-primary px-1.5 py-0.5 rounded uppercase border border-primary/10">Default</span>
+                      <span className="text-[13px] font-bold text-text-main uppercase leading-none">{method.type}</span>
+                      {preferredMethodId === method.id && (
+                        <span className="text-[9px] font-bold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded uppercase border border-emerald-200">Preferred</span>
                       )}
                     </div>
                     {method.type === 'BACS' ? (
@@ -204,9 +321,11 @@ export default function BillingAndPayments() {
                     )}
                   </div>
                 </div>
-                <button className="text-[11px] font-bold text-text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Remove
-                </button>
+                {preferredMethodId !== method.id && (
+                  <button className="text-[11px] font-bold text-text-muted hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    Set Preferred
+                  </button>
+                )}
               </div>
             ))}
 

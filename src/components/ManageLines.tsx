@@ -14,7 +14,10 @@ import {
   Settings2,
   Trash2,
   TrendingUp,
-  PhoneCall
+  PhoneCall,
+  MessageSquare,
+  MapPin,
+  Download
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useCustomer } from '../context/CustomerContext';
@@ -63,7 +66,7 @@ export default function ManageLines() {
           onClick={() => setSelectedLineId(null)}
           className="flex items-center gap-2 text-[13px] font-bold text-primary hover:text-primary/80 transition-colors mb-4"
         >
-          <ArrowRightLeft className="w-4 h-4 rotate-180" /> Back to Line Overview
+          <ArrowRightLeft className="w-4 h-4 rotate-180" /> Back to Subscriptions
         </button>
 
         <div className="bg-white rounded-xl border border-border-main p-8 shadow-sm">
@@ -93,14 +96,31 @@ export default function ManageLines() {
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-3">
-              <div className="text-right">
+            <div className="flex flex-col items-end gap-3 flex-shrink-0">
+              <div className="text-right mb-2">
                 <span className="block text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1">Monthly Cost</span>
                 <span className="text-3xl font-extrabold text-text-main">${selectedLine.monthlyCost.toFixed(2)}</span>
               </div>
-              <button className="px-6 py-2.5 bg-primary text-white text-[13px] font-bold rounded-lg hover:bg-opacity-90 transition-all shadow-md shadow-primary/10">
-                Change Subscription Plan
-              </button>
+              <div className="grid grid-cols-2 gap-2 w-full max-w-[320px]">
+                <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-primary text-white text-[12px] font-bold rounded-lg hover:bg-opacity-90 transition-all shadow-md shadow-primary/10">
+                  <Settings2 className="w-4 h-4" /> Modify Plan
+                </button>
+                {selectedLine.type === 'Fiber' ? (
+                  <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-emerald-600 text-white text-[12px] font-bold rounded-lg hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20">
+                    <MapPin className="w-4 h-4" /> Move Location
+                  </button>
+                ) : (
+                  <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-border-main text-text-main text-[12px] font-bold rounded-lg hover:bg-bg-app transition-all">
+                    <Smartphone className="w-4 h-4 text-primary" /> Change Device
+                  </button>
+                )}
+                <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-border-main text-text-main text-[12px] font-bold rounded-lg hover:bg-bg-app transition-all">
+                  <Activity className="w-4 h-4 text-primary" /> Change Speed
+                </button>
+                <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-red-50 border border-red-100 text-red-600 text-[12px] font-bold rounded-lg hover:bg-red-100 transition-all">
+                  <Trash2 className="w-4 h-4" /> Suspend
+                </button>
+              </div>
             </div>
           </div>
 
@@ -137,17 +157,35 @@ export default function ManageLines() {
                   </div>
                   <div className="flex justify-between items-center text-[13px]">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-primary/70 font-medium">Out-of-Bundle Usage</span>
+                      <span className="text-primary/70 font-medium">Out-of-Bundle (Voice/SMS)</span>
                       <span className="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold">LIVE</span>
                     </div>
                     <span className="font-bold text-red-600">+${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
                   </div>
+                  {selectedLine.unbilledUsage.voice > 0 && (
+                    <div className="flex justify-between items-center text-[11px] pl-4 text-primary/50 italic">
+                      <span>• Voice ({selectedLine.unbilledUsage.voice} Mins)</span>
+                      <span>Included in estimate</span>
+                    </div>
+                  )}
+                  {selectedLine.unbilledUsage.sms > 0 && (
+                    <div className="flex justify-between items-center text-[11px] pl-4 text-primary/50 italic">
+                      <span>• SMS ({selectedLine.unbilledUsage.sms} Units)</span>
+                      <span>Included in estimate</span>
+                    </div>
+                  )}
                   <div className="pt-3 border-t border-primary/20 flex justify-between items-center">
                     <span className="text-[14px] font-bold text-primary">Projected Next Bill</span>
                     <span className="text-[16px] font-extrabold text-primary">
                       ${(selectedLine.monthlyCost + selectedLine.unbilledUsage.estimatedCost).toFixed(2)}
                     </span>
                   </div>
+                  <button 
+                    onClick={() => window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', '_blank')}
+                    className="w-full mt-2 py-2.5 bg-white border border-primary/30 text-primary text-[11px] font-bold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Download size={13} /> View Full Statement (PDF)
+                  </button>
                   <p className="text-[10px] text-primary/60 italic font-medium leading-relaxed">
                     * Projections include real-time usage data and active product subscriptions. Final amounts may vary based on exact billing cycle cutoff.
                   </p>
@@ -162,28 +200,114 @@ export default function ManageLines() {
                   <Activity className="w-4 h-4 text-primary" /> Current Cycle Usage
                 </h3>
                 <div className="space-y-6">
+                  {/* Data Usage */}
                   <div>
                     <div className="flex justify-between items-end mb-2">
-                      <span className="text-[12px] font-bold text-text-muted uppercase">Data Consumption</span>
-                      <span className="text-[14px] font-extrabold text-text-main">{selectedLine.dataUsed} / {selectedLine.dataLimit}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center">
+                          <Wifi className="w-4 h-4 text-primary" />
+                        </div>
+                        <div>
+                          <span className="block text-[12px] font-bold text-text-main uppercase leading-none mb-1">Data Consumption</span>
+                          <span className="text-[10px] text-text-muted font-bold tracking-tighter">NETWORK CONNECTED</span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="block text-[14px] font-extrabold text-text-main">{selectedLine.dataUsed} / {selectedLine.dataLimit}</span>
+                        <span className="text-[10px] text-text-muted font-bold uppercase">{selectedLine.dataTotal > 0 ? `${(selectedLine.dataTotal - selectedLine.dataUsed).toFixed(1)} GB remaining` : 'Unlimited Data Account'}</span>
+                      </div>
                     </div>
-                    <div className="h-3 w-full bg-bg-app rounded-full overflow-hidden border border-border-main p-[2px]">
+                    <div className="h-4 w-full bg-bg-app rounded-full overflow-hidden border border-border-main p-1">
                       <motion.div 
                         initial={{ width: 0 }}
-                        animate={{ width: `${usagePercent * 100}%` }}
-                        className="h-full bg-primary rounded-full"
+                        animate={{ width: `${Math.min(usagePercent * 100, 100)}%` }}
+                        className={cn(
+                          "h-full rounded-full transition-all",
+                          usagePercent > 0.9 ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]" : "bg-primary"
+                        )}
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-bg-app rounded-lg border border-border-main">
-                       <span className="block text-[10px] font-bold text-text-muted uppercase mb-1">Voice (Mins)</span>
-                       <span className="text-xl font-bold text-text-main">342<span className="text-[12px] text-text-muted font-medium ml-1">Used</span></span>
+                  {/* Voice Usage */}
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center">
+                          <PhoneCall className="w-4 h-4 text-primary" />
+                        </div>
+                        <div>
+                          <span className="block text-[12px] font-bold text-text-main uppercase leading-none mb-1">Voice Usage</span>
+                          <span className="text-[10px] text-text-muted font-bold tracking-tighter">REAL-TIME ANALYTICS</span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="block text-[14px] font-extrabold text-text-main">
+                          {selectedLine.voiceUsed} / {selectedLine.voiceTotal === 0 ? 'Unlimited' : selectedLine.voiceTotal}
+                        </span>
+                        <span className="text-[10px] text-text-muted font-bold uppercase">MINUTES</span>
+                      </div>
                     </div>
-                    <div className="p-4 bg-bg-app rounded-lg border border-border-main">
-                       <span className="block text-[10px] font-bold text-text-muted uppercase mb-1">SMS</span>
-                       <span className="text-xl font-bold text-text-main">89<span className="text-[12px] text-text-muted font-medium ml-1">Sent</span></span>
+                    {selectedLine.voiceTotal > 0 && (
+                      <div className="h-4 w-full bg-bg-app rounded-full overflow-hidden border border-border-main p-1">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${Math.min((selectedLine.voiceUsed / selectedLine.voiceTotal) * 100, 100)}%` }}
+                          className={cn(
+                            "h-full rounded-full transition-all",
+                            (selectedLine.voiceUsed / selectedLine.voiceTotal) > 0.9 ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]" : "bg-primary"
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* SMS Usage */}
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center">
+                          <MessageSquare className="w-4 h-4 text-primary" />
+                        </div>
+                        <div>
+                          <span className="block text-[12px] font-bold text-text-main uppercase leading-none mb-1">SMS Status</span>
+                          <span className="text-[10px] text-text-muted font-bold tracking-tighter">GLOBAL REACH ENABLED</span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="block text-[14px] font-extrabold text-text-main">
+                          {selectedLine.smsUsed} / {selectedLine.smsTotal === 0 ? 'Unlimited' : selectedLine.smsTotal}
+                        </span>
+                        <span className="text-[10px] text-text-muted font-bold uppercase">MESSAGES</span>
+                      </div>
+                    </div>
+                    {selectedLine.smsTotal > 0 && (
+                      <div className="h-4 w-full bg-bg-app rounded-full overflow-hidden border border-border-main p-1">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${Math.min((selectedLine.smsUsed / selectedLine.smsTotal) * 100, 100)}%` }}
+                          className={cn(
+                            "h-full rounded-full transition-all",
+                            (selectedLine.smsUsed / selectedLine.smsTotal) > 0.9 ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]" : "bg-primary"
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Out-of-bundle Summary */}
+                  <div className="pt-2">
+                    <div className="p-4 bg-red-50 border border-red-100 rounded-lg flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-red-100 rounded-lg text-red-600">
+                          <TrendingUp className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="block text-[11px] font-bold text-red-800 uppercase tracking-tight leading-none mb-1">Estimated Out-of-Bundle Costs</span>
+                          <span className="text-[10px] text-red-600/70 font-medium">Real-time charge projection based on current cycle activity</span>
+                        </div>
+                      </div>
+                      <span className="text-xl font-black text-red-600">${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -279,7 +403,7 @@ export default function ManageLines() {
 
         <button className="px-4 py-2 bg-primary text-white text-[12px] font-bold rounded-md hover:bg-opacity-90 transition-all flex items-center gap-2 whitespace-nowrap">
           <Plus className="w-4 h-4" />
-          Add New Line
+          New Subscription
         </button>
       </div>
 
@@ -360,22 +484,12 @@ export default function ManageLines() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5">
-                  <button className="p-2 text-text-muted hover:text-primary hover:bg-primary-light rounded-md transition-all border border-transparent" title="Modify">
-                    <Settings2 className="w-4 h-4" />
-                  </button>
-                  <button className="p-2 text-text-muted hover:text-primary hover:bg-primary-light rounded-md transition-all border border-transparent" title="Change">
-                    <ArrowRightLeft className="w-4 h-4" />
-                  </button>
-                  <button className="p-2 text-text-muted hover:text-red-600 hover:bg-red-50 rounded-md transition-all border border-transparent" title="Delete">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                  <div className="h-6 w-[1px] bg-border-main mx-1"></div>
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button 
                     onClick={() => setSelectedLineId(sub.id)}
-                    className="px-3 py-1.5 bg-text-main text-white text-[11px] font-bold rounded-md hover:opacity-90 transition-colors"
+                    className="px-4 py-2 bg-text-main text-white text-[11px] font-extrabold rounded-md hover:bg-black transition-colors uppercase tracking-wider shadow-sm"
                   >
-                    View Services
+                    Manage
                   </button>
                 </div>
               </div>
@@ -388,8 +502,8 @@ export default function ManageLines() {
             <div className="w-12 h-12 bg-bg-app rounded-full flex items-center justify-center mb-3">
               <AlertCircle className="w-6 h-6 text-text-muted" />
             </div>
-            <h3 className="text-[15px] font-bold text-text-main">No lines found</h3>
-            <p className="text-[12px] text-text-muted">Adjust filters to see lines.</p>
+            <h3 className="text-[15px] font-bold text-text-main">No subscriptions found</h3>
+            <p className="text-[12px] text-text-muted">Adjust filters to see your active subscriptions.</p>
           </div>
         )}
       </div>

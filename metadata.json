@@ -1,6 +1,6 @@
 {
   "name": "TelcoConnect B2B Portal",
-  "description": "A comprehensive B2B portal for telecommunications management, featuring Customer 360, billing, service management, order tracking, support cases, personalized offerings, and real-time AI assistance.",
+  "description": "A comprehensive B2B portal for telecommunications management, featuring Customer 360, billing, subscription management, order tracking, service requests, and personalized enterprise settings.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

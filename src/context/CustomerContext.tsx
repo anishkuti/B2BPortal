@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Customer, Subscription, Bill, PaymentMethod, UsageData, Offering, Case, Order } from '../types';
+import { Customer, Subscription, Bill, PaymentMethod, UsageData, Offering, ServiceRequest, Order, MarketingPreferences, Alert } from '../types';
 import { mockCustomers, mockCustomerData } from '../mockData';
 
 interface CustomerContextType {
@@ -9,24 +9,33 @@ interface CustomerContextType {
   paymentMethods: PaymentMethod[];
   usageData: UsageData[];
   offerings: Offering[];
-  cases: Case[];
+  serviceRequests: ServiceRequest[];
   orders: Order[];
+  alerts: Alert[];
   allCustomers: Customer[];
   setCustomer: (customerId: string) => void;
+  updatePreferences: (prefs: MarketingPreferences) => void;
 }
 
 const CustomerContext = createContext<CustomerContextType | undefined>(undefined);
 
 export function CustomerProvider({ children }: { children: ReactNode }) {
   const [currentCustomerId, setCurrentCustomerId] = useState(mockCustomers[0].id);
+  const [customers, setCustomers] = useState<Customer[]>(mockCustomers);
 
   const setCustomer = (customerId: string) => {
-    if (mockCustomers.find(c => c.id === customerId)) {
+    if (customers.find(c => c.id === customerId)) {
       setCurrentCustomerId(customerId);
     }
   };
 
-  const currentCustomer = mockCustomers.find(c => c.id === currentCustomerId)!;
+  const updatePreferences = (prefs: MarketingPreferences) => {
+    setCustomers(prev => prev.map(c => 
+      c.id === currentCustomerId ? { ...c, preferences: prefs } : c
+    ));
+  };
+
+  const currentCustomer = customers.find(c => c.id === currentCustomerId)!;
   const data = mockCustomerData[currentCustomerId];
 
   const value = {
@@ -36,10 +45,12 @@ export function CustomerProvider({ children }: { children: ReactNode }) {
     paymentMethods: data.paymentMethods,
     usageData: data.usageData,
     offerings: data.offerings,
-    cases: data.cases,
+    serviceRequests: data.serviceRequests,
     orders: data.orders,
-    allCustomers: mockCustomers,
+    alerts: data.alerts,
+    allCustomers: customers,
     setCustomer,
+    updatePreferences,
   };
 
   return (

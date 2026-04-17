@@ -13,17 +13,17 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
-import { Case, Order } from '../types';
+import { ServiceRequest, Order } from '../types';
 
-export default function CasesAndOrders() {
-  const { cases, orders } = useCustomer();
+export default function ServiceRequestsAndOrders() {
+  const { serviceRequests, orders } = useCustomer();
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [priorityFilter, setPriorityFilter] = useState<string>('All');
   const [showFilters, setShowFilters] = useState(false);
 
-  const filteredCases = cases.filter(cs => {
-    const statusMatch = statusFilter === 'All' || cs.status === statusFilter;
-    const priorityMatch = priorityFilter === 'All' || cs.priority === priorityFilter;
+  const filteredRequests = serviceRequests.filter(sr => {
+    const statusMatch = statusFilter === 'All' || sr.status === statusFilter;
+    const priorityMatch = priorityFilter === 'All' || sr.priority === priorityFilter;
     return statusMatch && priorityMatch;
   });
 
@@ -33,8 +33,13 @@ export default function CasesAndOrders() {
         return 'bg-emerald-50 text-emerald-600 border-emerald-100';
       case 'In Progress':
         return 'bg-blue-50 text-blue-600 border-blue-100';
+      case 'Shipped':
+        return 'bg-indigo-50 text-indigo-600 border-indigo-100';
       case 'Pending':
+      case 'Order Placed':
         return 'bg-amber-50 text-amber-600 border-amber-100';
+      case 'Action Required':
+        return 'bg-red-50 text-red-600 border-red-100';
       default:
         return 'bg-gray-50 text-gray-600 border-gray-100';
     }
@@ -61,7 +66,7 @@ export default function CasesAndOrders() {
           <div className="p-4 border-b border-border-main flex items-center justify-between bg-bg-app/50 relative">
             <div className="flex items-center gap-2">
               <ClipboardList className="w-4 h-4 text-primary" />
-              <h3 className="text-[12px] font-extrabold text-text-main uppercase tracking-widest">Customer Support Cases</h3>
+              <h3 className="text-[12px] font-extrabold text-text-main uppercase tracking-widest">Service Requests</h3>
             </div>
             <div className="flex items-center gap-2">
               <button 
@@ -76,7 +81,7 @@ export default function CasesAndOrders() {
                 <Filter className="w-3 h-3" />
                 Filters {(statusFilter !== 'All' || priorityFilter !== 'All') && '•'}
               </button>
-              <button className="text-[11px] font-bold text-primary hover:underline">New Case</button>
+              <button className="text-[11px] font-bold text-primary hover:underline">New Request</button>
             </div>
 
             <AnimatePresence>
@@ -100,7 +105,7 @@ export default function CasesAndOrders() {
                       )}
                     </div>
                     <div className="flex flex-wrap gap-1.5">
-                      {['All', 'Pending', 'In Progress', 'Completed'].map((s) => (
+                      {['All', 'Pending', 'In Progress', 'Completed', 'Action Required'].map((s) => (
                         <button
                           key={s}
                           onClick={() => setStatusFilter(s)}
@@ -142,31 +147,31 @@ export default function CasesAndOrders() {
           </div>
           
           <div className="divide-y divide-border-main overflow-y-auto max-h-[500px] min-h-[300px]">
-            {filteredCases.length > 0 ? (
-              filteredCases.map((cs) => (
-                <div key={cs.id} className="p-4 hover:bg-bg-app transition-colors group cursor-pointer">
+            {filteredRequests.length > 0 ? (
+              filteredRequests.map((sr) => (
+                <div key={sr.id} className="p-4 hover:bg-bg-app transition-colors group cursor-pointer">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-mono text-text-muted">{cs.id}</span>
+                      <span className="text-[11px] font-mono text-text-muted">{sr.id}</span>
                       <span className={cn(
                         "px-2 py-0.5 rounded text-[9px] font-bold uppercase",
-                        getPriorityBadge(cs.priority)
+                        getPriorityBadge(sr.priority)
                       )}>
-                        {cs.priority}
+                        {sr.priority}
                       </span>
                     </div>
                     <span className={cn(
                       "px-2 py-0.5 rounded-full text-[10px] font-bold border",
-                      getStatusBadge(cs.status)
+                      getStatusBadge(sr.status)
                     )}>
-                      {cs.status}
+                      {sr.status}
                     </span>
                   </div>
-                  <h4 className="text-[14px] font-bold text-text-main mb-1 group-hover:text-primary transition-colors">{cs.subject}</h4>
+                  <h4 className="text-[14px] font-bold text-text-main mb-1 group-hover:text-primary transition-colors">{sr.subject}</h4>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-[11px] font-medium text-text-muted">
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> Updated {cs.updatedAt}</span>
-                      <span className="flex items-center gap-1">Type: {cs.type}</span>
+                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> Updated {sr.updatedAt}</span>
+                      <span className="flex items-center gap-1">Type: {sr.type}</span>
                     </div>
                     <ArrowRight className="w-3.5 h-3.5 text-text-muted opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   </div>
@@ -258,7 +263,7 @@ export default function CasesAndOrders() {
           </div>
           <div>
             <h4 className="font-bold text-[13px] text-primary">Service Level Agreement</h4>
-            <p className="text-[12px] text-text-muted font-medium">You have 2 High priority cases pending. Expected response time: 2 hours.</p>
+            <p className="text-[12px] text-text-muted font-medium">You have 1 High priority request pending. Expected response time: 2 hours.</p>
           </div>
         </div>
         <button className="px-4 py-2 bg-primary text-white text-[12px] font-bold rounded-md hover:bg-opacity-90 transition-all shadow-sm">

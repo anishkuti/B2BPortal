@@ -11,7 +11,17 @@ import {
   Settings2,
   ArrowRightLeft,
   Trash2,
-  AlertCircle
+  AlertCircle,
+  PhoneCall,
+  Mail,
+  MessageSquare,
+  User,
+  History as HistoryIcon,
+  Sparkles,
+  Zap,
+  ShieldAlert,
+  Globe,
+  ArrowRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
@@ -21,23 +31,25 @@ import Subscriptions from './components/ManageLines';
 import BillingAndPayments from './components/BillingAndPayments';
 import PaymentHistory from './components/PaymentHistory';
 import Offerings from './components/Offerings';
-import CasesAndOrders from './components/CasesAndOrders';
+import ServiceRequestsAndOrders from './components/ServiceRequestsAndOrders';
+import Preferences from './components/Preferences';
 
-type TabType = 'overview' | 'lines' | 'billing' | 'history' | 'offerings' | 'cases';
+type TabType = 'overview' | 'lines' | 'billing' | 'history' | 'offerings' | 'cases' | 'preferences';
 
 export default function App() {
-  const { currentCustomer, allCustomers, setCustomer } = useCustomer();
+  const { currentCustomer, allCustomers, setCustomer, offerings } = useCustomer();
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const menuItems = [
+  const menuItems: { id: TabType, label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'lines', label: 'Subscriptions' },
     { id: 'billing', label: 'Billing & Payments' },
-    { id: 'cases', label: 'Orders & Cases' },
+    { id: 'cases', label: 'Requests & Orders' },
     { id: 'offerings', label: 'Offerings' },
-    { id: 'history', label: 'Payment History' },
+    { id: 'history', label: 'History' },
+    { id: 'preferences', label: 'Settings' },
   ];
 
   const filteredCustomers = searchQuery.trim() === '' 
@@ -170,9 +182,10 @@ export default function App() {
           <div className="space-y-1 divide-y divide-gray-100">
             {[
               { label: 'Contact', value: currentCustomer.name },
+              { label: 'Email', value: currentCustomer.email },
+              { label: 'Location', value: currentCustomer.location },
               { label: 'Total Lines', value: `${currentCustomer.totalLines} Active` },
               { label: 'Tenure', value: '4.5 Years' },
-              { label: 'Plan Type', value: currentCustomer.tier === 'Enterprise' ? 'Enterprise XL' : 'Business Pro' },
               { label: 'Industry', value: currentCustomer.industry },
               { label: 'Account Manager', value: currentCustomer.accountManager },
             ].map((stat, i) => (
@@ -208,38 +221,62 @@ export default function App() {
               {activeTab === 'billing' && <BillingAndPayments />}
               {activeTab === 'offerings' && <Offerings />}
               {activeTab === 'history' && <PaymentHistory />}
-              {activeTab === 'cases' && <CasesAndOrders />}
+              {activeTab === 'cases' && <ServiceRequestsAndOrders />}
+              {activeTab === 'preferences' && <Preferences />}
             </motion.div>
           </AnimatePresence>
         </section>
 
         {/* Right Panel: Actions & Static Chat */}
         <section className="bg-white p-5 hidden xl:flex flex-col overflow-hidden border-l border-border-main">
-          <button 
-            className="w-full mb-6 py-4 bg-primary text-white text-[13px] font-extrabold rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-3 hover:bg-opacity-90 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-          >
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
-            CONNECT TO AN AGENT
-          </button>
-
-          <div className="text-[11px] font-extrabold text-text-muted uppercase tracking-[0.5px] mb-4">
-            Service Management
+          {/* Featured Enterprise Opportunities */}
+          <div className="flex items-center gap-2 mb-4">
+             <div className="p-1 bg-amber-50 rounded text-amber-600 border border-amber-100">
+               <Sparkles size={14} />
+             </div>
+             <span className="text-[11px] font-extrabold text-text-muted uppercase tracking-[0.5px]">Featured Opportunities</span>
           </div>
-          <div className="space-y-2 mb-6">
-            {[
-              { label: 'Add a New Line', icon: '➕' },
-              { label: 'Modify Subscription', icon: '⚙️' },
-              { label: 'Change Device', icon: '📱' },
-              { label: 'Change Speed', icon: '⚡' },
-              { label: 'Stop Service', icon: '🛑' },
-            ].map((action, i) => (
-              <button 
-                key={i}
-                className="w-full flex items-center gap-3 p-3 bg-white border border-border-main rounded-md text-[13px] font-semibold text-text-main hover:bg-bg-app transition-colors text-left group"
+
+          <div className="space-y-3 mb-8 overflow-y-auto no-scrollbar">
+            {offerings.filter(o => o.isNew || o.tag).slice(0, 3).map((offering) => (
+              <div 
+                key={offering.id} 
+                className="p-4 bg-white border border-border-main rounded-xl hover:border-primary/30 transition-all cursor-pointer group shadow-sm relative overflow-hidden"
+                onClick={() => setActiveTab('offerings')}
               >
-                <span className="text-base group-hover:scale-110 transition-transform">{action.icon}</span>
-                {action.label}
-              </button>
+                <div className="absolute top-0 right-0">
+                  {offering.isNew && (
+                    <div className="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 uppercase tracking-tighter rounded-bl-lg">
+                      NEW
+                    </div>
+                  )}
+                </div>
+                
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary-light flex items-center justify-center text-primary shrink-0">
+                    {offering.icon === 'Zap' && <Zap size={16} />}
+                    {offering.icon === 'ShieldAlert' && <ShieldAlert size={16} />}
+                    {offering.icon === 'Globe' && <Globe size={16} />}
+                    {offering.icon === 'MessageSquare' && <MessageSquare size={16} />}
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-[13px] font-bold text-text-main truncate group-hover:text-primary transition-colors">{offering.title}</h4>
+                    <span className="text-[11px] font-bold text-primary">{offering.price}</span>
+                  </div>
+                </div>
+                
+                <p className="text-[11px] text-text-muted font-medium leading-relaxed line-clamp-2 mb-3">
+                  {offering.benefit}
+                </p>
+
+                <div className="flex items-center justify-between pt-3 border-t border-gray-50 mt-1">
+                   <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                      <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-tight">Active ROI Boost</span>
+                   </div>
+                   <ArrowRight size={12} className="text-primary group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
             ))}
           </div>
 
