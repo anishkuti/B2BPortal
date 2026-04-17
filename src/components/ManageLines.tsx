@@ -17,7 +17,9 @@ import {
   PhoneCall,
   MessageSquare,
   MapPin,
-  Download
+  Download,
+  Play,
+  XCircle
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useCustomer } from '../context/CustomerContext';
@@ -117,10 +119,19 @@ export default function ManageLines() {
                 <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-border-main text-text-main text-[12px] font-bold rounded-lg hover:bg-bg-app transition-all">
                   <Activity className="w-4 h-4 text-primary" /> Change Speed
                 </button>
-                <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-red-50 border border-red-100 text-red-600 text-[12px] font-bold rounded-lg hover:bg-red-100 transition-all">
-                  <Trash2 className="w-4 h-4" /> Suspend
-                </button>
+                {selectedLine.status === 'Suspended' ? (
+                  <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-emerald-50 border border-emerald-100 text-emerald-600 text-[12px] font-bold rounded-lg hover:bg-emerald-100 transition-all">
+                    <Play className="w-4 h-4" /> Resume
+                  </button>
+                ) : (
+                  <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-red-50 border border-red-100 text-red-600 text-[12px] font-bold rounded-lg hover:bg-red-100 transition-all">
+                    <Trash2 className="w-4 h-4" /> Suspend
+                  </button>
+                )}
               </div>
+              <button className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-red-200 text-red-600 text-[12px] font-bold rounded-lg hover:bg-red-50 transition-all border-dashed group">
+                <XCircle className="w-4 h-4 group-hover:animate-pulse" /> Terminate Subscription
+              </button>
             </div>
           </div>
 
