@@ -8,10 +8,13 @@ import {
   Search, 
   Filter, 
   AlertCircle,
+  Activity,
   Package,
   ArrowRightLeft,
   Settings2,
-  Trash2
+  Trash2,
+  TrendingUp,
+  PhoneCall
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useCustomer } from '../context/CustomerContext';
@@ -22,12 +25,15 @@ export default function ManageLines() {
   const { subscriptions } = useCustomer();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState<'All' | 'Active' | 'Suspended'>('All');
+  const [selectedLineId, setSelectedLineId] = useState<string | null>(null);
 
   const filteredLines = subscriptions.filter(sub => {
     const matchesSearch = sub.phoneNumber.includes(searchTerm) || sub.plan.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = activeFilter === 'All' || sub.status === activeFilter;
     return matchesSearch && matchesFilter;
   });
+
+  const selectedLine = subscriptions.find(s => s.id === selectedLineId);
 
   const getStatusColor = (status: Subscription['status']) => {
     switch (status) {
@@ -46,6 +52,197 @@ export default function ManageLines() {
       default: return Package;
     }
   };
+
+  if (selectedLine) {
+    const Icon = getIcon(selectedLine.type);
+    const usagePercent = selectedLine.dataTotal > 0 ? selectedLine.dataUsed / selectedLine.dataTotal : 0;
+
+    return (
+      <div className="space-y-6">
+        <button 
+          onClick={() => setSelectedLineId(null)}
+          className="flex items-center gap-2 text-[13px] font-bold text-primary hover:text-primary/80 transition-colors mb-4"
+        >
+          <ArrowRightLeft className="w-4 h-4 rotate-180" /> Back to Line Overview
+        </button>
+
+        <div className="bg-white rounded-xl border border-border-main p-8 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-10">
+            <div className="flex items-start gap-6">
+              <div className={cn(
+                "w-20 h-20 rounded-2xl flex items-center justify-center border-2",
+                selectedLine.status === 'Active' ? "bg-primary-light text-primary border-primary/10" : "bg-bg-app text-text-muted border-border-main"
+              )}>
+                <Icon className="w-10 h-10" />
+              </div>
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <h2 className="text-2xl font-extrabold text-text-main">{selectedLine.phoneNumber}</h2>
+                  <span className={cn(
+                    "px-3 py-1 text-[11px] uppercase font-bold tracking-widest rounded-full border",
+                    getStatusColor(selectedLine.status)
+                  )}>
+                    {selectedLine.status}
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-4 text-[14px] font-medium text-text-muted">
+                  <span className="flex items-center gap-1.5"><Package className="w-4 h-4" /> {selectedLine.plan}</span>
+                  <span className="flex items-center gap-1.5"><Smartphone className="w-4 h-4" /> {selectedLine.device}</span>
+                  <span className="text-primary font-bold">ID: {selectedLine.id}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-end gap-3">
+              <div className="text-right">
+                <span className="block text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1">Monthly Cost</span>
+                <span className="text-3xl font-extrabold text-text-main">${selectedLine.monthlyCost.toFixed(2)}</span>
+              </div>
+              <button className="px-6 py-2.5 bg-primary text-white text-[13px] font-bold rounded-lg hover:bg-opacity-90 transition-all shadow-md shadow-primary/10">
+                Change Subscription Plan
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 border-t border-border-main">
+            {/* Services inside the offer */}
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-[14px] font-bold text-text-main uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <Package className="w-4 h-4 text-primary" /> Included Services & Features
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {selectedLine.services.map((service, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 bg-bg-app rounded-lg border border-border-main hover:border-primary/20 transition-colors">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary/40"></div>
+                      <span className="text-[13px] font-semibold text-text-main">{service}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contextual Billing Insights */}
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
+                <h3 className="text-[14px] font-bold text-primary uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" /> Subscription Billing Insights
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center text-[13px]">
+                    <span className="text-primary/70 font-medium">Standard Plan Charges</span>
+                    <span className="font-bold text-primary">${selectedLine.monthlyCost.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[13px]">
+                    <span className="text-primary/70 font-medium">Add-on Service Charges</span>
+                    <span className="font-bold text-primary">$0.00</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[13px]">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-primary/70 font-medium">Out-of-Bundle Usage</span>
+                      <span className="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold">LIVE</span>
+                    </div>
+                    <span className="font-bold text-red-600">+${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                  </div>
+                  <div className="pt-3 border-t border-primary/20 flex justify-between items-center">
+                    <span className="text-[14px] font-bold text-primary">Projected Next Bill</span>
+                    <span className="text-[16px] font-extrabold text-primary">
+                      ${(selectedLine.monthlyCost + selectedLine.unbilledUsage.estimatedCost).toFixed(2)}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-primary/60 italic font-medium leading-relaxed">
+                    * Projections include real-time usage data and active product subscriptions. Final amounts may vary based on exact billing cycle cutoff.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Usage Details */}
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-[14px] font-bold text-text-main uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-primary" /> Current Cycle Usage
+                </h3>
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <span className="text-[12px] font-bold text-text-muted uppercase">Data Consumption</span>
+                      <span className="text-[14px] font-extrabold text-text-main">{selectedLine.dataUsed} / {selectedLine.dataLimit}</span>
+                    </div>
+                    <div className="h-3 w-full bg-bg-app rounded-full overflow-hidden border border-border-main p-[2px]">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${usagePercent * 100}%` }}
+                        className="h-full bg-primary rounded-full"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-bg-app rounded-lg border border-border-main">
+                       <span className="block text-[10px] font-bold text-text-muted uppercase mb-1">Voice (Mins)</span>
+                       <span className="text-xl font-bold text-text-main">342<span className="text-[12px] text-text-muted font-medium ml-1">Used</span></span>
+                    </div>
+                    <div className="p-4 bg-bg-app rounded-lg border border-border-main">
+                       <span className="block text-[10px] font-bold text-text-muted uppercase mb-1">SMS</span>
+                       <span className="text-xl font-bold text-text-main">89<span className="text-[12px] text-text-muted font-medium ml-1">Sent</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Real-time Unbilled Usage */}
+              <div>
+                <h3 className="text-[14px] font-bold text-text-main uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-primary" /> Unbilled / Real-time Usage
+                </h3>
+                <div className="bg-white border border-border-main rounded-lg overflow-hidden">
+                  <div className="bg-bg-app p-3 border-b border-border-main flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-text-main uppercase tracking-tighter">Usage Type</span>
+                    <span className="text-[11px] font-bold text-text-main uppercase tracking-tighter text-right">Volume</span>
+                  </div>
+                  <div className="divide-y divide-border-main">
+                    {[
+                      { label: 'Unbilled Data', value: selectedLine.unbilledUsage.data >= 1000 ? `${(selectedLine.unbilledUsage.data/1000).toFixed(2)} GB` : `${selectedLine.unbilledUsage.data} MB`, icon: Wifi },
+                      { label: 'Unbilled Voice', value: `${selectedLine.unbilledUsage.voice} Mins`, icon: PhoneCall },
+                      { label: 'Unbilled SMS', value: `${selectedLine.unbilledUsage.sms} Units`, icon: Package },
+                    ].map((usage, i) => (
+                      <div key={i} className="flex items-center justify-between p-3.5 hover:bg-bg-app transition-colors group">
+                        <div className="flex items-center gap-3">
+                          <usage.icon className="w-4 h-4 text-text-muted group-hover:text-primary transition-colors" />
+                          <span className="text-[13px] font-medium text-text-main">{usage.label}</span>
+                        </div>
+                        <span className="text-[13px] font-bold text-text-main">{usage.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="p-3 bg-emerald-50 border-t border-emerald-100 flex items-center justify-between">
+                     <span className="text-[11px] font-bold text-emerald-700 uppercase">Estimated Real-time Charges</span>
+                     <span className="text-[14px] font-extrabold text-emerald-700">${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Line History/Logs placeholder */}
+        <div className="bg-white rounded-lg border border-border-main max-w-2xl">
+           <div className="p-4 border-b border-border-main">
+             <h3 className="text-[12px] font-bold text-text-main uppercase tracking-wider">Line Lifecycle Log</h3>
+           </div>
+           <div className="divide-y divide-border-main">
+              <div className="p-3 text-[12px] flex items-center justify-between">
+                 <span className="text-text-muted">Subscription Renewed</span>
+                 <span className="font-bold">Jan 01, 2024</span>
+              </div>
+              <div className="p-3 text-[12px] flex items-center justify-between">
+                 <span className="text-text-muted">SIM Card Replaced (eSIM)</span>
+                 <span className="font-bold">Nov 15, 2023</span>
+              </div>
+           </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -174,8 +371,11 @@ export default function ManageLines() {
                     <Trash2 className="w-4 h-4" />
                   </button>
                   <div className="h-6 w-[1px] bg-border-main mx-1"></div>
-                  <button className="px-3 py-1.5 bg-text-main text-white text-[11px] font-bold rounded-md hover:opacity-90 transition-colors">
-                    Manage
+                  <button 
+                    onClick={() => setSelectedLineId(sub.id)}
+                    className="px-3 py-1.5 bg-text-main text-white text-[11px] font-bold rounded-md hover:opacity-90 transition-colors"
+                  >
+                    View Services
                   </button>
                 </div>
               </div>

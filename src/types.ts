@@ -9,6 +9,13 @@ export interface Subscription {
   dataTotal: number;
   monthlyCost: number;
   device: string;
+  services: string[]; // List of specific services/addons in this subscription
+  unbilledUsage: {
+    data: number; // in MB
+    voice: number; // in Minutes
+    sms: number;
+    estimatedCost: number;
+  };
 }
 
 export interface Bill {
@@ -17,14 +24,22 @@ export interface Bill {
   amount: number;
   status: 'Paid' | 'Unpaid' | 'Overdue';
   dueDate: string;
+  subscriptionId?: string; // Optional: If present, this is a subscription-level bill
+  breakdown?: {
+    productCharges: number;
+    serviceCharges: number;
+    usageCharges: number;
+  };
 }
 
 export interface PaymentMethod {
   id: string;
-  type: 'Visa' | 'Mastercard' | 'Amex';
+  type: 'Visa' | 'Mastercard' | 'Amex' | 'BACS' | 'Debit';
   last4: string;
-  expiry: string;
+  expiry?: string;
   isDefault: boolean;
+  accountNumber?: string; // For BACS
+  sortCode?: string; // For BACS
 }
 
 export interface UsageData {

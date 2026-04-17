@@ -58,6 +58,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 100,
         monthlyCost: 65.0,
         device: 'iPhone 15 Pro',
+        services: ['Unlimited Local Calls', 'Visual Voicemail', '5G Access', 'International SMS'],
+        unbilledUsage: { data: 5200, voice: 450, sms: 120, estimatedCost: 12.50 }
       },
       {
         id: 'SUB-102',
@@ -70,6 +72,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 50,
         monthlyCost: 45.0,
         device: 'Samsung Galaxy S24',
+        services: ['50GB Shared Data', 'Corporate VPN', 'Mobile Hotspot (15GB)'],
+        unbilledUsage: { data: 1200, voice: 15, sms: 5, estimatedCost: 0 }
       },
       {
         id: 'SUB-103',
@@ -82,6 +86,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 1000,
         monthlyCost: 120.0,
         device: 'Enterprise Router X1',
+        services: ['Static IP', '24/7 Priority Support', 'Managed Firewall'],
+        unbilledUsage: { data: 45000, voice: 0, sms: 0, estimatedCost: 0 }
       },
       {
         id: 'SUB-104',
@@ -94,10 +100,37 @@ export const mockCustomerData: Record<string, {
         dataTotal: 10,
         monthlyCost: 25.0,
         device: 'Pixel 8',
+        services: ['10GB Data', 'Standard Voice'],
+        unbilledUsage: { data: 0, voice: 0, sms: 0, estimatedCost: 0 }
       },
     ],
     bills: [
-      { id: 'INV-2024-004', date: 'Apr 01, 2024', amount: 2450.75, status: 'Unpaid', dueDate: 'Apr 15, 2024' },
+      { 
+        id: 'INV-2024-004', 
+        date: 'Apr 01, 2024', 
+        amount: 2450.75, 
+        status: 'Unpaid', 
+        dueDate: 'Apr 15, 2024',
+        breakdown: { productCharges: 1800.00, serviceCharges: 450.75, usageCharges: 200.00 }
+      },
+      { 
+        id: 'SUB-INV-101', 
+        date: 'Apr 05, 2024', 
+        amount: 85.50, 
+        status: 'Unpaid', 
+        dueDate: 'Apr 20, 2024', 
+        subscriptionId: 'SUB-101',
+        breakdown: { productCharges: 65.00, serviceCharges: 15.00, usageCharges: 5.50 }
+      },
+      { 
+        id: 'SUB-INV-102', 
+        date: 'Apr 05, 2024', 
+        amount: 45.00, 
+        status: 'Paid', 
+        dueDate: 'Apr 20, 2024', 
+        subscriptionId: 'SUB-102',
+        breakdown: { productCharges: 45.00, serviceCharges: 0, usageCharges: 0 }
+      },
       { id: 'INV-2024-003', date: 'Mar 01, 2024', amount: 2380.50, status: 'Paid', dueDate: 'Mar 15, 2024' },
       { id: 'INV-2024-002', date: 'Feb 01, 2024', amount: 2380.50, status: 'Paid', dueDate: 'Feb 15, 2024' },
       { id: 'INV-2024-001', date: 'Jan 01, 2024', amount: 2210.00, status: 'Paid', dueDate: 'Jan 15, 2024' },
@@ -105,6 +138,7 @@ export const mockCustomerData: Record<string, {
     paymentMethods: [
       { id: 'PM-1', type: 'Visa', last4: '4242', expiry: '12/26', isDefault: true },
       { id: 'PM-2', type: 'Mastercard', last4: '8812', expiry: '08/25', isDefault: false },
+      { id: 'PM-3', type: 'BACS', last4: '9901', isDefault: false, accountNumber: '88776655', sortCode: '20-30-40' },
     ],
     usageData: [
       { name: 'Mon', data: 4000, voice: 240, sms: 100 },
@@ -182,6 +216,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 500,
         monthlyCost: 55.0,
         device: 'Zebra TC57',
+        services: ['Asset Tracking', '4G LTE Backup', 'Push-to-Talk'],
+        unbilledUsage: { data: 12000, voice: 300, sms: 50, estimatedCost: 0 }
       },
       {
         id: 'SUB-202',
@@ -194,6 +230,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 500,
         monthlyCost: 55.0,
         device: 'Zebra TC57',
+        services: ['Asset Tracking', '4G LTE Backup', 'Push-to-Talk'],
+        unbilledUsage: { data: 9500, voice: 250, sms: 40, estimatedCost: 0 }
       },
       {
         id: 'SUB-203',
@@ -206,6 +244,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 5000,
         monthlyCost: 450.0,
         device: 'Cisco Meraki MX250',
+        services: ['DDoS Protection', 'Secure SD-WAN', 'Managed Support'],
+        unbilledUsage: { data: 1500000, voice: 0, sms: 0, estimatedCost: 0 }
       }
     ],
     bills: [
@@ -267,6 +307,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 1000,
         monthlyCost: 85.0,
         device: 'iPhone 15 Pro Max',
+        services: ['Content Creator Pack', 'Unlimited Uploads', 'Adobe CC Subscription Included'],
+        unbilledUsage: { data: 34000, voice: 45, sms: 10, estimatedCost: 0 }
       },
       {
         id: 'SUB-302',
@@ -279,6 +321,8 @@ export const mockCustomerData: Record<string, {
         dataTotal: 0,
         monthlyCost: 35.0,
         device: 'Cisco IP Phone 8841',
+        services: ['Auto-Attendant', 'Call Recording', 'International SIP Trunking'],
+        unbilledUsage: { data: 0, voice: 1200, sms: 0, estimatedCost: 5.00 }
       }
     ],
     bills: [

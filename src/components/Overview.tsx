@@ -113,8 +113,10 @@ export default function Overview() {
                   axisLine={false} 
                   tickLine={false}
                   tick={{ fontSize: 11, fill: '#6c757d', fontWeight: 600 }}
+                  tickFormatter={(value) => value >= 1000 ? `${(value/1000).toFixed(1)}GB` : `${value}MB`}
                 />
                 <Tooltip 
+                  formatter={(value: any) => [value >= 1000 ? `${(value/1000).toFixed(1)} GB` : `${value} MB`, 'Usage']}
                   contentStyle={{ 
                     borderRadius: '8px', 
                     border: '1px solid #dee2e6', 

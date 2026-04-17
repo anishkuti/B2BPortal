@@ -17,25 +17,23 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { useCustomer } from './context/CustomerContext';
 import Overview from './components/Overview';
-import ManageLines from './components/ManageLines';
+import Subscriptions from './components/ManageLines';
 import BillingAndPayments from './components/BillingAndPayments';
 import PaymentHistory from './components/PaymentHistory';
 import Offerings from './components/Offerings';
 import CasesAndOrders from './components/CasesAndOrders';
-import ChatAssistant from './components/ChatAssistant';
 
 type TabType = 'overview' | 'lines' | 'billing' | 'history' | 'offerings' | 'cases';
 
 export default function App() {
   const { currentCustomer, allCustomers, setCustomer } = useCustomer();
   const [activeTab, setActiveTab] = useState<TabType>('overview');
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const menuItems = [
     { id: 'overview', label: 'Overview' },
-    { id: 'lines', label: 'Manage Lines' },
+    { id: 'lines', label: 'Subscriptions' },
     { id: 'billing', label: 'Billing & Payments' },
     { id: 'cases', label: 'Orders & Cases' },
     { id: 'offerings', label: 'Offerings' },
@@ -206,7 +204,7 @@ export default function App() {
               className="max-w-5xl mx-auto"
             >
               {activeTab === 'overview' && <Overview />}
-              {activeTab === 'lines' && <ManageLines />}
+              {activeTab === 'lines' && <Subscriptions />}
               {activeTab === 'billing' && <BillingAndPayments />}
               {activeTab === 'offerings' && <Offerings />}
               {activeTab === 'history' && <PaymentHistory />}
@@ -218,7 +216,6 @@ export default function App() {
         {/* Right Panel: Actions & Static Chat */}
         <section className="bg-white p-5 hidden xl:flex flex-col overflow-hidden border-l border-border-main">
           <button 
-            onClick={() => setIsChatOpen(true)}
             className="w-full mb-6 py-4 bg-primary text-white text-[13px] font-extrabold rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-3 hover:bg-opacity-90 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >
             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
@@ -268,16 +265,12 @@ export default function App() {
                   type="text" 
                   placeholder="Type a message..." 
                   className="w-full bg-slate-50 border border-border-main rounded px-3 py-2 text-[12px] outline-none text-text-main focus:border-primary/50 transition-colors"
-                  onFocus={() => setIsChatOpen(true)}
                 />
               </div>
             </div>
           </div>
         </section>
       </main>
-
-      {/* Floating Chat Assistant (Interactive Experience) */}
-      <ChatAssistant isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   );
 }

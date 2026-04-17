@@ -5,20 +5,63 @@ import {
   AlertCircle,
   Plus,
   FileText,
-  Calendar
+  Calendar,
+  ArrowRightLeft
 } from 'lucide-react';
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
 
 export default function BillingAndPayments() {
-  const { bills, paymentMethods } = useCustomer();
+  const { bills, paymentMethods, subscriptions } = useCustomer();
   const [autoPay, setAutoPay] = useState(true);
+  const [billingLevel, setBillingLevel] = useState<'Account' | 'Subscription'>('Account');
+  const [selectedSubId, setSelectedSubId] = useState<string>(subscriptions[0]?.id || '');
 
-  const currentBill = bills[0] || { amount: 0, id: 'N/A', date: 'N/A', dueDate: 'N/A', status: 'Paid' };
+  const filteredBills = billingLevel === 'Account' 
+    ? bills.filter(b => !b.subscriptionId) // Showing only account-level bills
+    : bills.filter(b => b.subscriptionId === selectedSubId); // Showing only sub-level bills for selected sub
+
+  const currentBill = filteredBills[0] || (billingLevel === 'Account' ? bills[0] : null) || { amount: 0, id: 'N/A', date: 'N/A', dueDate: 'N/A', status: 'Paid' };
   const defaultPaymentMethod = paymentMethods.find(m => m.isDefault) || paymentMethods[0];
 
   return (
     <div className="space-y-6">
+      {/* Billing Level Toggle */}
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex bg-white p-1 rounded-lg border border-border-main shadow-sm">
+          <button
+            onClick={() => setBillingLevel('Account')}
+            className={cn(
+              "px-4 py-2 text-[12px] font-bold rounded-md transition-all",
+              billingLevel === 'Account' ? "bg-primary text-white shadow-md shadow-primary/20" : "text-text-muted hover:text-text-main"
+            )}
+          >
+            Account Level
+          </button>
+          <button
+            onClick={() => setBillingLevel('Subscription')}
+            className={cn(
+              "px-4 py-2 text-[12px] font-bold rounded-md transition-all",
+              billingLevel === 'Subscription' ? "bg-primary text-white shadow-md shadow-primary/20" : "text-text-muted hover:text-text-main"
+            )}
+          >
+            Subscription Level
+          </button>
+        </div>
+
+        {billingLevel === 'Subscription' && (
+          <select 
+            value={selectedSubId}
+            onChange={(e) => setSelectedSubId(e.target.value)}
+            className="bg-white border border-border-main rounded-md px-3 py-2 text-[12px] font-bold text-text-main outline-none focus:ring-1 focus:ring-primary/20 transition-all shadow-sm"
+          >
+            {subscriptions.map(sub => (
+              <option key={sub.id} value={sub.id}>{sub.phoneNumber} ({sub.type})</option>
+            ))}
+          </select>
+        )}
+      </div>
+
       {/* Current Balance Card */}
       <div className="bg-white rounded-lg border border-border-main overflow-hidden shadow-sm">
         <div className="p-6 border-b border-border-main flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -26,6 +69,22 @@ export default function BillingAndPayments() {
             <span className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1 block">Current Balance</span>
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-extrabold text-text-main">${currentBill.amount.toLocaleString()}</span>
+              {currentBill.breakdown && (
+                <div className="flex bg-[#f1f3f5] rounded-md px-2 py-1 gap-3 ml-2 border border-border-main">
+                  <div className="text-[10px]">
+                    <span className="text-text-muted font-bold block uppercase tracking-tighter">Product</span>
+                    <span className="text-text-main font-bold">${currentBill.breakdown.productCharges.toFixed(2)}</span>
+                  </div>
+                  <div className="text-[10px]">
+                    <span className="text-text-muted font-bold block uppercase tracking-tighter">Service</span>
+                    <span className="text-text-main font-bold">${currentBill.breakdown.serviceCharges.toFixed(2)}</span>
+                  </div>
+                  <div className="text-[10px]">
+                    <span className="text-text-muted font-bold block uppercase tracking-tighter">Usage</span>
+                    <span className="text-red-500 font-bold">${currentBill.breakdown.usageCharges.toFixed(2)}</span>
+                  </div>
+                </div>
+              )}
               <span className={cn(
                 "text-[12px] font-bold px-2 py-0.5 rounded border italic font-medium",
                 currentBill.status === 'Unpaid' ? "text-amber-600 bg-amber-50 border-amber-100" : "text-emerald-600 bg-emerald-50 border-emerald-100"
@@ -84,7 +143,7 @@ export default function BillingAndPayments() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border-main">
-                {bills.slice(0, 4).map((bill) => (
+                {filteredBills.slice(0, 4).map((bill) => (
                   <tr key={bill.id} className="hover:bg-bg-app transition-colors group">
                     <td className="px-4 py-3">
                       <span className="text-[13px] font-bold text-text-main">{bill.id}</span>
@@ -112,20 +171,37 @@ export default function BillingAndPayments() {
             </button>
           </div>
           <div className="p-4 space-y-3">
+            <div className="flex gap-2 mb-4">
+               {['Credit Card', 'Debit Card', 'BACS'].map((type) => (
+                 <button key={type} className="flex-1 py-2 border border-border-main rounded text-[11px] font-bold text-text-muted hover:border-primary hover:text-primary transition-all">
+                   {type}
+                 </button>
+               ))}
+            </div>
             {paymentMethods.map((method) => (
               <div key={method.id} className="bg-white border border-border-main p-3 rounded-md flex items-center justify-between group hover:border-primary/20 transition-all shadow-sm">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#f1f3f5] rounded-md border border-border-main">
-                    <CreditCard className="w-5 h-5 text-text-muted" />
+                    {method.type === 'BACS' ? (
+                      <ArrowRightLeft className="w-5 h-5 text-primary" />
+                    ) : (
+                      <CreditCard className="w-5 h-5 text-text-muted" />
+                    )}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-[13px] font-bold text-text-main uppercase">{method.type}</span>
                       {method.isDefault && (
-                        <span className="text-[9px] font-bold bg-primary-light text-primary px-1.5 py-0.5 rounded uppercase border border-primary/10">Primary</span>
+                        <span className="text-[9px] font-bold bg-primary-light text-primary px-1.5 py-0.5 rounded uppercase border border-primary/10">Default</span>
                       )}
                     </div>
-                    <span className="text-[12px] text-text-muted font-medium tracking-widest">•••• {method.last4}</span>
+                    {method.type === 'BACS' ? (
+                      <span className="text-[12px] text-text-muted font-medium tracking-wide">
+                        Acc: ••••{method.accountNumber?.slice(-4)} • Sort: {method.sortCode}
+                      </span>
+                    ) : (
+                      <span className="text-[12px] text-text-muted font-medium tracking-widest">•••• {method.last4}</span>
+                    )}
                   </div>
                 </div>
                 <button className="text-[11px] font-bold text-text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
