@@ -1,0 +1,317 @@
+import { Subscription, Bill, PaymentMethod, UsageData, Customer, Offering, Case, Order } from './types';
+
+export const mockCustomers: Customer[] = [
+  {
+    id: 'ACC-982341',
+    name: 'Sarah Mitchell',
+    companyName: 'TechSolutions Global Inc.',
+    industry: 'Information Technology',
+    tier: 'Enterprise',
+    accountManager: 'Alex Rivera',
+    joinedDate: 'Jan 12, 2022',
+    totalLines: 42,
+    activeLines: 38,
+  },
+  {
+    id: 'ACC-552109',
+    name: 'Marcus Chen',
+    companyName: 'Chen Logistics & Supply',
+    industry: 'Logistics',
+    tier: 'Premium',
+    accountManager: 'Alex Rivera',
+    joinedDate: 'Mar 15, 2021',
+    totalLines: 156,
+    activeLines: 142,
+  },
+  {
+    id: 'ACC-110293',
+    name: 'Elena Rodriguez',
+    companyName: 'Rodriguez Media Group',
+    industry: 'Media & Entertainment',
+    tier: 'Standard',
+    accountManager: 'Sarah Mitchell',
+    joinedDate: 'Nov 20, 2023',
+    totalLines: 12,
+    activeLines: 12,
+  }
+];
+
+export const mockCustomerData: Record<string, {
+  subscriptions: Subscription[],
+  bills: Bill[],
+  paymentMethods: PaymentMethod[],
+  usageData: UsageData[],
+  offerings: Offering[],
+  cases: Case[],
+  orders: Order[]
+}> = {
+  'ACC-982341': {
+    subscriptions: [
+      {
+        id: 'SUB-101',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 123-4567',
+        plan: 'Enterprise Unlimited Pro',
+        status: 'Active',
+        dataLimit: 'Unlimited',
+        dataUsed: 42.5,
+        dataTotal: 100,
+        monthlyCost: 65.0,
+        device: 'iPhone 15 Pro',
+      },
+      {
+        id: 'SUB-102',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 987-6543',
+        plan: 'Enterprise Data 50GB',
+        status: 'Active',
+        dataLimit: '50GB',
+        dataUsed: 48.2,
+        dataTotal: 50,
+        monthlyCost: 45.0,
+        device: 'Samsung Galaxy S24',
+      },
+      {
+        id: 'SUB-103',
+        type: 'Fiber',
+        phoneNumber: 'FIB-001-TECH',
+        plan: 'Gigabit Business Fiber',
+        status: 'Active',
+        dataLimit: 'Unlimited',
+        dataUsed: 850,
+        dataTotal: 1000,
+        monthlyCost: 120.0,
+        device: 'Enterprise Router X1',
+      },
+      {
+        id: 'SUB-104',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 246-1357',
+        plan: 'Enterprise Starter',
+        status: 'Suspended',
+        dataLimit: '10GB',
+        dataUsed: 0,
+        dataTotal: 10,
+        monthlyCost: 25.0,
+        device: 'Pixel 8',
+      },
+    ],
+    bills: [
+      { id: 'INV-2024-004', date: 'Apr 01, 2024', amount: 2450.75, status: 'Unpaid', dueDate: 'Apr 15, 2024' },
+      { id: 'INV-2024-003', date: 'Mar 01, 2024', amount: 2380.50, status: 'Paid', dueDate: 'Mar 15, 2024' },
+      { id: 'INV-2024-002', date: 'Feb 01, 2024', amount: 2380.50, status: 'Paid', dueDate: 'Feb 15, 2024' },
+      { id: 'INV-2024-001', date: 'Jan 01, 2024', amount: 2210.00, status: 'Paid', dueDate: 'Jan 15, 2024' },
+    ],
+    paymentMethods: [
+      { id: 'PM-1', type: 'Visa', last4: '4242', expiry: '12/26', isDefault: true },
+      { id: 'PM-2', type: 'Mastercard', last4: '8812', expiry: '08/25', isDefault: false },
+    ],
+    usageData: [
+      { name: 'Mon', data: 4000, voice: 240, sms: 100 },
+      { name: 'Tue', data: 3000, voice: 139, sms: 80 },
+      { name: 'Wed', data: 2000, voice: 980, sms: 120 },
+      { name: 'Thu', data: 2780, voice: 390, sms: 150 },
+      { name: 'Fri', data: 1890, voice: 480, sms: 60 },
+      { name: 'Sat', data: 2390, voice: 380, sms: 40 },
+      { name: 'Sun', data: 3490, voice: 430, sms: 20 },
+    ],
+    offerings: [
+      {
+        id: 'OFF-001',
+        title: 'Enterprise AI Security Suite',
+        description: 'Advanced threat protection and AI-driven behavior analysis for all corporate lines.',
+        category: 'Security',
+        price: '$4.99/line/mo',
+        benefit: 'Reduce security breaches by up to 85%',
+        icon: 'ShieldAlert',
+        isNew: true,
+        tag: 'Recommended'
+      },
+      {
+        id: 'OFF-002',
+        title: 'Global Roaming Pass+',
+        description: 'Unlimited data and calls in over 150 countries with no extra daily fees.',
+        category: 'Service',
+        price: '$25/line/mo',
+        benefit: 'Save 40% on international travel costs',
+        icon: 'Globe',
+        isNew: true
+      },
+      {
+        id: 'OFF-003',
+        title: '5G Ultra Wideband Upgrade',
+        description: 'Boost speeds by up to 10x in supported metropolitan areas.',
+        category: 'Plan',
+        price: '$10/line/mo',
+        benefit: 'Unmatched speed for lightning-fast business ops',
+        icon: 'Zap',
+        isNew: false
+      },
+      {
+        id: 'OFF-004',
+        title: 'Unified Communications Bundle',
+        description: 'Integrate your mobile, VoIP, and fiber lines into one seamless portal.',
+        category: 'Service',
+        price: '$50/account/mo',
+        benefit: 'Improve team collaboration by 30%',
+        icon: 'MessageSquare',
+        isNew: true,
+        tag: 'Upsell'
+      }
+    ],
+    cases: [
+      { id: 'CS-1001', subject: 'Fiber Connection Intermittent', status: 'In Progress', priority: 'High', type: 'Technical', createdAt: 'Apr 14, 2024', updatedAt: 'Apr 16, 2024' },
+      { id: 'CS-1002', subject: 'Inquiry on Enterprise Security Upgrade', status: 'Completed', priority: 'Medium', type: 'General', createdAt: 'Mar 28, 2024', updatedAt: 'Mar 30, 2024' },
+      { id: 'CS-1003', subject: 'Duplicate Billing Charge', status: 'Pending', priority: 'High', type: 'Billing', createdAt: 'Apr 17, 2024', updatedAt: 'Apr 17, 2024' },
+    ],
+    orders: [
+      { id: 'ORD-5501', type: 'Plan Upgrade', status: 'In Progress', date: 'Apr 15, 2024', items: ['Enterprise Unlimited Pro Upgrade'], total: 120.00 },
+      { id: 'ORD-5502', type: 'Device Change', status: 'Completed', date: 'Mar 10, 2024', items: ['iPhone 15 Pro Max'], total: 1199.00 },
+    ]
+  },
+  'ACC-552109': {
+    subscriptions: [
+      {
+        id: 'SUB-201',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 555-0001',
+        plan: 'Logistics Fleet Pro',
+        status: 'Active',
+        dataLimit: 'Unlimited',
+        dataUsed: 120.5,
+        dataTotal: 500,
+        monthlyCost: 55.0,
+        device: 'Zebra TC57',
+      },
+      {
+        id: 'SUB-202',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 555-0002',
+        plan: 'Logistics Fleet Pro',
+        status: 'Active',
+        dataLimit: 'Unlimited',
+        dataUsed: 110.2,
+        dataTotal: 500,
+        monthlyCost: 55.0,
+        device: 'Zebra TC57',
+      },
+      {
+        id: 'SUB-203',
+        type: 'Fiber',
+        phoneNumber: 'FIB-HQ-CHEN',
+        plan: 'Multi-Gig Warehouse Fiber',
+        status: 'Active',
+        dataLimit: 'Unlimited',
+        dataUsed: 4650,
+        dataTotal: 5000,
+        monthlyCost: 450.0,
+        device: 'Cisco Meraki MX250',
+      }
+    ],
+    bills: [
+      { id: 'INV-CHEN-004', date: 'Apr 05, 2024', amount: 8420.50, status: 'Unpaid', dueDate: 'Apr 20, 2024' },
+      { id: 'INV-CHEN-003', date: 'Mar 05, 2024', amount: 8210.00, status: 'Paid', dueDate: 'Mar 20, 2024' },
+    ],
+    paymentMethods: [
+      { id: 'PM-CHEN-1', type: 'Mastercard', last4: '1122', expiry: '06/27', isDefault: true },
+    ],
+    usageData: [
+      { name: 'Mon', data: 12000, voice: 1200, sms: 500 },
+      { name: 'Tue', data: 11000, voice: 1100, sms: 480 },
+      { name: 'Wed', data: 13000, voice: 1300, sms: 550 },
+      { name: 'Thu', data: 12500, voice: 1250, sms: 520 },
+      { name: 'Fri', data: 14000, voice: 1400, sms: 600 },
+      { name: 'Sat', data: 8000, voice: 800, sms: 300 },
+      { name: 'Sun', data: 7000, voice: 700, sms: 250 },
+    ],
+    offerings: [
+      {
+        id: 'OFF-CHEN-001',
+        title: 'IoT Fleet Tracker Integration',
+        description: 'Real-time tracking and logistics optimization for your entire fleet.',
+        category: 'Service',
+        price: '$2.00/line/mo',
+        benefit: 'Increase delivery efficiency by 20%',
+        icon: 'Globe',
+        isNew: true,
+        tag: 'Industry Best'
+      },
+      {
+        id: 'OFF-CHEN-002',
+        title: 'Unlimited Hotspot Add-on',
+        description: 'Enable high-speed tethering for all fleet devices.',
+        category: 'Plan',
+        price: '$15/mo',
+        benefit: 'Stay connected anywhere',
+        icon: 'Wifi',
+        isNew: false
+      }
+    ],
+    cases: [
+      { id: 'CS-2001', subject: 'Fleet Tracker Sync Issue', status: 'Pending', priority: 'Medium', type: 'Technical', createdAt: 'Apr 16, 2024', updatedAt: 'Apr 16, 2024' },
+    ],
+    orders: [
+      { id: 'ORD-6601', type: 'New Line', status: 'Completed', date: 'Feb 20, 2024', items: ['Logistics Fleet Pro Line x5'], total: 275.00 },
+    ]
+  },
+  'ACC-110293': {
+    subscriptions: [
+      {
+        id: 'SUB-301',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 000-1111',
+        plan: 'Media Creator Unlimited',
+        status: 'Active',
+        dataLimit: 'Unlimited',
+        dataUsed: 450.0,
+        dataTotal: 1000,
+        monthlyCost: 85.0,
+        device: 'iPhone 15 Pro Max',
+      },
+      {
+        id: 'SUB-302',
+        type: 'VoIP',
+        phoneNumber: 'VOIP-MG-HQ',
+        plan: 'Cloud PBX Business',
+        status: 'Active',
+        dataLimit: 'N/A',
+        dataUsed: 0,
+        dataTotal: 0,
+        monthlyCost: 35.0,
+        device: 'Cisco IP Phone 8841',
+      }
+    ],
+    bills: [
+      { id: 'INV-MG-001', date: 'Apr 12, 2024', amount: 320.45, status: 'Paid', dueDate: 'Apr 26, 2024' },
+    ],
+    paymentMethods: [
+      { id: 'PM-MG-1', type: 'Amex', last4: '9988', expiry: '11/25', isDefault: true },
+    ],
+    usageData: [
+      { name: 'Mon', data: 15000, voice: 100, sms: 20 },
+      { name: 'Tue', data: 18000, voice: 150, sms: 30 },
+      { name: 'Wed', data: 22000, voice: 200, sms: 40 },
+      { name: 'Thu', data: 19000, voice: 180, sms: 35 },
+      { name: 'Fri', data: 25000, voice: 300, sms: 50 },
+      { name: 'Sat', data: 30000, voice: 400, sms: 60 },
+      { name: 'Sun', data: 28000, voice: 350, sms: 55 },
+    ],
+    offerings: [
+      {
+        id: 'OFF-MG-001',
+        title: '5G Content Creator Pass',
+        description: 'Uncapped uploads for high-res video streaming and content delivery.',
+        category: 'Plan',
+        price: '$20/mo',
+        benefit: 'Zero-latency live streaming',
+        icon: 'Zap',
+        isNew: true,
+        tag: 'Creator Special'
+      }
+    ],
+    cases: [],
+    orders: [
+      { id: 'ORD-7701', type: 'Speed Change', status: 'In Progress', date: 'Apr 17, 2024', items: ['Fiber Speed Boost 2Gbps'], total: 40.00 },
+    ]
+  }
+};
