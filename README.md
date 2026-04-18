@@ -1,20 +1,36 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# TelcoConnect B2B Agent Portal
 
-# Run and deploy your AI Studio app
+A professional, enterprise-grade portal designed for telecommunications agents to manage B2B customer accounts, network health, and financial operations.
 
-This contains everything you need to run your app locally.
+## 🚀 Key Features
 
-View your app in AI Studio: https://ai.studio/apps/339525ce-6c70-4734-8da3-a8310ff84751
+- **Agent Command Center:** A mission-control style landing page with global network statistics.
+- **Secure Authentication:** Hardware-verified session authorization simulation.
+- **Customer 360 View:** Comprehensive dashboard for data usage, revenue trends, and interaction logs.
+- **Subscription Management:** Full lifecycle control over corporate mobile, fiber, and VoIP lines.
+- **Unified Financials:** Consolidates billing, payment methods, and transaction ledgers.
+- **Proactive Insights:** AI-driven optimization recommendations based on real-time consumption spikes.
 
-## Run Locally
+## 🛠️ Tech Stack
 
-**Prerequisites:**  Node.js
+### Frontend & Core
+- **React 19:** Functional components and modern hook-based state management.
+- **TypeScript:** Strict typing for robust data modeling and application reliability.
+- **Vite 6:** Ultra-fast build tool and development server.
 
+### UI & UX
+- **Tailwind CSS 4:** Utility-first styling for high-density enterprise interfaces.
+- **Motion (Framer Motion):** Smooth micro-interactions and page transitions.
+- **Lucide React:** Consistent architectural and action-based iconography.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Data & Visualization
+- **Recharts:** Composable charts for network usage, asset distribution, and financial trends.
+- **Context API:** Global state management for synchronized data across modules.
+
+### Backend & Infrastructure
+- **Node.js:** Modern runtime environment.
+- **Express:** Integrated for potential API route extensions and server-side logic.
+
+## 📈 Demo Scenarios
+
+The portal includes pre-configured mock data for various business cases, including a **Critical Usage Spike** scenario for **Nexus Venture Group**, demonstrating how agents can use proactive insights to suggest bandwidth upgrades.
