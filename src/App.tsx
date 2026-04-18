@@ -33,11 +33,14 @@ import PaymentHistory from './components/PaymentHistory';
 import Offerings from './components/Offerings';
 import ServiceRequestsAndOrders from './components/ServiceRequestsAndOrders';
 import Preferences from './components/Preferences';
+import Login from './components/Login';
+import AgentLanding from './components/AgentLanding';
 
 type TabType = 'overview' | 'lines' | 'billing' | 'history' | 'offerings' | 'cases' | 'preferences';
 
 export default function App() {
   const { currentCustomer, allCustomers, setCustomer, offerings } = useCustomer();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -59,6 +62,14 @@ export default function App() {
         c.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         c.id.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+  if (!isAuthenticated) {
+    return <Login onLogin={() => setIsAuthenticated(true)} />;
+  }
+
+  if (!currentCustomer) {
+    return <AgentLanding />;
+  }
 
   return (
     <div className="flex flex-col h-screen bg-bg-app text-text-main font-sans overflow-hidden">
@@ -135,7 +146,19 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="text-right hidden sm:block">
+          <button 
+            onClick={() => setCustomer(null)}
+            className="text-[10px] font-black text-primary hover:underline uppercase tracking-[1px] px-3 py-1 bg-primary/5 rounded border border-primary/10 transition-all hover:bg-primary/10"
+          >
+            Exit Customer
+          </button>
+          <button 
+            onClick={() => setIsAuthenticated(false)}
+            className="text-[10px] font-black text-red-600 hover:underline uppercase tracking-[1px] px-3 py-1 bg-red-50 rounded border border-red-100 transition-all hover:bg-red-100"
+          >
+            Logout session
+          </button>
+          <div className="text-right hidden sm:block border-l border-border-main pl-4 ml-4">
             <div className="text-[13px] font-bold text-text-main">Agent: Sarah Mitchell</div>
             <div className="text-[11px] text-text-muted font-medium">L2 Support Specialist</div>
           </div>
@@ -168,25 +191,42 @@ export default function App() {
         
         {/* Left Panel: Customer 360 Summary */}
         <section className="bg-white p-6 overflow-y-auto hidden lg:flex flex-col border-r border-border-main lg:border-r-0">
-          <div className="text-center mb-6">
-            <div className="w-20 h-20 bg-[#e9ecef] rounded-full mx-auto mb-3 flex items-center justify-center text-primary text-2xl font-bold border border-border-main">
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h2 className="text-[11px] font-black text-text-main uppercase tracking-[2px]">Authorized Session</h2>
+            </div>
+            <div className="p-4 bg-[#f8f9fa] rounded-xl border border-border-main shadow-sm flex items-center gap-4">
+               <div className="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center font-black text-sm">
+                 ID
+               </div>
+               <div>
+                 <p className="text-[14px] font-black text-text-main leading-none mb-1">Agent #992-TX</p>
+                 <p className="text-[11px] text-text-muted font-bold uppercase tracking-tighter">Support Level 2</p>
+               </div>
+            </div>
+          </div>
+
+          <div className="text-center mb-8 bg-bg-app p-6 rounded-2xl border border-border-main relative group overflow-hidden">
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="w-20 h-20 bg-white rounded-2xl mx-auto mb-4 flex items-center justify-center text-primary text-3xl font-black border border-border-main shadow-xl shadow-black/5 transform rotate-3 transition-transform group-hover:rotate-0">
               {currentCustomer.companyName.charAt(0)}
             </div>
-            <h2 className="text-[17px] font-bold text-text-main">{currentCustomer.companyName}</h2>
-            <p className="text-[12px] text-text-muted mb-3 font-medium">{currentCustomer.id}</p>
-            <span className="inline-block px-3 py-1 bg-[#d4edda] text-[#155724] text-[10px] font-bold rounded-full uppercase tracking-tight">
+            <h2 className="text-[18px] font-black text-text-main tracking-tight leading-none mb-1">{currentCustomer.companyName}</h2>
+            <p className="text-[11px] text-text-muted font-bold uppercase tracking-[2px] mb-4">{currentCustomer.id}</p>
+            <span className="inline-block px-3 py-1.5 bg-primary text-white text-[9px] font-black rounded-lg uppercase tracking-[1.5px] shadow-lg shadow-primary/20">
               {currentCustomer.tier} PARTNER
             </span>
           </div>
 
           <div className="space-y-1 divide-y divide-gray-100">
             {[
-              { label: 'Contact', value: currentCustomer.name },
-              { label: 'Email', value: currentCustomer.email },
-              { label: 'Location', value: currentCustomer.location },
-              { label: 'Total Lines', value: `${currentCustomer.totalLines} Active` },
-              { label: 'Tenure', value: '4.5 Years' },
-              { label: 'Industry', value: currentCustomer.industry },
+              { label: 'Primary Contact', value: currentCustomer.name },
+              { label: 'Account Email', value: currentCustomer.email },
+              { label: 'H.Q. Location', value: currentCustomer.location },
+              { label: 'Total Subscriptions', value: `${currentCustomer.totalLines} Active` },
+              { label: 'Partnership Tenure', value: '4.5 Years' },
+              { label: 'Vertical Market', value: currentCustomer.industry },
               { label: 'Account Manager', value: currentCustomer.accountManager },
             ].map((stat, i) => (
               <div key={i} className="flex justify-between py-3 text-[13px]">

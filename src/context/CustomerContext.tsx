@@ -3,7 +3,7 @@ import { Customer, Subscription, Bill, PaymentMethod, UsageData, Offering, Servi
 import { mockCustomers, mockCustomerData } from '../mockData';
 
 interface CustomerContextType {
-  currentCustomer: Customer;
+  currentCustomer: Customer | null;
   subscriptions: Subscription[];
   bills: Bill[];
   paymentMethods: PaymentMethod[];
@@ -13,30 +13,40 @@ interface CustomerContextType {
   orders: Order[];
   alerts: Alert[];
   allCustomers: Customer[];
-  setCustomer: (customerId: string) => void;
+  setCustomer: (customerId: string | null) => void;
   updatePreferences: (prefs: MarketingPreferences) => void;
 }
 
 const CustomerContext = createContext<CustomerContextType | undefined>(undefined);
 
 export function CustomerProvider({ children }: { children: ReactNode }) {
-  const [currentCustomerId, setCurrentCustomerId] = useState(mockCustomers[0].id);
+  const [currentCustomerId, setCurrentCustomerId] = useState<string | null>(null);
   const [customers, setCustomers] = useState<Customer[]>(mockCustomers);
 
-  const setCustomer = (customerId: string) => {
-    if (customers.find(c => c.id === customerId)) {
+  const setCustomer = (customerId: string | null) => {
+    if (customerId === null || customers.find(c => c.id === customerId)) {
       setCurrentCustomerId(customerId);
     }
   };
 
   const updatePreferences = (prefs: MarketingPreferences) => {
+    if (!currentCustomerId) return;
     setCustomers(prev => prev.map(c => 
       c.id === currentCustomerId ? { ...c, preferences: prefs } : c
     ));
   };
 
-  const currentCustomer = customers.find(c => c.id === currentCustomerId)!;
-  const data = mockCustomerData[currentCustomerId];
+  const currentCustomer = currentCustomerId ? customers.find(c => c.id === currentCustomerId) || null : null;
+  const data = currentCustomerId ? mockCustomerData[currentCustomerId] : {
+    subscriptions: [],
+    bills: [],
+    paymentMethods: [],
+    usageData: [],
+    offerings: [],
+    serviceRequests: [],
+    orders: [],
+    alerts: []
+  };
 
   const value = {
     currentCustomer,
