@@ -92,7 +92,7 @@ export default function Overview() {
               <span className="text-[11px] font-extrabold uppercase tracking-widest text-red-700">Priority System Alerts</span>
             </div>
           </div>
-          <div className="flex overflow-x-auto p-4 gap-4 no-scrollbar">
+          <div className="flex overflow-x-auto p-4 gap-4">
             {alerts.map(alert => (
               <div 
                 key={alert.id} 
