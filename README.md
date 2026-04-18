@@ -1,5 +1,20 @@
 # TelcoConnect B2B Agent Portal
 
+View your app in AI Studio: [https://ai.studio/apps/339525ce-6c70-4734-8da3-a8310ff84751](https://ai.studio/apps/339525ce-6c70-4734-8da3-a8310ff84751)
+
+## 🛠️ Setup & Execution
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Configure Environment:**
+   Set the `GEMINI_API_KEY` in `.env.local` to your Gemini API key.
+3. **Run the app:**
+   ```bash
+   npm run dev
+   ```
+
 A professional, enterprise-grade portal designed for telecommunications agents to manage B2B customer accounts, network health, and financial operations.
 
 ## 🚀 Key Features
@@ -30,6 +45,16 @@ A professional, enterprise-grade portal designed for telecommunications agents t
 ### Backend & Infrastructure
 - **Node.js:** Modern runtime environment.
 - **Express:** Integrated for potential API route extensions and server-side logic.
+
+## ⚙️ Technical Implementation
+
+### Dynamic Data Models
+- **Customer Context:** Centrally manages customer states, allowing the app to dynamically render insights based on account IDs.
+- **Extended Types:** The `Customer` interface now supports `insight` and `insightTitle` fields to power proactive agent recommendations.
+
+### Usage Analytics Engine
+- **Usage Distribution:** Refactored from hardware-centric views to service-usage views (Data, Voice, Cloud, IoT) to better align with telco billing logic.
+- **Proactive Insights:** Implementation of logic that triggers specific upsell recommendations (like "Infinite Bandwidth+") when consumption spikes are detected in the `mockData` streams.
 
 ## 📈 Demo Scenarios
 
