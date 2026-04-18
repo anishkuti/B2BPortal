@@ -29,14 +29,13 @@ import { useCustomer } from './context/CustomerContext';
 import Overview from './components/Overview';
 import Subscriptions from './components/ManageLines';
 import BillingAndPayments from './components/BillingAndPayments';
-import PaymentHistory from './components/PaymentHistory';
 import Offerings from './components/Offerings';
 import ServiceRequestsAndOrders from './components/ServiceRequestsAndOrders';
 import Preferences from './components/Preferences';
 import Login from './components/Login';
 import AgentLanding from './components/AgentLanding';
 
-type TabType = 'overview' | 'lines' | 'billing' | 'history' | 'offerings' | 'cases' | 'preferences';
+type TabType = 'overview' | 'lines' | 'billing' | 'offerings' | 'cases' | 'preferences';
 
 export default function App() {
   const { currentCustomer, allCustomers, setCustomer, offerings } = useCustomer();
@@ -48,10 +47,9 @@ export default function App() {
   const menuItems: { id: TabType, label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'lines', label: 'Subscriptions' },
-    { id: 'billing', label: 'Billing & Payments' },
+    { id: 'billing', label: 'Financials' },
     { id: 'cases', label: 'Requests & Orders' },
     { id: 'offerings', label: 'Offerings' },
-    { id: 'history', label: 'History' },
     { id: 'preferences', label: 'Settings' },
   ];
 
@@ -207,20 +205,10 @@ export default function App() {
             </div>
           </div>
 
-          <div className="text-center mb-8 bg-bg-app p-6 rounded-2xl border border-border-main relative group overflow-hidden">
-            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="w-20 h-20 bg-white rounded-2xl mx-auto mb-4 flex items-center justify-center text-primary text-3xl font-black border border-border-main shadow-xl shadow-black/5 transform rotate-3 transition-transform group-hover:rotate-0">
-              {currentCustomer.companyName.charAt(0)}
-            </div>
-            <h2 className="text-[18px] font-black text-text-main tracking-tight leading-none mb-1">{currentCustomer.companyName}</h2>
-            <p className="text-[11px] text-text-muted font-bold uppercase tracking-[2px] mb-4">{currentCustomer.id}</p>
-            <span className="inline-block px-3 py-1.5 bg-primary text-white text-[9px] font-black rounded-lg uppercase tracking-[1.5px] shadow-lg shadow-primary/20">
-              {currentCustomer.tier} PARTNER
-            </span>
-          </div>
-
           <div className="space-y-1 divide-y divide-gray-100">
             {[
+              { label: 'Company', value: currentCustomer.companyName },
+              { label: 'Account Tier', value: currentCustomer.tier },
               { label: 'Primary Contact', value: currentCustomer.name },
               { label: 'Account Email', value: currentCustomer.email },
               { label: 'H.Q. Location', value: currentCustomer.location },
@@ -234,14 +222,6 @@ export default function App() {
                 <span className="font-semibold text-text-main text-right">{stat.value}</span>
               </div>
             ))}
-          </div>
-          
-          <div className="mt-8 p-4 bg-primary/5 border border-primary/10 rounded-lg">
-             <div className="text-[11px] font-bold text-primary uppercase tracking-widest mb-2">Account Health</div>
-             <div className="h-2 w-full bg-white rounded-full overflow-hidden border border-primary/10">
-                <div className="h-full bg-primary w-[92%]"></div>
-             </div>
-             <div className="mt-2 text-[10px] text-primary/80 font-semibold">92% Satisfaction Index</div>
           </div>
         </section>
 
@@ -260,7 +240,6 @@ export default function App() {
               {activeTab === 'lines' && <Subscriptions />}
               {activeTab === 'billing' && <BillingAndPayments />}
               {activeTab === 'offerings' && <Offerings />}
-              {activeTab === 'history' && <PaymentHistory />}
               {activeTab === 'cases' && <ServiceRequestsAndOrders />}
               {activeTab === 'preferences' && <Preferences />}
             </motion.div>
