@@ -19,7 +19,9 @@ export const mockCustomers: Customer[] = [
       { id: 'INT-001', type: 'Phone', date: '2024-04-10', summary: 'Discussion on 5G rollout for Austin campus', outcome: 'Technical site survey requested' },
       { id: 'INT-002', type: 'WhatsApp', date: '2024-04-12', summary: 'Quick check on regional outage status', outcome: 'Confirmed resolved' },
       { id: 'INT-003', type: 'SMS', date: '2024-04-16', summary: 'Automated notification: High usage alert', outcome: 'Acknowledged' }
-    ]
+    ],
+    insightTitle: 'Roaming Policy Alert',
+    insight: "The Finance team's global roaming costs are up 30% this month. Applying the 'Global Roaming Pass+' could save this account $450 this billing cycle."
   },
   {
     id: 'ACC-552109',
@@ -37,7 +39,9 @@ export const mockCustomers: Customer[] = [
     preferences: { email: true, sms: true, phone: false, thirdParty: false, dataSharing: false },
     interactions: [
       { id: 'INT-101', type: 'In-Person', date: '2024-03-05', summary: 'Quarterly account review and hardware refresh planning', outcome: 'Agreed on bulk upgrade for Q3' }
-    ]
+    ],
+    insightTitle: 'Infrastructure Note',
+    insight: 'Chicago logistics hub is showing 99.8% stability since the recent hardware refresh. No immediate action required, but monitoring for peak usage spikes.'
   },
   {
     id: 'ACC-110293',
@@ -55,7 +59,29 @@ export const mockCustomers: Customer[] = [
     preferences: { email: false, sms: false, phone: true, thirdParty: true, dataSharing: true },
     interactions: [
       { id: 'INT-201', type: 'Chat', date: '2024-04-17', summary: 'Inquiry about 2Gbps fiber speed upgrade', outcome: 'Order ORD-7701 placed' }
-    ]
+    ],
+    insightTitle: 'Optimization Opportunity',
+    insight: 'The Los Angeles studio is hitting 95% bandwidth capacity during peak upload hours. Upgrading to the 5GB Fiber Link would eliminate the current bottleneck.'
+  },
+  {
+    id: 'ACC-771100',
+    name: 'David Vanderveld',
+    email: 'david.v@nexus-venture.net',
+    phone: '+1 (555) 777-8888',
+    location: 'Silicon Valley, CA - Innovation Hub',
+    companyName: 'Nexus Venture Group',
+    industry: 'Venture Capital',
+    tier: 'Enterprise',
+    accountManager: 'Alex Rivera',
+    joinedDate: 'Feb 10, 2023',
+    totalLines: 85,
+    activeLines: 85,
+    preferences: { email: true, sms: false, phone: false, thirdParty: false, dataSharing: true },
+    interactions: [
+      { id: 'INT-701', type: 'Email', date: '2024-04-15', summary: 'Discussion on portfolio-wide connectivity audit', outcome: 'Meeting scheduled for next week' }
+    ],
+    insightTitle: 'Critical Usage Spike',
+    insight: "This account has seen a 15% surge in high-bandwidth data consumption this week. We recommend an immediate transition to the 'Infinite Bandwidth+' tier to prevent significant overage charges."
   }
 ];
 
@@ -429,6 +455,61 @@ export const mockCustomerData: Record<string, {
     ],
     alerts: [
       { id: 'ALT-201', type: 'Billing', severity: 'Warning', title: 'Payment Method Expiring', message: 'Your Amex card ending in 9988 expires next month. Please update your payment method.', timestamp: 'Apr 16, 2024' }
+    ]
+  },
+  'ACC-771100': {
+    subscriptions: [
+      {
+        id: 'SUB-701',
+        type: 'Fiber',
+        phoneNumber: 'FIB-NEXUS-MAIN',
+        plan: 'Enterprise Platinum Fiber',
+        status: 'Active',
+        dataLimit: '10TB',
+        dataUsed: 8.5,
+        dataTotal: 10,
+        voiceUsed: 0,
+        voiceTotal: 0,
+        smsUsed: 0,
+        smsTotal: 0,
+        monthlyCost: 850.0,
+        device: 'Nexus Core Router',
+        services: ['SLA 99.99%', 'Managed Security', 'Direct Cloud Connect'],
+        unbilledUsage: { data: 1200000, voice: 0, sms: 0, estimatedCost: 150.00 }
+      }
+    ],
+    bills: [
+      { id: 'INV-NEX-004', date: 'Apr 02, 2024', amount: 980.50, status: 'Paid', dueDate: 'Apr 16, 2024' },
+    ],
+    paymentMethods: [
+      { id: 'PM-NEX-1', type: 'Visa', last4: '0011', expiry: '05/28', isDefault: true },
+    ],
+    usageData: [
+      { name: 'Mon', data: 45000, voice: 0, sms: 0 },
+      { name: 'Tue', data: 48000, voice: 0, sms: 0 },
+      { name: 'Wed', data: 52000, voice: 0, sms: 0 },
+      { name: 'Thu', data: 65000, voice: 0, sms: 0 },
+      { name: 'Fri', data: 88000, voice: 0, sms: 0 },
+      { name: 'Sat', data: 72000, voice: 0, sms: 0 },
+      { name: 'Sun', data: 75000, voice: 0, sms: 0 },
+    ],
+    offerings: [
+      {
+        id: 'OFF-NEX-001',
+        title: 'Infinite Bandwidth+',
+        description: 'Remove all soft-caps and enable multi-gigabit throughput across your entire fiber footprint.',
+        category: 'Plan',
+        price: '+$200/mo',
+        benefit: 'Eliminate overage risk for high-performance teams',
+        icon: 'Zap',
+        isNew: true,
+        tag: 'Recommended Upgrade'
+      }
+    ],
+    serviceRequests: [],
+    orders: [],
+    alerts: [
+      { id: 'ALT-NEX-001', type: 'Utility', severity: 'Warning', title: 'Data Threshold Reached', message: 'Main HQ line has exceeded 85% of monthly allotted data. Significant spike detected since Friday.', timestamp: 'Apr 17, 2024' }
     ]
   }
 };

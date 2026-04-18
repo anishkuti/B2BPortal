@@ -68,6 +68,8 @@ export interface Customer {
   activeLines: number;
   preferences: MarketingPreferences;
   interactions: Interaction[];
+  insight?: string;
+  insightTitle?: string;
 }
 
 export interface Interaction {

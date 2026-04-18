@@ -53,11 +53,11 @@ export default function Overview() {
     { label: 'Health Score', value: '99.9%', icon: Globe, color: 'text-cyan-600', bg: 'bg-cyan-50' },
   ];
 
-  const devices = [
-    { name: 'Apple Suite', value: 45, color: '#0056b3' },
-    { name: 'Samsung Group', value: 25, color: '#4f46e5' },
-    { name: 'Google Pixel', value: 20, color: '#059669' },
-    { name: 'Others', value: 10, color: '#64748b' },
+  const usageDistribution = [
+    { name: 'Data Services', value: 55, color: '#0056b3' },
+    { name: 'Voice Traffic', value: 20, color: '#4f46e5' },
+    { name: 'Cloud Hosting', value: 15, color: '#059669' },
+    { name: 'IoT Connectivity', value: 10, color: '#64748b' },
   ];
 
   const getAlertIcon = (type: string) => {
@@ -277,16 +277,16 @@ export default function Overview() {
         </div>
 
         <div className="space-y-6">
-          {/* Device Distribution */}
+          {/* Usage Distribution */}
           <div className="bg-white p-6 rounded-lg border border-border-main shadow-sm">
             <div className="mb-6">
-              <h3 className="text-[15px] font-bold text-text-main uppercase tracking-wider mb-1">Asset Distribution</h3>
-              <p className="text-[12px] text-text-muted font-medium">Breakdown across organization</p>
+              <h3 className="text-[15px] font-bold text-text-main uppercase tracking-wider mb-1">Usage Distribution</h3>
+              <p className="text-[12px] text-text-muted font-medium">Consumption breakdown by service type</p>
             </div>
             
             <div className="h-[180px] w-full flex items-center justify-center mb-6">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={devices} layout="vertical" barSize={20} margin={{ left: -30 }}>
+                <BarChart data={usageDistribution} layout="vertical" barSize={20} margin={{ left: -30 }}>
                   <XAxis type="number" hide />
                   <YAxis type="category" dataKey="name" hide />
                   <Tooltip 
@@ -294,7 +294,7 @@ export default function Overview() {
                     contentStyle={{ borderRadius: '8px', border: '1px solid #dee2e6', fontSize: '11px' }}
                   />
                   <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                    {devices.map((entry, index) => (
+                    {usageDistribution.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Bar>
@@ -303,28 +303,28 @@ export default function Overview() {
             </div>
 
             <div className="space-y-3">
-              {devices.map((device, i) => (
+              {usageDistribution.map((item, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: device.color }}></div>
-                    <span className="text-[12px] font-semibold text-text-muted">{device.name}</span>
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
+                    <span className="text-[12px] font-semibold text-text-muted">{item.name}</span>
                   </div>
-                  <span className="text-[12px] font-bold text-text-main">{device.value}%</span>
+                  <span className="text-[12px] font-bold text-text-main">{item.value}%</span>
                 </div>
               ))}
             </div>
 
             <button className="w-full mt-8 py-3 bg-white border border-border-main rounded-md text-text-main text-[12px] font-bold hover:bg-bg-app transition-colors flex items-center justify-center gap-2 border-dashed">
-              View All Assets <ArrowUpRight className="w-3.5 h-3.5" />
+              Detailed Consumption Report <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Quick Actions / Tips */}
           <div className="bg-primary p-6 rounded-lg text-white shadow-lg shadow-primary/20">
             <Zap className="w-6 h-6 mb-4 text-emerald-400" />
-            <h4 className="text-[15px] font-bold mb-2 uppercase tracking-tighter">Proactive Insight</h4>
+            <h4 className="text-[15px] font-bold mb-2 uppercase tracking-tighter">{currentCustomer.insightTitle || 'Proactive Insight'}</h4>
             <p className="text-[12px] opacity-80 leading-relaxed font-medium mb-6">
-              The Finance team's roaming costs are up 30%. Applying the "Global Roaming Pass+" could save them $450 this quarter.
+              {currentCustomer.insight || 'Monitoring account consumption patterns for optimization opportunities.'}
             </p>
             <button className="w-full py-2.5 bg-white text-primary rounded-md text-[13px] font-bold hover:bg-opacity-90 transition-all shadow-sm">
               Apply Recommendation
