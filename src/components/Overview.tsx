@@ -10,9 +10,8 @@ import {
   Zap,
   PhoneCall,
   Globe,
-  MapPin,
   Mail,
-  Phone,
+  MapPin,
   AlertTriangle,
   Info,
   History,
@@ -21,7 +20,11 @@ import {
   User,
   CreditCard,
   MessageCircle,
-  Hash
+  Hash,
+  Target,
+  Heart,
+  CalendarDays,
+  Briefcase
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -114,29 +117,61 @@ export default function Overview() {
         </div>
       )}
 
-      {/* Customer Quick View */}
-      <div className="bg-white p-6 rounded-lg border border-border-main shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-6">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-xl border border-primary/20">
-            {currentCustomer.companyName.charAt(0)}
-          </div>
-          <div>
-            <div className="flex items-center gap-3 mb-1">
-              <h2 className="text-[18px] font-extrabold text-text-main">{currentCustomer.name}</h2>
-              <span className="px-2 py-0.5 bg-primary-light text-primary text-[10px] font-bold rounded-full uppercase">
-                {currentCustomer.tier}
-              </span>
+      {/* Customer Header - Performance focused */}
+      <div className="bg-white rounded-lg border border-border-main shadow-sm overflow-hidden mb-6">
+        <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-xl border border-primary/20 shrink-0">
+              {currentCustomer.companyName.charAt(0)}
             </div>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-text-muted font-medium">
-              <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {currentCustomer.location}</span>
-              <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> {currentCustomer.email}</span>
-              <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> {currentCustomer.phone}</span>
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <h2 className="text-[20px] font-extrabold text-text-main leading-tight uppercase tracking-tight">{currentCustomer.companyName}</h2>
+                <div className="flex items-center gap-1.5 px-2 py-0.5 bg-primary/5 text-primary text-[10px] font-bold rounded border border-primary/10 uppercase tracking-tighter">
+                  <ShieldCheck size={10} /> {currentCustomer.tier} Contract
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-text-muted font-bold">
+                <span className="flex items-center gap-1.5 text-text-main hover:text-primary transition-colors cursor-pointer"><User className="w-3.5 h-3.5 text-primary" /> {currentCustomer.name}</span>
+                <span className="flex items-center gap-1.5"><Briefcase className="w-3.5 h-3.5" /> {currentCustomer.industry}</span>
+                <span className="flex items-center gap-1.5 text-emerald-600"><Target className="w-3.5 h-3.5" /> Strategic Partner</span>
+                <span className="flex items-center gap-1.5"><CalendarDays className="w-3.5 h-3.5" /> Since {currentCustomer.joinedDate || '2021'}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="bg-bg-app border border-border-main px-4 py-2 rounded-lg min-w-[140px]">
+              <span className="block text-[10px] font-black text-text-muted uppercase tracking-widest leading-none mb-1 text-left">Retention Health</span>
+              <span className="text-[14px] font-extrabold text-emerald-600 flex items-center gap-1">
+                <Heart size={14} className="fill-emerald-600" /> STABLE
+              </span>
             </div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 bg-white border border-border-main rounded-md text-[12px] font-bold text-text-main hover:bg-bg-app transition-all ">Edit Profile</button>
-          <button className="px-4 py-2 bg-primary text-white rounded-md text-[12px] font-bold hover:bg-opacity-90 transition-all shadow-sm">Contact Manager</button>
+        
+        {/* Sub-header for additional data points */}
+         <div className="bg-bg-app/50 border-t border-border-main px-6 py-3 flex flex-wrap gap-x-8 gap-y-2 justify-between">
+           <div className="flex items-center gap-6">
+             <div className="flex flex-col">
+               <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest">LTV Projection</span>
+               <span className="text-[13px] font-extrabold text-text-main">$450k Annually</span>
+             </div>
+             <div className="w-[1px] h-6 bg-border-main"></div>
+             <div className="flex flex-col">
+               <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest">SLA Compliance</span>
+               <span className="text-[13px] font-extrabold text-emerald-600">100% (Last 30d)</span>
+             </div>
+             <div className="w-[1px] h-6 bg-border-main"></div>
+             <div className="flex flex-col">
+               <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Tickets Open</span>
+               <span className="text-[13px] font-extrabold text-amber-600">{serviceRequests.filter(r => r.status !== 'Completed').length} Pending</span>
+             </div>
+           </div>
+           <div className="flex items-center gap-3">
+             <button className="text-[11px] font-extrabold text-primary hover:underline flex items-center gap-1">
+               ANALYZE CONTRACT <ArrowUpRight size={12} />
+             </button>
+           </div>
         </div>
       </div>
 

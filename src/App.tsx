@@ -212,10 +212,10 @@ export default function App() {
               { label: 'Primary Contact', value: currentCustomer.name },
               { label: 'Account Email', value: currentCustomer.email },
               { label: 'H.Q. Location', value: currentCustomer.location },
-              { label: 'Total Subscriptions', value: `${currentCustomer.totalLines} Active` },
-              { label: 'Partnership Tenure', value: '4.5 Years' },
               { label: 'Vertical Market', value: currentCustomer.industry },
               { label: 'Account Manager', value: currentCustomer.accountManager },
+              { label: 'Total Lines', value: `${currentCustomer.totalLines} Units` },
+              { label: 'Credit Limit', value: '$25,000.00' },
             ].map((stat, i) => (
               <div key={i} className="flex justify-between py-3 text-[13px]">
                 <span className="text-text-muted">{stat.label}</span>

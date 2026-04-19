@@ -29,13 +29,15 @@ import { Subscription } from '../types';
 export default function ManageLines() {
   const { subscriptions } = useCustomer();
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Active' | 'Suspended'>('All');
+  const [statusFilter, setStatusFilter] = useState<'All' | Subscription['status']>('All');
   const [selectedLineId, setSelectedLineId] = useState<string | null>(null);
 
   const filteredLines = subscriptions.filter(sub => {
-    const matchesSearch = sub.phoneNumber.includes(searchTerm) || sub.plan.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = activeFilter === 'All' || sub.status === activeFilter;
-    return matchesSearch && matchesFilter;
+    const matchesSearch = sub.phoneNumber.includes(searchTerm) || 
+                         sub.plan.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         sub.device.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'All' || sub.status === statusFilter;
+    return matchesSearch && matchesStatus;
   });
 
   const selectedLine = subscriptions.find(s => s.id === selectedLineId);
@@ -383,35 +385,42 @@ export default function ManageLines() {
     <div className="space-y-6">
       {/* Search and Action Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-3 rounded-lg border border-border-main shadow-sm">
-        <div className="flex-1 flex items-center gap-4">
-          <div className="relative flex-1 max-w-sm">
+        <div className="flex-1 flex flex-wrap items-center gap-4">
+          <div className="relative flex-1 min-w-[240px] max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
             <input 
               type="text" 
-              placeholder="Search phone summary..." 
+              placeholder="Search by phone, plan or device..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-4 py-2 bg-[#f1f3f5] border border-border-main rounded-md text-[13px] outline-none focus:ring-1 focus:ring-primary/20 transition-all font-medium"
             />
           </div>
-          <div className="flex items-center bg-[#f1f3f5] p-1 rounded-md border border-border-main">
-            {['All', 'Active', 'Suspended'].map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter as any)}
-                className={cn(
-                  "px-3 py-1 rounded-[4px] text-[11px] font-bold transition-all",
-                  activeFilter === filter 
-                    ? "bg-white text-primary shadow-sm" 
-                    : "text-text-muted hover:text-text-main"
-                )}
-              >
-                {filter}
-              </button>
-            ))}
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Status:</span>
+              <div className="flex items-center bg-[#f1f3f5] p-1 rounded-md border border-border-main">
+                {['All', 'Active', 'Suspended', 'Pending'].map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => setStatusFilter(filter as any)}
+                    className={cn(
+                      "px-3 py-1 rounded-[4px] text-[10px] font-bold transition-all",
+                      statusFilter === filter 
+                        ? "bg-white text-primary shadow-sm" 
+                        : "text-text-muted hover:text-text-main"
+                    )}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <span className="hidden lg:block text-[11px] font-black text-primary uppercase tracking-[0.1em] border-l border-border-main pl-4">
-            Showing {filteredLines.length} of {subscriptions.length} active lines
+          
+          <span className="hidden xl:block text-[11px] font-black text-primary uppercase tracking-[0.1em] border-l border-border-main pl-4">
+            {filteredLines.length} Results
           </span>
         </div>
 
