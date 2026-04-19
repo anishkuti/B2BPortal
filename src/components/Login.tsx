@@ -22,10 +22,11 @@ export default function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#f8f9fa] bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-from),_transparent_50%),_radial-gradient(circle_at_bottom_left,_var(--tw-gradient-from),_transparent_50%)] from-primary/5 to-transparent flex items-center justify-center p-4">
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="max-w-md w-full"
       >
         <div className="bg-white rounded-2xl shadow-xl shadow-primary/5 border border-border-main p-8 md:p-10">
@@ -36,7 +37,7 @@ export default function Login({ onLogin }: LoginProps) {
             <h1 className="text-2xl font-black text-text-main tracking-tighter text-center">
               TELCO<span className="text-primary">CONNECT</span>
             </h1>
-            <p className="text-[13px] text-text-muted font-bold uppercase tracking-widest mt-2">Agent Portal v4.2</p>
+            <p className="text-[12px] text-text-muted font-bold uppercase tracking-widest mt-2">B2B Portal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -49,7 +50,7 @@ export default function Login({ onLogin }: LoginProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="agent.id@telcoconnect.com"
-                  className="w-full bg-[#f1f3f5] border border-border-main rounded-xl px-10 py-3 text-[14px] outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all font-medium"
+                  className="w-full bg-white border border-border-main rounded-xl px-10 py-3 text-[14px] outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all font-medium"
                   required
                 />
               </div>
@@ -67,7 +68,7 @@ export default function Login({ onLogin }: LoginProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full bg-[#f1f3f5] border border-border-main rounded-xl px-10 py-3 text-[14px] outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all font-medium"
+                  className="w-full bg-white border border-border-main rounded-xl px-10 py-3 text-[14px] outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all font-medium"
                   required
                 />
               </div>
