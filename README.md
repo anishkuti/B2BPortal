@@ -21,7 +21,7 @@ A professional, enterprise-grade portal designed for telecommunications agents t
 
 - **Agent Command Center:** A mission-control style landing page with global network statistics.
 - **Secure Authentication:** Hardware-verified session authorization simulation.
-- **Customer 360 View:** Comprehensive dashboard for data usage, revenue trends, and interaction logs.
+- **Customer Overview:** Comprehensive dashboard for data usage, revenue trends, and interaction logs.
 - **Subscription Management:** Full lifecycle control over corporate mobile, fiber, and VoIP lines.
 - **Unified Financials:** Consolidates billing, payment methods, and transaction ledgers.
 - **Proactive Insights:** AI-driven optimization recommendations based on real-time consumption spikes.
@@ -49,8 +49,7 @@ A professional, enterprise-grade portal designed for telecommunications agents t
 ## ⚙️ Technical Implementation
 
 ### Dynamic Data Models
-- **Customer Context:** Centrally manages customer states, allowing the app to dynamically render insights based on account IDs.
-- **Extended Types:** The `Customer` interface now supports `insight` and `insightTitle` fields to power proactive agent recommendations.
+- **Customer Overview:** Centrally manages customer states, allowing the app to dynamically render insights based on account IDs.
 
 ### Usage Analytics Engine
 - **Usage Distribution:** Refactored from hardware-centric views to service-usage views (Data, Voice, Cloud, IoT) to better align with telco billing logic.

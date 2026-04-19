@@ -410,12 +410,27 @@ export default function ManageLines() {
               </button>
             ))}
           </div>
+          <span className="hidden lg:block text-[11px] font-black text-primary uppercase tracking-[0.1em] border-l border-border-main pl-4">
+            Showing {filteredLines.length} of {subscriptions.length} active lines
+          </span>
         </div>
 
         <button className="px-4 py-2 bg-primary text-white text-[12px] font-bold rounded-md hover:bg-opacity-90 transition-all flex items-center gap-2 whitespace-nowrap">
           <Plus className="w-4 h-4" />
           New Subscription
         </button>
+      </div>
+
+      <div className="flex items-center justify-between px-2">
+        <div className="flex items-center gap-2">
+           <Filter size={14} className="text-text-muted" />
+           <span className="text-[11px] font-bold text-text-muted uppercase tracking-widest">Enterprise Fleet Overview ({useCustomer().currentCustomer?.totalLines} Total Lines)</span>
+        </div>
+        <div className="flex items-center gap-4">
+           <button className="text-[11px] font-black text-primary flex items-center gap-1 hover:underline">
+             CSV Export <Download size={12} />
+           </button>
+        </div>
       </div>
 
       {/* Subscription List */}
@@ -516,6 +531,13 @@ export default function ManageLines() {
             <h3 className="text-[15px] font-bold text-text-main">No subscriptions found</h3>
             <p className="text-[12px] text-text-muted">Adjust filters to see your active subscriptions.</p>
           </div>
+        )}
+
+        {filteredLines.length > 0 && useCustomer().currentCustomer && filteredLines.length < (useCustomer().currentCustomer?.activeLines || 0) && (
+          <button className="w-full py-4 bg-white border border-border-main border-dashed text-text-muted text-[11px] font-black uppercase tracking-[0.2em] rounded-lg hover:bg-bg-app transition-all hover:text-primary hover:border-primary/30 flex items-center justify-center gap-3 group">
+             View more subscriptions
+             <ArrowRightLeft className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
         )}
       </div>
 

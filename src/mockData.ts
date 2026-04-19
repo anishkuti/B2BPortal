@@ -21,7 +21,7 @@ export const mockCustomers: Customer[] = [
       { id: 'INT-003', type: 'SMS', date: '2024-04-16', summary: 'Automated notification: High usage alert', outcome: 'Acknowledged' }
     ],
     insightTitle: 'Roaming Policy Alert',
-    insight: "The Finance team's global roaming costs are up 30% this month. Applying the 'Global Roaming Pass+' could save this account $450 this billing cycle."
+    insight: "Global roaming costs are up 30% this month. Applying the 'Global Roaming Pass+' could save this account $450 this billing cycle."
   },
   {
     id: 'ACC-552109',
@@ -169,6 +169,42 @@ export const mockCustomerData: Record<string, {
         device: 'Pixel 8',
         services: ['10GB Data', 'Standard Voice'],
         unbilledUsage: { data: 0, voice: 0, sms: 0, estimatedCost: 0 }
+      },
+      {
+        id: 'SUB-105',
+        type: 'Mobile',
+        phoneNumber: '+1 (555) 333-4444',
+        plan: 'Enterprise Data 25GB',
+        status: 'Active',
+        dataLimit: '25GB',
+        dataUsed: 12.0,
+        dataTotal: 25,
+        voiceUsed: 150,
+        voiceTotal: 500,
+        smsUsed: 200,
+        smsTotal: 200,
+        monthlyCost: 35.0,
+        device: 'iPhone 14',
+        services: ['25GB Priority Data', 'Visual Voicemail'],
+        unbilledUsage: { data: 0, voice: 0, sms: 0, estimatedCost: 0 }
+      },
+      {
+        id: 'SUB-106',
+        type: 'VoIP',
+        phoneNumber: 'EXT-105-TECH',
+        plan: 'Cloud PBX Standard',
+        status: 'Active',
+        dataLimit: 'N/A',
+        dataUsed: 0,
+        dataTotal: 0,
+        voiceUsed: 1200,
+        voiceTotal: 1500,
+        smsUsed: 0,
+        smsTotal: 0,
+        monthlyCost: 25.0,
+        device: 'Polycom Desk Phone',
+        services: ['Extension Dialing', 'Call Transfer'],
+        unbilledUsage: { data: 0, voice: 1200, sms: 0, estimatedCost: 0 }
       },
     ],
     bills: [
