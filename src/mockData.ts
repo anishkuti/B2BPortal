@@ -3,8 +3,8 @@ import { Subscription, Bill, PaymentMethod, UsageData, Customer, Offering, Servi
 export const mockCustomers: Customer[] = [
   {
     id: 'ACC-982341',
-    name: 'Sarah Mitchell',
-    email: 'sarah.mitchell@techsolutions.com',
+    name: 'Jonathan Sterling',
+    email: 'j.sterling@techsolutions.com',
     phone: '+1 (555) 012-3456',
     location: 'Austin, TX - Headquarters',
     companyName: 'TechSolutions Global Inc.',

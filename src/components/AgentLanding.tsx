@@ -459,7 +459,7 @@ export default function AgentLanding() {
                </p>
                <div className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-                  <span className="text-[10px] font-black tracking-widest uppercase">Agent #992-TX VERIFIED</span>
+                  <span className="text-[10px] font-black tracking-widest uppercase text-white/90">AGENT SARAH MITCHELL • ID: #992-TX</span>
                </div>
             </div>
          </div>
