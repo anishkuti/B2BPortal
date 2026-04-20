@@ -50,7 +50,7 @@ export default function Overview({
 }) {
   const { currentCustomer, usageData, bills, serviceRequests, alerts } = useCustomer();
   
-  const currentBillAmount = bills.length > 0 ? `$${bills[0].amount.toLocaleString()}` : '$0.00';
+  const currentBillAmount = bills.length > 0 ? `£${bills[0].amount.toLocaleString()}` : '£0.00';
   const billTrend = bills.length > 1 
     ? (bills[0].amount > bills[1].amount ? '+1.2%' : '-2.4%')
     : 'New Account';
@@ -160,7 +160,7 @@ export default function Overview({
            <div className="flex items-center gap-6">
              <div className="flex flex-col">
                <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest">LTV Projection</span>
-               <span className="text-[13px] font-extrabold text-text-main">$450k Annually</span>
+               <span className="text-[13px] font-extrabold text-text-main">£450k Annually</span>
              </div>
              <div className="w-[1px] h-6 bg-border-main"></div>
              <div className="flex flex-col">

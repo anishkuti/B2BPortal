@@ -117,20 +117,20 @@ export default function BillingAndPayments() {
               <div>
                 <span className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1 block">Current Balance</span>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-text-main">${currentBill.amount.toLocaleString()}</span>
+                  <span className="text-3xl font-extrabold text-text-main">£{currentBill.amount.toLocaleString()}</span>
                   {currentBill.breakdown && (
                     <div className="flex bg-[#f1f3f5] rounded-md px-2 py-1 gap-3 ml-2 border border-border-main">
                       <div className="text-[10px]">
                         <span className="text-text-muted font-bold block uppercase tracking-tighter">Product</span>
-                        <span className="text-text-main font-bold">${currentBill.breakdown.productCharges.toFixed(2)}</span>
+                        <span className="text-text-main font-bold">£{currentBill.breakdown.productCharges.toFixed(2)}</span>
                       </div>
                       <div className="text-[10px]">
                         <span className="text-text-muted font-bold block uppercase tracking-tighter">Service</span>
-                        <span className="text-text-main font-bold">${currentBill.breakdown.serviceCharges.toFixed(2)}</span>
+                        <span className="text-text-main font-bold">£{currentBill.breakdown.serviceCharges.toFixed(2)}</span>
                       </div>
                       <div className="text-[10px]">
                         <span className="text-text-muted font-bold block uppercase tracking-tighter">Usage</span>
-                        <span className="text-red-500 font-bold">${currentBill.breakdown.usageCharges.toFixed(2)}</span>
+                        <span className="text-red-500 font-bold">£{currentBill.breakdown.usageCharges.toFixed(2)}</span>
                       </div>
                     </div>
                   )}
@@ -198,7 +198,7 @@ export default function BillingAndPayments() {
                   </div>
                 </div>
                 <button className="w-full py-3 bg-primary text-white text-[14px] font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all">
-                  Confirm Payment of ${currentBill.amount.toLocaleString()}
+                  Confirm Payment of £{currentBill.amount.toLocaleString()}
                 </button>
               </div>
             )}
@@ -246,7 +246,7 @@ export default function BillingAndPayments() {
                           <span className="text-[13px] font-bold text-text-main">{bill.id}</span>
                         </td>
                         <td className="px-4 py-3 text-[12px] text-text-muted font-medium">{bill.date}</td>
-                        <td className="px-4 py-3 text-[13px] font-extrabold text-text-main text-right">${bill.amount.toLocaleString()}</td>
+                        <td className="px-4 py-3 text-[13px] font-extrabold text-text-main text-right">£{bill.amount.toLocaleString()}</td>
                         <td className="px-4 py-3 text-center">
                           <button 
                             onClick={() => window.open('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', '_blank')}
@@ -448,7 +448,7 @@ export default function BillingAndPayments() {
                       <span className="text-[12px] font-mono text-text-muted opacity-60">{item.reference}</span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <span className="text-[13px] font-extrabold text-text-main">${item.amount.toLocaleString()}</span>
+                      <span className="text-[13px] font-extrabold text-text-main">£{item.amount.toLocaleString()}</span>
                     </td>
                     <td className="px-6 py-4">
                       <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-md text-[11px] font-bold border border-emerald-100">

@@ -22,7 +22,7 @@ A professional, enterprise-grade portal designed for telecommunications agents t
 - **Agent Command Center:** A mission-control style landing page with global network statistics.
 - **Secure Authentication:** Hardware-verified session authorization simulation.
 - **Customer Overview:** Comprehensive dashboard for data usage, revenue trends, and interaction logs.
-- **Subscription Management:** Full lifecycle control over corporate mobile, fiber, and VoIP lines.
+- **Subscription Management:** Full lifecycle control over corporate mobile, fibre, and VoIP lines.
 - **Unified Financials:** Consolidates billing, payment methods, and transaction ledgers.
 - **Proactive Insights:** AI-driven optimization recommendations based on real-time consumption spikes.
 

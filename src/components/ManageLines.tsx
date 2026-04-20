@@ -8,7 +8,6 @@ import {
   Search, 
   Filter, 
   AlertCircle,
-  ClipboardList,
   Activity,
   Package,
   ArrowRightLeft,
@@ -55,7 +54,7 @@ export default function ManageLines() {
   const getIcon = (type: Subscription['type']) => {
     switch (type) {
       case 'Mobile': return Smartphone;
-      case 'Fiber': return Wifi;
+      case 'Fibre': return Wifi;
       case 'VoIP': return Phone;
       default: return Package;
     }
@@ -74,43 +73,43 @@ export default function ManageLines() {
           <ArrowRightLeft className="w-4 h-4 rotate-180" /> Back to Subscriptions
         </button>
 
-        <div className="bg-white rounded-xl border border-border-main p-8 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-10">
-            <div className="flex items-start gap-6">
+        <div className="bg-white rounded-xl border border-border-main p-6 lg:p-8 shadow-sm">
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-10">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left min-w-0 flex-1">
               <div className={cn(
-                "w-20 h-20 rounded-2xl flex items-center justify-center border-2",
+                "w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 border-2",
                 selectedLine.status === 'Active' ? "bg-primary-light text-primary border-primary/10" : "bg-bg-app text-text-muted border-border-main"
               )}>
                 <Icon className="w-10 h-10" />
               </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-2xl font-extrabold text-text-main">{selectedLine.phoneNumber}</h2>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-col sm:flex-row items-center gap-3 mb-2">
+                  <h2 className="text-[22px] md:text-2xl font-extrabold text-text-main whitespace-nowrap">{selectedLine.phoneNumber}</h2>
                   <span className={cn(
-                    "px-3 py-1 text-[11px] uppercase font-bold tracking-widest rounded-full border",
+                    "px-3 py-1 text-[11px] uppercase font-bold tracking-widest rounded-full border shrink-0",
                     getStatusColor(selectedLine.status)
                   )}>
                     {selectedLine.status}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-4 text-[14px] font-medium text-text-muted">
-                  <span className="flex items-center gap-1.5"><Package className="w-4 h-4" /> {selectedLine.plan}</span>
-                  <span className="flex items-center gap-1.5"><Smartphone className="w-4 h-4" /> {selectedLine.device}</span>
-                  <span className="text-primary font-bold">ID: {selectedLine.id}</span>
+                <div className="flex flex-wrap justify-center sm:justify-start items-center gap-x-4 gap-y-2 text-[14px] font-medium text-text-muted">
+                  <span className="flex items-center gap-1.5 shrink-0"><Package className="w-4 h-4" /> {selectedLine.plan}</span>
+                  <span className="flex items-center gap-1.5 shrink-0"><Smartphone className="w-4 h-4" /> {selectedLine.device}</span>
+                  <span className="text-primary font-bold shrink-0">ID: {selectedLine.id}</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-3 flex-shrink-0">
-              <div className="text-right mb-2">
+            <div className="flex flex-col items-center lg:items-end gap-3 flex-shrink-0 w-full lg:w-auto">
+              <div className="text-center lg:text-right mb-2">
                 <span className="block text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1">Monthly Cost</span>
-                <span className="text-3xl font-extrabold text-text-main">${selectedLine.monthlyCost.toFixed(2)}</span>
+                <span className="text-3xl font-extrabold text-text-main">£{selectedLine.monthlyCost.toFixed(2)}</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 w-full max-w-[320px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full sm:max-w-xs">
                 <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-primary text-white text-[12px] font-bold rounded-lg hover:bg-opacity-90 transition-all shadow-md shadow-primary/10">
                   <Settings2 className="w-4 h-4" /> Modify Plan
                 </button>
-                {selectedLine.type === 'Fiber' ? (
+                {selectedLine.type === 'Fibre' ? (
                   <button className="flex items-center justify-center gap-2 px-3 py-2.5 bg-emerald-600 text-white text-[12px] font-bold rounded-lg hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20">
                     <MapPin className="w-4 h-4" /> Move Location
                   </button>
@@ -131,10 +130,10 @@ export default function ManageLines() {
                     <Trash2 className="w-4 h-4" /> Suspend
                   </button>
                 )}
+                <button className="sm:col-span-2 w-full mt-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-red-200 text-red-600 text-[12px] font-bold rounded-lg hover:bg-red-50 transition-all border-dashed group">
+                  <XCircle className="w-4 h-4 group-hover:animate-pulse" /> Terminate Subscription
+                </button>
               </div>
-              <button className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-red-200 text-red-600 text-[12px] font-bold rounded-lg hover:bg-red-50 transition-all border-dashed group">
-                <XCircle className="w-4 h-4 group-hover:animate-pulse" /> Terminate Subscription
-              </button>
             </div>
           </div>
 
@@ -163,18 +162,18 @@ export default function ManageLines() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-[13px]">
                     <span className="text-primary/70 font-medium">Standard Plan Charges</span>
-                    <span className="font-bold text-primary">${selectedLine.monthlyCost.toFixed(2)}</span>
+                    <span className="font-bold text-primary">£{selectedLine.monthlyCost.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center text-[13px]">
                     <span className="text-primary/70 font-medium">Add-on Service Charges</span>
-                    <span className="font-bold text-primary">$0.00</span>
+                    <span className="font-bold text-primary">£0.00</span>
                   </div>
                   <div className="flex justify-between items-center text-[13px]">
                     <div className="flex items-center gap-1.5">
                       <span className="text-primary/70 font-medium">Out-of-Bundle (Voice/SMS)</span>
                       <span className="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold">LIVE</span>
                     </div>
-                    <span className="font-bold text-red-600">+${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                    <span className="font-bold text-red-600">+£{selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
                   </div>
                   {selectedLine.unbilledUsage.voice > 0 && (
                     <div className="flex justify-between items-center text-[11px] pl-4 text-primary/50 italic">
@@ -191,7 +190,7 @@ export default function ManageLines() {
                   <div className="pt-3 border-t border-primary/20 flex justify-between items-center">
                     <span className="text-[14px] font-bold text-primary">Projected Next Bill</span>
                     <span className="text-[16px] font-extrabold text-primary">
-                      ${(selectedLine.monthlyCost + selectedLine.unbilledUsage.estimatedCost).toFixed(2)}
+                      £{(selectedLine.monthlyCost + selectedLine.unbilledUsage.estimatedCost).toFixed(2)}
                     </span>
                   </div>
                   <button 
@@ -321,7 +320,7 @@ export default function ManageLines() {
                           <span className="text-[10px] text-red-600/70 font-medium">Real-time charge projection based on current cycle activity</span>
                         </div>
                       </div>
-                      <span className="text-xl font-black text-red-600">${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                      <span className="text-xl font-black text-red-600">£{selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -354,7 +353,7 @@ export default function ManageLines() {
                   </div>
                   <div className="p-3 bg-emerald-50 border-t border-emerald-100 flex items-center justify-between">
                      <span className="text-[11px] font-bold text-emerald-700 uppercase">Estimated Real-time Charges</span>
-                     <span className="text-[14px] font-extrabold text-emerald-700">${selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                     <span className="text-[14px] font-extrabold text-emerald-700">£{selectedLine.unbilledUsage.estimatedCost.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -487,7 +486,7 @@ export default function ManageLines() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
-                      <h3 className="text-[15px] font-bold text-text-main">{sub.phoneNumber}</h3>
+                      <h3 className="text-[15px] font-bold text-text-main whitespace-nowrap">{sub.phoneNumber}</h3>
                       <span className={cn(
                         "px-2 py-0.5 text-[9px] uppercase font-bold tracking-tight rounded-md border",
                         getStatusColor(sub.status)
@@ -511,11 +510,11 @@ export default function ManageLines() {
                   <div className="flex items-center gap-6 text-right hidden xl:flex">
                     <div className="flex flex-col">
                       <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">M.R.R.</span>
-                      <span className="text-[13px] font-black text-text-main">${sub.monthlyCost.toFixed(2)}</span>
+                      <span className="text-[13px] font-black text-text-main">£{sub.monthlyCost.toFixed(2)}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">Unbilled</span>
-                      <span className="text-[13px] font-black text-amber-600">${sub.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                      <span className="text-[13px] font-black text-amber-600">£{sub.unbilledUsage.estimatedCost.toFixed(2)}</span>
                     </div>
                   </div>
 

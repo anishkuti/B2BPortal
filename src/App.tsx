@@ -219,7 +219,7 @@ export default function App() {
               { label: 'Vertical Market', value: currentCustomer.industry },
               { label: 'Account Manager', value: currentCustomer.accountManager },
               { label: 'Total Lines', value: `${currentCustomer.totalLines} Units` },
-              { label: 'Credit Limit', value: '$25,000.00' },
+              { label: 'Credit Limit', value: '£25,000.00' },
             ].map((stat, i) => (
               <div key={i} className="flex justify-between py-3 text-[13px]">
                 <span className="text-text-muted">{stat.label}</span>

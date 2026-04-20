@@ -321,7 +321,7 @@ export default function ServiceRequestsAndOrders() {
 
                   <div className="flex items-center justify-between pt-2">
                     <div className="flex items-center gap-4 text-[11px] font-bold">
-                      <span className="text-text-main">${order.total.toLocaleString()}</span>
+                      <span className="text-text-main">£{order.total.toLocaleString()}</span>
                       <span className="text-text-muted font-medium">{order.date}</span>
                     </div>
                     <button className="p-1.5 text-text-muted hover:text-primary transition-colors">

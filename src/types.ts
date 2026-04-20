@@ -1,6 +1,6 @@
 export interface Subscription {
   id: string;
-  type: 'Mobile' | 'Fiber' | 'VoIP';
+  type: 'Mobile' | 'Fibre' | 'VoIP';
   phoneNumber: string;
   plan: string;
   status: 'Active' | 'Suspended' | 'Pending';
@@ -38,7 +38,7 @@ export interface Bill {
 
 export interface PaymentMethod {
   id: string;
-  type: 'Visa' | 'Mastercard' | 'Amex' | 'BACS' | 'Debit';
+  type: 'Visa' | 'Mastercard' | 'Amex' | 'BACS' | 'Debit' | 'Direct Debit';
   last4: string;
   expiry?: string;
   isDefault: boolean;

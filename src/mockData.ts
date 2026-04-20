@@ -5,9 +5,9 @@ export const mockCustomers: Customer[] = [
     id: 'ACC-982341',
     name: 'Jonathan Sterling',
     email: 'j.sterling@techsolutions.com',
-    phone: '+1 (555) 012-3456',
-    location: 'Austin, TX - Headquarters',
-    companyName: 'TechSolutions Global Inc.',
+    phone: '+44 7700 900123',
+    location: 'London, UK - Canary Wharf',
+    companyName: 'TechSolutions Global Ltd.',
     industry: 'Information Technology',
     tier: 'Enterprise',
     accountManager: 'Alex Rivera',
@@ -16,19 +16,19 @@ export const mockCustomers: Customer[] = [
     activeLines: 38,
     preferences: { email: true, sms: false, phone: true, thirdParty: false, dataSharing: true },
     interactions: [
-      { id: 'INT-001', type: 'Phone', date: '2024-04-10', summary: 'Discussion on 5G rollout for Austin campus', outcome: 'Technical site survey requested' },
+      { id: 'INT-001', type: 'Phone', date: '2024-04-10', summary: 'Discussion on 5G rollout for London campus', outcome: 'Technical site survey requested' },
       { id: 'INT-002', type: 'WhatsApp', date: '2024-04-12', summary: 'Quick check on regional outage status', outcome: 'Confirmed resolved' },
       { id: 'INT-003', type: 'SMS', date: '2024-04-16', summary: 'Automated notification: High usage alert', outcome: 'Acknowledged' }
     ],
     insightTitle: 'Roaming Policy Alert',
-    insight: "Global roaming costs are up 30% this month. Applying the 'Global Roaming Pass+' could save this account $450 this billing cycle."
+    insight: "Global roaming costs are up 30% this month. Applying the 'Global Roaming Pass+' could save this account £450 this billing cycle."
   },
   {
     id: 'ACC-552109',
     name: 'Marcus Chen',
     email: 'm.chen@chenlogistics.com',
-    phone: '+1 (555) 987-6543',
-    location: 'Chicago, IL - Logistics Hub',
+    phone: '+44 7700 900456',
+    location: 'Manchester, UK - Trafford Park',
     companyName: 'Chen Logistics & Supply',
     industry: 'Logistics',
     tier: 'Premium',
@@ -41,14 +41,14 @@ export const mockCustomers: Customer[] = [
       { id: 'INT-101', type: 'In-Person', date: '2024-03-05', summary: 'Quarterly account review and hardware refresh planning', outcome: 'Agreed on bulk upgrade for Q3' }
     ],
     insightTitle: 'Infrastructure Note',
-    insight: 'Chicago logistics hub is showing 99.8% stability since the recent hardware refresh. No immediate action required, but monitoring for peak usage spikes.'
+    insight: 'Manchester logistics hub is showing 99.8% stability since the recent hardware refresh. No immediate action required, but monitoring for peak usage spikes.'
   },
   {
     id: 'ACC-110293',
     name: 'Elena Rodriguez',
     email: 'elena@rodriguez-media.io',
-    phone: '+1 (555) 246-1357',
-    location: 'Los Angeles, CA - Studios',
+    phone: '+44 7700 900789',
+    location: 'Edinburgh, UK - Media Quarter',
     companyName: 'Rodriguez Media Group',
     industry: 'Media & Entertainment',
     tier: 'Standard',
@@ -58,17 +58,17 @@ export const mockCustomers: Customer[] = [
     activeLines: 12,
     preferences: { email: false, sms: false, phone: true, thirdParty: true, dataSharing: true },
     interactions: [
-      { id: 'INT-201', type: 'Chat', date: '2024-04-17', summary: 'Inquiry about 2Gbps fiber speed upgrade', outcome: 'Order ORD-7701 placed' }
+      { id: 'INT-201', type: 'Chat', date: '2024-04-17', summary: 'Inquiry about 2Gbps fibre speed upgrade', outcome: 'Order ORD-7701 placed' }
     ],
     insightTitle: 'Optimization Opportunity',
-    insight: 'The Los Angeles studio is hitting 95% bandwidth capacity during peak upload hours. Upgrading to the 5GB Fiber Link would eliminate the current bottleneck.'
+    insight: 'The Edinburgh studio is hitting 95% bandwidth capacity during peak upload hours. Upgrading to the 5GB Fibre Link would eliminate the current bottleneck.'
   },
   {
     id: 'ACC-771100',
     name: 'David Vanderveld',
     email: 'david.v@nexus-venture.net',
-    phone: '+1 (555) 777-8888',
-    location: 'Silicon Valley, CA - Innovation Hub',
+    phone: '+44 7700 900000',
+    location: 'Birmingham, UK - Innovation Hub',
     companyName: 'Nexus Venture Group',
     industry: 'Venture Capital',
     tier: 'Enterprise',
@@ -101,7 +101,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-101',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 123-4567',
+        phoneNumber: '+44 7700 900123',
         plan: 'Enterprise Unlimited Pro',
         status: 'Active',
         dataLimit: 'Unlimited',
@@ -119,7 +119,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-102',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 987-6543',
+        phoneNumber: '+44 7700 900456',
         plan: 'Enterprise Data 50GB',
         status: 'Active',
         dataLimit: '50GB',
@@ -136,9 +136,9 @@ export const mockCustomerData: Record<string, {
       },
       {
         id: 'SUB-103',
-        type: 'Fiber',
+        type: 'Fibre',
         phoneNumber: 'FIB-001-TECH',
-        plan: 'Gigabit Business Fiber',
+        plan: 'Gigabit Business Fibre',
         status: 'Active',
         dataLimit: 'Unlimited',
         dataUsed: 850,
@@ -155,7 +155,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-104',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 246-1357',
+        phoneNumber: '+44 7700 900789',
         plan: 'Enterprise Starter',
         status: 'Suspended',
         dataLimit: '10GB',
@@ -173,7 +173,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-105',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 333-4444',
+        phoneNumber: '+44 7700 900111',
         plan: 'Enterprise Data 25GB',
         status: 'Active',
         dataLimit: '25GB',
@@ -210,38 +210,38 @@ export const mockCustomerData: Record<string, {
     bills: [
       { 
         id: 'INV-2024-004', 
-        date: 'Apr 01, 2024', 
+        date: '01/04/2024', 
         amount: 2450.75, 
         status: 'Unpaid', 
-        dueDate: 'Apr 15, 2024',
+        dueDate: '15/04/2024',
         breakdown: { productCharges: 1800.00, serviceCharges: 450.75, usageCharges: 200.00 }
       },
       { 
         id: 'SUB-INV-101', 
-        date: 'Apr 05, 2024', 
+        date: '05/04/2024', 
         amount: 85.50, 
         status: 'Unpaid', 
-        dueDate: 'Apr 20, 2024', 
+        dueDate: '20/04/2024', 
         subscriptionId: 'SUB-101',
         breakdown: { productCharges: 65.00, serviceCharges: 15.00, usageCharges: 5.50 }
       },
       { 
         id: 'SUB-INV-102', 
-        date: 'Apr 05, 2024', 
+        date: '05/04/2024', 
         amount: 45.00, 
         status: 'Paid', 
-        dueDate: 'Apr 20, 2024', 
+        dueDate: '20/04/2024', 
         subscriptionId: 'SUB-102',
         breakdown: { productCharges: 45.00, serviceCharges: 0, usageCharges: 0 }
       },
-      { id: 'INV-2024-003', date: 'Mar 01, 2024', amount: 2380.50, status: 'Paid', dueDate: 'Mar 15, 2024' },
-      { id: 'INV-2024-002', date: 'Feb 01, 2024', amount: 2380.50, status: 'Paid', dueDate: 'Feb 15, 2024' },
-      { id: 'INV-2024-001', date: 'Jan 01, 2024', amount: 2210.00, status: 'Paid', dueDate: 'Jan 15, 2024' },
+      { id: 'INV-2024-003', date: '01/03/2024', amount: 2380.50, status: 'Paid', dueDate: '15/03/2024' },
+      { id: 'INV-2024-002', date: '01/02/2024', amount: 2380.50, status: 'Paid', dueDate: '15/02/2024' },
+      { id: 'INV-2024-001', date: '01/01/2024', amount: 2210.00, status: 'Paid', dueDate: '15/01/2024' },
     ],
     paymentMethods: [
       { id: 'PM-1', type: 'Visa', last4: '4242', expiry: '12/26', isDefault: true },
       { id: 'PM-2', type: 'Mastercard', last4: '8812', expiry: '08/25', isDefault: false },
-      { id: 'PM-3', type: 'BACS', last4: '9901', isDefault: false, accountNumber: '88776655', sortCode: '20-30-40' },
+      { id: 'PM-3', type: 'Direct Debit', last4: '9901', isDefault: false, accountNumber: '88776655', sortCode: '20-30-40' },
     ],
     usageData: [
       { name: 'Mon', data: 4000, voice: 240, sms: 100 },
@@ -258,7 +258,7 @@ export const mockCustomerData: Record<string, {
         title: 'Enterprise AI Security Suite',
         description: 'Advanced threat protection and AI-driven behavior analysis for all corporate lines.',
         category: 'Security',
-        price: '$4.99/line/mo',
+        price: '£4.99/line/mo',
         benefit: 'Reduce security breaches by up to 85%',
         icon: 'ShieldAlert',
         isNew: true,
@@ -269,7 +269,7 @@ export const mockCustomerData: Record<string, {
         title: 'Global Roaming Pass+',
         description: 'Unlimited data and calls in over 150 countries with no extra daily fees.',
         category: 'Service',
-        price: '$25/line/mo',
+        price: '£25/line/mo',
         benefit: 'Save 40% on international travel costs',
         icon: 'Globe',
         isNew: true
@@ -279,7 +279,7 @@ export const mockCustomerData: Record<string, {
         title: '5G Ultra Wideband Upgrade',
         description: 'Boost speeds by up to 10x in supported metropolitan areas.',
         category: 'Plan',
-        price: '$10/line/mo',
+        price: '£10/line/mo',
         benefit: 'Unmatched speed for lightning-fast business ops',
         icon: 'Zap',
         isNew: false
@@ -287,9 +287,9 @@ export const mockCustomerData: Record<string, {
       {
         id: 'OFF-004',
         title: 'Unified Communications Bundle',
-        description: 'Integrate your mobile, VoIP, and fiber lines into one seamless portal.',
+        description: 'Integrate your mobile, VoIP, and fibre lines into one seamless portal.',
         category: 'Service',
-        price: '$50/account/mo',
+        price: '£50/account/mo',
         benefit: 'Improve team collaboration by 30%',
         icon: 'MessageSquare',
         isNew: true,
@@ -297,19 +297,19 @@ export const mockCustomerData: Record<string, {
       }
     ],
     serviceRequests: [
-      { id: 'SR-1001', subject: 'Fiber Connection Intermittent', status: 'In Progress', priority: 'High', type: 'Technical', createdAt: 'Apr 14, 2024', updatedAt: 'Apr 16, 2024' },
-      { id: 'SR-1002', subject: 'Product Activation: Security Suite', status: 'Completed', priority: 'Medium', type: 'Product Activation', createdAt: 'Mar 28, 2024', updatedAt: 'Mar 30, 2024' },
-      { id: 'SR-1003', subject: 'Office Relocation: Fiber Move', status: 'Pending', priority: 'High', type: 'Move', createdAt: 'Apr 17, 2024', updatedAt: 'Apr 17, 2024' },
+      { id: 'SR-1001', subject: 'Fibre Connection Intermittent', status: 'In Progress', priority: 'High', type: 'Technical', createdAt: '14/04/2024', updatedAt: '16/04/2024' },
+      { id: 'SR-1002', subject: 'Product Activation: Security Suite', status: 'Completed', priority: 'Medium', type: 'Product Activation', createdAt: '28/03/2024', updatedAt: '30/03/2024' },
+      { id: 'SR-1003', subject: 'Office Relocation: Fibre Move', status: 'Pending', priority: 'High', type: 'Move', createdAt: '17/04/2024', updatedAt: '17/04/2024' },
     ],
     orders: [
-      { id: 'ORD-5501', type: 'Plan Upgrade', status: 'In Progress', date: 'Apr 15, 2024', items: ['Enterprise Unlimited Pro Upgrade'], total: 120.00 },
-      { id: 'ORD-5502', type: 'Product Activation', status: 'Completed', date: 'Mar 10, 2024', items: ['Cloud Security Plus'], total: 49.00 },
-      { id: 'ORD-5503', type: 'Move', status: 'Order Placed', date: 'Apr 16, 2024', items: ['Business Fiber Move - Floor 2'], total: 0 },
+      { id: 'ORD-5501', type: 'Plan Upgrade', status: 'In Progress', date: '15/04/2024', items: ['Enterprise Unlimited Pro Upgrade'], total: 120.00 },
+      { id: 'ORD-5502', type: 'Product Activation', status: 'Completed', date: '10/03/2024', items: ['Cloud Security Plus'], total: 49.00 },
+      { id: 'ORD-5503', type: 'Move', status: 'Order Placed', date: '16/04/2024', items: ['Business Fibre Move - Floor 2'], total: 0 },
     ],
     alerts: [
-      { id: 'ALT-001', type: 'Network', severity: 'Warning', title: 'Planned Maintenance', message: 'Austin HQ fiber lines will undergo maintenance on April 20th between 02:00 - 04:00 AM CST.', timestamp: 'Apr 16, 2024' },
-      { id: 'ALT-002', type: 'Billing', severity: 'Critical', title: 'Bill Past Due', message: 'Invoice INV-2024-004 is past due. Please settle to avoid service interruption.', timestamp: 'Apr 15, 2024' },
-      { id: 'ALT-003', type: 'Security', severity: 'Info', title: 'New Login Detected', message: 'A new login was recorded from an unrecognized device in Austin, TX.', timestamp: 'Apr 17, 2024' }
+      { id: 'ALT-001', type: 'Network', severity: 'Warning', title: 'Planned Maintenance', message: 'London HQ fibre lines will undergo maintenance on April 20th between 02:00 - 04:00 AM GMT.', timestamp: '16/04/2024' },
+      { id: 'ALT-002', type: 'Billing', severity: 'Critical', title: 'Bill Past Due', message: 'Invoice INV-2024-004 is past due. Please settle to avoid service interruption.', timestamp: '15/04/2024' },
+      { id: 'ALT-003', type: 'Security', severity: 'Info', title: 'New Login Detected', message: 'A new login was recorded from an unrecognized device in London, UK.', timestamp: '17/04/2024' }
     ]
   },
   'ACC-552109': {
@@ -317,7 +317,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-201',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 555-0001',
+        phoneNumber: '+44 7700 900222',
         plan: 'Logistics Fleet Pro',
         status: 'Active',
         dataLimit: 'Unlimited',
@@ -335,7 +335,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-202',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 555-0002',
+        phoneNumber: '+44 7700 900333',
         plan: 'Logistics Fleet Pro',
         status: 'Active',
         dataLimit: 'Unlimited',
@@ -352,9 +352,9 @@ export const mockCustomerData: Record<string, {
       },
       {
         id: 'SUB-203',
-        type: 'Fiber',
+        type: 'Fibre',
         phoneNumber: 'FIB-HQ-CHEN',
-        plan: 'Multi-Gig Warehouse Fiber',
+        plan: 'Multi-Gig Warehouse Fibre',
         status: 'Active',
         dataLimit: 'Unlimited',
         dataUsed: 4650,
@@ -370,8 +370,8 @@ export const mockCustomerData: Record<string, {
       }
     ],
     bills: [
-      { id: 'INV-CHEN-004', date: 'Apr 05, 2024', amount: 8420.50, status: 'Unpaid', dueDate: 'Apr 20, 2024' },
-      { id: 'INV-CHEN-003', date: 'Mar 05, 2024', amount: 8210.00, status: 'Paid', dueDate: 'Mar 20, 2024' },
+      { id: 'INV-CHEN-004', date: '05/04/2024', amount: 8420.50, status: 'Unpaid', dueDate: '20/04/2024' },
+      { id: 'INV-CHEN-003', date: '05/03/2024', amount: 8210.00, status: 'Paid', dueDate: '20/03/2024' },
     ],
     paymentMethods: [
       { id: 'PM-CHEN-1', type: 'Mastercard', last4: '1122', expiry: '06/27', isDefault: true },
@@ -391,7 +391,7 @@ export const mockCustomerData: Record<string, {
         title: 'IoT Fleet Tracker Integration',
         description: 'Real-time tracking and logistics optimization for your entire fleet.',
         category: 'Service',
-        price: '$2.00/line/mo',
+        price: '£2.00/line/mo',
         benefit: 'Increase delivery efficiency by 20%',
         icon: 'Globe',
         isNew: true,
@@ -402,20 +402,20 @@ export const mockCustomerData: Record<string, {
         title: 'Unlimited Hotspot Add-on',
         description: 'Enable high-speed tethering for all fleet devices.',
         category: 'Plan',
-        price: '$15/mo',
+        price: '£15/mo',
         benefit: 'Stay connected anywhere',
         icon: 'Wifi',
         isNew: false
       }
     ],
     serviceRequests: [
-      { id: 'SR-2001', subject: 'Fleet Tracker Sync Issue', status: 'Pending', priority: 'Medium', type: 'Technical', createdAt: 'Apr 16, 2024', updatedAt: 'Apr 16, 2024' },
+      { id: 'SR-2001', subject: 'Fleet Tracker Sync Issue', status: 'Pending', priority: 'Medium', type: 'Technical', createdAt: '16/04/2024', updatedAt: '16/04/2024' },
     ],
     orders: [
-      { id: 'ORD-6601', type: 'New Line', status: 'Completed', date: 'Feb 20, 2024', items: ['Logistics Fleet Pro Line x5'], total: 275.00 },
+      { id: 'ORD-6601', type: 'New Line', status: 'Completed', date: '20/02/2024', items: ['Logistics Fleet Pro Line x5'], total: 275.00 },
     ],
     alerts: [
-      { id: 'ALT-101', type: 'Network', severity: 'Critical', title: 'Regional Outage', message: 'Chicago Logistics Hub is experiencing a regional fiber outage. 4G backup is active.', timestamp: 'Apr 17, 2024' }
+      { id: 'ALT-101', type: 'Network', severity: 'Critical', title: 'Regional Outage', message: 'Manchester Logistics Hub is experiencing a regional fibre outage. 4G backup is active.', timestamp: '17/04/2024' }
     ]
   },
   'ACC-110293': {
@@ -423,7 +423,7 @@ export const mockCustomerData: Record<string, {
       {
         id: 'SUB-301',
         type: 'Mobile',
-        phoneNumber: '+1 (555) 000-1111',
+        phoneNumber: '+44 7700 900555',
         plan: 'Media Creator Unlimited',
         status: 'Active',
         dataLimit: 'Unlimited',
@@ -458,7 +458,7 @@ export const mockCustomerData: Record<string, {
       }
     ],
     bills: [
-      { id: 'INV-MG-001', date: 'Apr 12, 2024', amount: 320.45, status: 'Paid', dueDate: 'Apr 26, 2024' },
+      { id: 'INV-MG-001', date: '12/04/2024', amount: 320.45, status: 'Paid', dueDate: '26/04/2024' },
     ],
     paymentMethods: [
       { id: 'PM-MG-1', type: 'Amex', last4: '9988', expiry: '11/25', isDefault: true },
@@ -478,7 +478,7 @@ export const mockCustomerData: Record<string, {
         title: '5G Content Creator Pass',
         description: 'Uncapped uploads for high-res video streaming and content delivery.',
         category: 'Plan',
-        price: '$20/mo',
+        price: '£20/mo',
         benefit: 'Zero-latency live streaming',
         icon: 'Zap',
         isNew: true,
@@ -487,19 +487,19 @@ export const mockCustomerData: Record<string, {
     ],
     serviceRequests: [],
     orders: [
-      { id: 'ORD-7701', type: 'Speed Change', status: 'In Progress', date: 'Apr 17, 2024', items: ['Fiber Speed Boost 2Gbps'], total: 40.00 },
+      { id: 'ORD-7701', type: 'Speed Change', status: 'In Progress', date: '17/04/2024', items: ['Fibre Speed Boost 2Gbps'], total: 40.00 },
     ],
     alerts: [
-      { id: 'ALT-201', type: 'Billing', severity: 'Warning', title: 'Payment Method Expiring', message: 'Your Amex card ending in 9988 expires next month. Please update your payment method.', timestamp: 'Apr 16, 2024' }
+      { id: 'ALT-201', type: 'Billing', severity: 'Warning', title: 'Payment Method Expiring', message: 'Your Amex card ending in 9988 expires next month. Please update your payment method.', timestamp: '16/04/2024' }
     ]
   },
   'ACC-771100': {
     subscriptions: [
       {
         id: 'SUB-701',
-        type: 'Fiber',
+        type: 'Fibre',
         phoneNumber: 'FIB-NEXUS-MAIN',
-        plan: 'Enterprise Platinum Fiber',
+        plan: 'Enterprise Platinum Fibre',
         status: 'Active',
         dataLimit: '10TB',
         dataUsed: 8.5,
@@ -515,7 +515,7 @@ export const mockCustomerData: Record<string, {
       }
     ],
     bills: [
-      { id: 'INV-NEX-004', date: 'Apr 02, 2024', amount: 980.50, status: 'Paid', dueDate: 'Apr 16, 2024' },
+      { id: 'INV-NEX-004', date: '02/04/2024', amount: 980.50, status: 'Paid', dueDate: '16/04/2024' },
     ],
     paymentMethods: [
       { id: 'PM-NEX-1', type: 'Visa', last4: '0011', expiry: '05/28', isDefault: true },
@@ -533,9 +533,9 @@ export const mockCustomerData: Record<string, {
       {
         id: 'OFF-NEX-001',
         title: 'Infinite Bandwidth+',
-        description: 'Remove all soft-caps and enable multi-gigabit throughput across your entire fiber footprint.',
+        description: 'Remove all soft-caps and enable multi-gigabit throughput across your entire fibre footprint.',
         category: 'Plan',
-        price: '+$200/mo',
+        price: '+£200/mo',
         benefit: 'Eliminate overage risk for high-performance teams',
         icon: 'Zap',
         isNew: true,
@@ -545,7 +545,7 @@ export const mockCustomerData: Record<string, {
     serviceRequests: [],
     orders: [],
     alerts: [
-      { id: 'ALT-NEX-001', type: 'Utility', severity: 'Warning', title: 'Data Threshold Reached', message: 'Main HQ line has exceeded 85% of monthly allotted data. Significant spike detected since Friday.', timestamp: 'Apr 17, 2024' }
+      { id: 'ALT-NEX-001', type: 'Utility', severity: 'Warning', title: 'Data Threshold Reached', message: 'Main HQ line has exceeded 85% of monthly allotted data. Significant spike detected since Friday.', timestamp: '17/04/2024' }
     ]
   }
 };

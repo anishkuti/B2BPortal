@@ -114,7 +114,7 @@ export default function Offerings() {
             <span className="inline-block px-2 py-0.5 bg-primary text-white text-[10px] font-bold rounded mb-4 uppercase tracking-widest">Limited Time Offer</span>
             <h3 className="text-2xl font-extrabold mb-3 tracking-tight">Q2 Business Expansion Pack</h3>
             <p className="text-white/70 text-[14px] leading-relaxed mb-6 font-medium">
-              Upgrade 10+ lines to our Enterprise Unlimited Pro plan and get a dedicated fiber circuit installed at your headquarters with 3 months free.
+              Upgrade 10+ lines to our Enterprise Unlimited Pro plan and get a dedicated fibre circuit installed at your headquarters with 3 months free.
             </p>
             <button className="px-6 py-3 bg-white text-text-main font-bold rounded-md hover:bg-opacity-90 transition-all flex items-center gap-2 group/btn">
               Talk to Account Manager <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
