@@ -50,7 +50,7 @@ export default function BillingAndPayments() {
   return (
     <div className="space-y-6">
       {/* Sub-navigation for Financials */}
-      <div className="flex border-b border-border-main gap-8 mb-2">
+      <div className="flex border-b border-border-main gap-8 mb-2 overflow-x-auto no-scrollbar whitespace-nowrap">
         <button 
           onClick={() => setActiveSubTab('current')}
           className={cn(

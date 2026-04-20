@@ -41,7 +41,7 @@ import {
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
 
-export default function Overview() {
+export default function Overview({ onNavigate }: { onNavigate?: (tab: any) => void }) {
   const { currentCustomer, usageData, bills, serviceRequests, alerts } = useCustomer();
   
   const currentBillAmount = bills.length > 0 ? `$${bills[0].amount.toLocaleString()}` : '$0.00';
@@ -162,16 +162,30 @@ export default function Overview() {
                <span className="text-[13px] font-extrabold text-emerald-600">100% (Last 30d)</span>
              </div>
              <div className="w-[1px] h-6 bg-border-main"></div>
-             <div className="flex flex-col">
-               <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Tickets Open</span>
-               <span className="text-[13px] font-extrabold text-amber-600">{serviceRequests.filter(r => r.status !== 'Completed').length} Pending</span>
-             </div>
-           </div>
-           <div className="flex items-center gap-3">
-             <button className="text-[11px] font-extrabold text-primary hover:underline flex items-center gap-1">
-               ANALYZE CONTRACT <ArrowUpRight size={12} />
-             </button>
-           </div>
+              <button 
+                className="flex flex-col items-start group hover:opacity-100 transition-opacity"
+                onClick={() => onNavigate?.('cases')}
+              >
+                <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest group-hover:text-primary transition-colors">Tickets Open</span>
+                <span className="text-[13px] font-extrabold text-amber-600 flex items-center gap-1.5 group-hover:text-amber-700 transition-colors">
+                  {serviceRequests.filter(r => r.status !== 'Completed').length} Pending 
+                  <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-black group-hover:bg-amber-200 uppercase tracking-tighter ml-1">View Tickets</span>
+                </span>
+              </button>
+            </div>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => onNavigate?.('lines')}
+                className="flex items-center gap-2 group"
+              >
+                <div className="flex flex-col items-end">
+                  <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest group-hover:text-primary transition-colors">Master Agreement</span>
+                  <span className="text-[11px] font-black text-primary group-hover:underline flex items-center gap-1 uppercase tracking-tight">
+                    Analyze Contract <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </div>
+              </button>
+            </div>
         </div>
       </div>
 

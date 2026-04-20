@@ -167,21 +167,23 @@ export default function App() {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="bg-white border-b border-border-main flex px-6 flex-shrink-0 z-40">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActiveTab(item.id as TabType)}
-            className={cn(
-              "px-5 py-4 text-[13px] font-semibold transition-all border-b-2 cursor-pointer outline-none",
-              activeTab === item.id 
-                ? "text-primary border-primary" 
-                : "text-text-muted border-transparent hover:text-text-main"
-            )}
-          >
-            {item.label}
-          </button>
-        ))}
+      <nav className="bg-white border-b border-border-main flex px-6 flex-shrink-0 z-40 overflow-x-auto no-scrollbar scroll-smooth">
+        <div className="flex min-w-max">
+          {menuItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id as TabType)}
+              className={cn(
+                "px-5 py-4 text-[13px] font-semibold transition-all border-b-2 cursor-pointer outline-none whitespace-nowrap",
+                activeTab === item.id 
+                  ? "text-primary border-primary" 
+                  : "text-text-muted border-transparent hover:text-text-main"
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </nav>
 
       {/* Main Container - 3 Column Layout */}
@@ -236,7 +238,7 @@ export default function App() {
               transition={{ duration: 0.15 }}
               className="max-w-5xl mx-auto"
             >
-              {activeTab === 'overview' && <Overview />}
+              {activeTab === 'overview' && <Overview onNavigate={setActiveTab} />}
               {activeTab === 'lines' && <Subscriptions />}
               {activeTab === 'billing' && <BillingAndPayments />}
               {activeTab === 'offerings' && <Offerings />}

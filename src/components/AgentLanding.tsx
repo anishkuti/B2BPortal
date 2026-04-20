@@ -316,10 +316,10 @@ export default function AgentLanding() {
               </div>
               <div className="p-6 max-h-[50vh] overflow-y-auto space-y-3">
                 {[
-                  { id: 'AL-001', company: 'Nexus Logistics', companyId: 'ACC-771100', type: 'Billing Discrepancy', severity: 'CRITICAL' },
-                  { id: 'AL-002', company: 'Summit Energy', companyId: 'ACC-982341', type: 'Usage Spike', severity: 'WARNING' },
-                  { id: 'AL-003', company: 'CloudCore Inc', companyId: 'ACC-110293', type: 'Contract Exp.', severity: 'CRITICAL' },
-                  { id: 'AL-004', company: 'Global Solutions', companyId: 'ACC-552109', type: 'SIM Hijack', severity: 'IMMEDIATE' }
+                  { id: 'AL-001', company: 'Nexus Venture Group', companyId: 'ACC-771100', type: 'High Consumption Spike', severity: 'CRITICAL' },
+                  { id: 'AL-002', company: 'TechSolutions Global', companyId: 'ACC-982341', type: 'Unpaid Statement', severity: 'WARNING' },
+                  { id: 'AL-003', company: 'Rodriguez Media Group', companyId: 'ACC-110293', type: 'Payment Method Expiring', severity: 'CRITICAL' },
+                  { id: 'AL-004', company: 'Chen Logistics & Supply', companyId: 'ACC-552109', type: 'Regional Outage', severity: 'IMMEDIATE' }
                 ].map((alert) => (
                   <div key={alert.id} className="p-4 bg-bg-app border border-border-main rounded-2xl hover:border-red-600/20 transition-all cursor-pointer">
                     <div className="flex items-center justify-between mb-2">
