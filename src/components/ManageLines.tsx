@@ -444,12 +444,21 @@ export default function ManageLines() {
       </div>
 
       {/* Subscription List */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 space-y-3">
-          <div className="flex items-center gap-2 px-1 mb-2">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between px-1 mb-2">
+          <div className="flex items-center gap-2">
             <Smartphone size={14} className="text-text-muted" />
             <span className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Active Subscriptions</span>
           </div>
+          <div className="flex items-center gap-4">
+             <div className="flex items-center gap-1.5 py-1 px-3 bg-bg-app rounded-md border border-border-main">
+               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+               <span className="text-[10px] font-bold text-text-muted uppercase tracking-tight">Systems Operational</span>
+             </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 gap-3">
           {filteredLines.map((sub, idx) => {
             const Icon = getIcon(sub.type);
             const usagePercent = sub.dataTotal > 0 ? sub.dataUsed / sub.dataTotal : 0;
@@ -459,8 +468,9 @@ export default function ManageLines() {
               <motion.div
                 layout
                 key={sub.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.03 }}
                 className={cn(
                   "bg-white rounded-lg border p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:border-primary/40 transition-all group shadow-sm",
                   isNearingLimit ? "border-red-200 bg-red-50/10 shadow-red-100/50" : "border-border-main"
@@ -491,99 +501,68 @@ export default function ManageLines() {
                       )}
                     </div>
                     <div className="flex items-center gap-3 text-[12px] font-medium text-text-muted">
-                      <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5" /> {sub.plan}</span>
+                      <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5 text-primary/60" /> {sub.plan}</span>
                       <span className="flex items-center gap-1"><Smartphone className="w-3.5 h-3.5" /> {sub.device}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-6">
+                <div className="flex flex-wrap items-center gap-8">
+                  <div className="flex items-center gap-6 text-right hidden xl:flex">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">M.R.R.</span>
+                      <span className="text-[13px] font-black text-text-main">${sub.monthlyCost.toFixed(2)}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">Unbilled</span>
+                      <span className="text-[13px] font-black text-amber-600">${sub.unbilledUsage.estimatedCost.toFixed(2)}</span>
+                    </div>
+                  </div>
+
                   {/* Data Usage bar */}
-                  <div className="min-w-[140px] flex-1 lg:flex-none">
+                  <div className="min-w-[160px] flex-1 lg:flex-none">
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-1">
                         <span className={cn(
                           "text-[10px] font-bold uppercase tracking-wider",
                           isNearingLimit ? "text-red-600" : "text-text-muted"
                         )}>Data Usage</span>
-                        {isNearingLimit && <AlertCircle className="w-3 h-3 text-red-600" />}
                       </div>
                       <span className={cn(
                         "text-[11px] font-bold",
                         isNearingLimit ? "text-red-700" : "text-text-main"
                       )}>{sub.dataUsed} / {sub.dataLimit}</span>
                     </div>
-                    <div className="h-2 w-full bg-[#f1f3f5] rounded-full overflow-hidden border border-border-main">
+                    <div className="h-2 w-full bg-[#f1f3f5] rounded-full overflow-hidden border border-border-main p-0.5">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${usagePercent * 100}%` }}
                         className={cn(
                           "h-full rounded-full transition-all duration-1000",
-                          isNearingLimit ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" : "bg-primary"
+                          isNearingLimit ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" : "bg-primary shadow-[0_0_4px_rgba(0,86,179,0.1)]"
                         )}
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0">
                     <button 
                       onClick={() => setSelectedLineId(sub.id)}
-                      className="px-4 py-2 bg-text-main text-white text-[11px] font-extrabold rounded-md hover:bg-black transition-colors uppercase tracking-wider shadow-sm"
+                      className="px-4 py-2 bg-text-main text-white text-[11px] font-black rounded-lg hover:bg-black transition-all uppercase tracking-widest shadow-sm"
                     >
                       Manage
+                    </button>
+                    <button 
+                      onClick={() => setSelectedLineId(sub.id)}
+                      className="p-2 bg-bg-app border border-border-main rounded-lg text-text-muted hover:text-primary hover:border-primary/20 transition-all opacity-0 lg:group-hover:opacity-100"
+                    >
+                      <ArrowRightLeft className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
               </motion.div>
             );
           })}
-        </div>
-
-        {/* Contract/Document Sidebar */}
-        <div className="lg:col-span-1 space-y-4">
-          <div className="flex items-center gap-2 px-1 mb-2">
-            <ClipboardList size={14} className="text-text-muted" />
-            <span className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Active Contracts</span>
-          </div>
-          <div className="bg-white border border-border-main rounded-xl p-4 shadow-sm space-y-4">
-            {[
-              { title: 'Master Service Agreement', id: 'MSA-2024-991', date: 'Jan 2024', status: 'In Force' },
-              { title: 'Fleet Maintenance Addendum', id: 'FMA-2024-102', date: 'Feb 2024', status: 'In Force' },
-              { title: 'SLA Level: Platinum', id: 'SLA-PLAT-001', date: 'Jan 2024', status: 'Active' },
-            ].map((contract, i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="flex items-start justify-between mb-1">
-                  <h4 className="text-[12px] font-bold text-text-main group-hover:text-primary transition-colors">{contract.title}</h4>
-                  <div className="p-1 px-1.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-100 text-[8px] font-black uppercase">
-                    {contract.status}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-medium text-text-muted uppercase tracking-tighter">ID: {contract.id} • {contract.date}</span>
-                  <button className="text-text-muted group-hover:text-primary transition-colors">
-                    <Download size={12} />
-                  </button>
-                </div>
-                {i < 2 && <div className="mt-4 border-b border-border-main/50"></div>}
-              </div>
-            ))}
-            <button className="w-full py-3 mt-2 bg-bg-app border border-border-main rounded-lg text-[11px] font-black text-text-main uppercase tracking-widest hover:bg-white transition-all border-dashed">
-              Archive & History
-            </button>
-          </div>
-
-          <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-             <div className="flex items-center gap-2 mb-3">
-               <TrendingUp size={14} className="text-primary" />
-               <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">Contract Health</h4>
-             </div>
-             <p className="text-[11px] text-text-muted font-medium mb-4 leading-relaxed">
-               All active contracts are currently in compliance with agreed SLAs. Next review period: <span className="text-text-main font-bold">June 2024</span>.
-             </p>
-             <button className="w-full py-2 bg-primary text-white text-[11px] font-bold rounded-lg shadow-sm">
-               Download Contract Bundle
-             </button>
-          </div>
         </div>
       </div>
 

@@ -41,7 +41,13 @@ import {
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
 
-export default function Overview({ onNavigate }: { onNavigate?: (tab: any) => void }) {
+export default function Overview({ 
+  onNavigate, 
+  onOpenContracts 
+}: { 
+  onNavigate?: (tab: any) => void;
+  onOpenContracts?: () => void;
+}) {
   const { currentCustomer, usageData, bills, serviceRequests, alerts } = useCustomer();
   
   const currentBillAmount = bills.length > 0 ? `$${bills[0].amount.toLocaleString()}` : '$0.00';
@@ -175,7 +181,7 @@ export default function Overview({ onNavigate }: { onNavigate?: (tab: any) => vo
             </div>
             <div className="flex items-center gap-4">
               <button 
-                onClick={() => onNavigate?.('lines')}
+                onClick={onOpenContracts}
                 className="flex items-center gap-2 group"
               >
                 <div className="flex flex-col items-end">

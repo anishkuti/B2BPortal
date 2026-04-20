@@ -34,6 +34,7 @@ import ServiceRequestsAndOrders from './components/ServiceRequestsAndOrders';
 import Preferences from './components/Preferences';
 import Login from './components/Login';
 import AgentLanding from './components/AgentLanding';
+import ContractModal from './components/ContractModal';
 
 type TabType = 'overview' | 'lines' | 'billing' | 'offerings' | 'cases' | 'preferences';
 
@@ -43,6 +44,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isContractModalOpen, setIsContractModalOpen] = useState(false);
 
   const menuItems: { id: TabType, label: string }[] = [
     { id: 'overview', label: 'Overview' },
@@ -238,7 +240,12 @@ export default function App() {
               transition={{ duration: 0.15 }}
               className="max-w-5xl mx-auto"
             >
-              {activeTab === 'overview' && <Overview onNavigate={setActiveTab} />}
+              {activeTab === 'overview' && (
+                <Overview 
+                  onNavigate={setActiveTab} 
+                  onOpenContracts={() => setIsContractModalOpen(true)} 
+                />
+              )}
               {activeTab === 'lines' && <Subscriptions />}
               {activeTab === 'billing' && <BillingAndPayments />}
               {activeTab === 'offerings' && <Offerings />}
@@ -329,6 +336,11 @@ export default function App() {
           </div>
         </section>
       </main>
+
+      <ContractModal 
+        isOpen={isContractModalOpen} 
+        onClose={() => setIsContractModalOpen(false)} 
+      />
     </div>
   );
 }
