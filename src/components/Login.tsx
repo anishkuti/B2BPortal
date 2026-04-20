@@ -37,19 +37,19 @@ export default function Login({ onLogin }: LoginProps) {
             <h1 className="text-2xl font-black text-text-main tracking-tighter text-center">
               TELCO<span className="text-primary">CONNECT</span>
             </h1>
-            <p className="text-[12px] text-text-muted font-bold uppercase tracking-widest mt-2">B2B Portal</p>
+            <p className="text-[12px] text-text-muted font-bold uppercase tracking-widest mt-2">B2B Selfcare Portal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[11px] font-bold text-text-muted uppercase tracking-wider ml-1">Agent Credentials</label>
+              <label className="text-[11px] font-bold text-text-muted uppercase tracking-wider ml-1">User Credentials</label>
               <div className="relative group">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted group-focus-within:text-primary transition-colors" />
                 <input 
                   type="text" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="agent.id@telcoconnect.com"
+                  placeholder="email.id@telcoconnect.com"
                   className="w-full bg-white border border-border-main rounded-xl px-10 py-3 text-[14px] outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all font-medium"
                   required
                 />

@@ -25,12 +25,15 @@ import { motion } from 'motion/react';
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
 import { Subscription } from '../types';
+import AddSubscription from './AddSubscription';
+import BulkOrder from './BulkOrder';
 
 export default function ManageLines() {
   const { subscriptions } = useCustomer();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'All' | Subscription['status']>('All');
   const [selectedLineId, setSelectedLineId] = useState<string | null>(null);
+  const [view, setView] = useState<'List' | 'Add' | 'Bulk'>('List');
 
   const filteredLines = subscriptions.filter(sub => {
     const matchesSearch = sub.phoneNumber.includes(searchTerm) || 
@@ -59,6 +62,14 @@ export default function ManageLines() {
       default: return Package;
     }
   };
+
+  if (view === 'Add') {
+    return <AddSubscription onClose={() => setView('List')} onSuccess={() => setView('List')} />;
+  }
+
+  if (view === 'Bulk') {
+    return <BulkOrder onClose={() => setView('List')} onSuccess={() => setView('List')} />;
+  }
 
   if (selectedLine) {
     const Icon = getIcon(selectedLine.type);
@@ -424,10 +435,22 @@ export default function ManageLines() {
           </span>
         </div>
 
-        <button className="px-4 py-2 bg-primary text-white text-[12px] font-bold rounded-md hover:bg-opacity-90 transition-all flex items-center gap-2 whitespace-nowrap">
-          <Plus className="w-4 h-4" />
-          New Subscription
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setView('Bulk')}
+            className="px-4 py-2 bg-white border border-primary text-primary text-[12px] font-bold rounded-md hover:bg-primary-light transition-all flex items-center gap-2 whitespace-nowrap"
+          >
+            <Plus className="w-4 h-4" />
+            Bulk Subscription
+          </button>
+          <button 
+            onClick={() => setView('Add')}
+            className="px-4 py-2 bg-primary text-white text-[12px] font-bold rounded-md hover:bg-opacity-90 transition-all flex items-center gap-2 whitespace-nowrap"
+          >
+            <Plus className="w-4 h-4" />
+            New Subscription
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center justify-between px-2">

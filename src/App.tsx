@@ -36,7 +36,7 @@ import Login from './components/Login';
 import AgentLanding from './components/AgentLanding';
 import ContractModal from './components/ContractModal';
 
-type TabType = 'overview' | 'lines' | 'billing' | 'offerings' | 'cases' | 'preferences';
+type TabType = 'overview' | 'lines' | 'billing' | 'service-request' | 'order' | 'offerings' | 'preferences';
 
 export default function App() {
   const { currentCustomer, allCustomers, setCustomer, offerings } = useCustomer();
@@ -49,8 +49,9 @@ export default function App() {
   const menuItems: { id: TabType, label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'lines', label: 'Subscriptions' },
-    { id: 'billing', label: 'Financials' },
-    { id: 'cases', label: 'Requests & Orders' },
+    { id: 'billing', label: 'Billing' },
+    { id: 'service-request', label: 'Service Requests' },
+    { id: 'order', label: 'Orders' },
     { id: 'offerings', label: 'Offerings' },
     { id: 'preferences', label: 'Settings' },
   ];
@@ -159,8 +160,8 @@ export default function App() {
             Logout session
           </button>
           <div className="text-right hidden sm:block border-l border-border-main pl-4 ml-4">
-            <div className="text-[13px] font-bold text-text-main">Agent: Sarah Mitchell</div>
-            <div className="text-[11px] text-text-muted font-medium">L2 Support Specialist</div>
+            <div className="text-[13px] font-bold text-text-main">User: Sarah Mitchell</div>
+            <div className="text-[11px] text-text-muted font-medium">Corporate admin</div>
           </div>
           <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-xs ring-1 ring-primary/20">
             SM
@@ -203,8 +204,8 @@ export default function App() {
                  ID
                </div>
                <div>
-                 <p className="text-[14px] font-black text-text-main leading-none mb-1">Agent #992-TX</p>
-                 <p className="text-[11px] text-text-muted font-bold uppercase tracking-tighter">Support Level 2</p>
+                 <p className="text-[14px] font-black text-text-main leading-none mb-1">User #992-TX</p>
+                 <p className="text-[11px] text-text-muted font-bold uppercase tracking-tighter">Corporate admin</p>
                </div>
             </div>
           </div>
@@ -249,7 +250,8 @@ export default function App() {
               {activeTab === 'lines' && <Subscriptions />}
               {activeTab === 'billing' && <BillingAndPayments />}
               {activeTab === 'offerings' && <Offerings />}
-              {activeTab === 'cases' && <ServiceRequestsAndOrders />}
+              {activeTab === 'service-request' && <ServiceRequestsAndOrders initialTab="Requests" hideTabs />}
+              {activeTab === 'order' && <ServiceRequestsAndOrders initialTab="Orders" hideTabs />}
               {activeTab === 'preferences' && <Preferences />}
             </motion.div>
           </AnimatePresence>
@@ -310,7 +312,7 @@ export default function App() {
 
           <div className="mt-auto flex flex-col h-[320px] border border-border-main rounded-lg overflow-hidden bg-[#fdfdfd]">
             <div className="bg-primary text-white p-3 text-[12px] font-bold flex items-center justify-between">
-              Agent Support Chat
+              User Support Chat
               <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
             </div>
             <div className="flex-1 p-3 text-[12px] overflow-y-auto space-y-3 no-scrollbar scroll-smooth">

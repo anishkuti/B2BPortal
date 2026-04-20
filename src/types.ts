@@ -117,13 +117,16 @@ export interface ServiceRequest {
   type: 'Technical' | 'Billing' | 'Suspension' | 'Move' | 'Product Activation' | 'General';
   createdAt: string;
   updatedAt: string;
+  subscriptionId?: string; // Associated subscription (e.g. mobile number)
 }
 
 export interface Order {
   id: string;
-  type: 'New Line' | 'Device Change' | 'Plan Upgrade' | 'Speed Change' | 'Product Activation' | 'Move';
+  type: 'New' | 'Modify' | 'Cease' | 'Move';
+  segment: 'Fixed' | 'Mobile' | 'Fiber';
   status: 'Order Placed' | 'In Progress' | 'Shipped' | 'Completed' | 'Cancelled';
   date: string;
   items: string[];
   total: number;
+  subscriptionId?: string; // Associated subscription/mobile number
 }

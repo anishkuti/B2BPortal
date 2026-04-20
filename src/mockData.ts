@@ -52,7 +52,7 @@ export const mockCustomers: Customer[] = [
     companyName: 'Rodriguez Media Group',
     industry: 'Media & Entertainment',
     tier: 'Standard',
-    accountManager: 'Sarah Mitchell',
+    accountManager: 'Admin: Sarah Mitchell',
     joinedDate: 'Nov 20, 2023',
     totalLines: 12,
     activeLines: 12,
@@ -297,14 +297,15 @@ export const mockCustomerData: Record<string, {
       }
     ],
     serviceRequests: [
-      { id: 'SR-1001', subject: 'Fibre Connection Intermittent', status: 'In Progress', priority: 'High', type: 'Technical', createdAt: '14/04/2024', updatedAt: '16/04/2024' },
-      { id: 'SR-1002', subject: 'Product Activation: Security Suite', status: 'Completed', priority: 'Medium', type: 'Product Activation', createdAt: '28/03/2024', updatedAt: '30/03/2024' },
-      { id: 'SR-1003', subject: 'Office Relocation: Fibre Move', status: 'Pending', priority: 'High', type: 'Move', createdAt: '17/04/2024', updatedAt: '17/04/2024' },
+      { id: 'SR-1001', subject: 'Fibre Connection Intermittent', status: 'In Progress', priority: 'High', type: 'Technical', createdAt: '14/04/2024', updatedAt: '16/04/2024', subscriptionId: 'FIB-001-TECH' },
+      { id: 'SR-1002', subject: 'Product Activation: Security Suite', status: 'Completed', priority: 'Medium', type: 'General', createdAt: '28/03/2024', updatedAt: '30/03/2024', subscriptionId: '+44 7700 900123' },
+      { id: 'SR-1003', subject: 'Office Relocation: Fibre Move', status: 'Pending', priority: 'High', type: 'Move', createdAt: '17/04/2024', updatedAt: '17/04/2024', subscriptionId: 'FIB-001-TECH' },
     ],
     orders: [
-      { id: 'ORD-5501', type: 'Plan Upgrade', status: 'In Progress', date: '15/04/2024', items: ['Enterprise Unlimited Pro Upgrade'], total: 120.00 },
-      { id: 'ORD-5502', type: 'Product Activation', status: 'Completed', date: '10/03/2024', items: ['Cloud Security Plus'], total: 49.00 },
-      { id: 'ORD-5503', type: 'Move', status: 'Order Placed', date: '16/04/2024', items: ['Business Fibre Move - Floor 2'], total: 0 },
+      { id: 'ORD-5501', type: 'Modify', segment: 'Mobile', status: 'In Progress', date: '15/04/2024', items: ['Plan Upgrade: Enterprise Unlimited Pro'], total: 120.00, subscriptionId: '+44 7700 900123' },
+      { id: 'ORD-5502', type: 'Modify', segment: 'Mobile', status: 'Completed', date: '10/03/2024', items: ['Product Activation: Cloud Security Plus'], total: 49.00, subscriptionId: '+44 7700 900456' },
+      { id: 'ORD-5503', type: 'Move', segment: 'Fiber', status: 'Order Placed', date: '16/04/2024', items: ['Business Fibre Move - Floor 2'], total: 0, subscriptionId: 'FIB-001-TECH' },
+      { id: 'ORD-5504', type: 'New', segment: 'Mobile', status: 'In Progress', date: '18/04/2024', items: ['New 5G Business Line'], total: 45.00, subscriptionId: '+44 7700 900999' },
     ],
     alerts: [
       { id: 'ALT-001', type: 'Network', severity: 'Warning', title: 'Planned Maintenance', message: 'London HQ fibre lines will undergo maintenance on April 20th between 02:00 - 04:00 AM GMT.', timestamp: '16/04/2024' },
@@ -409,10 +410,10 @@ export const mockCustomerData: Record<string, {
       }
     ],
     serviceRequests: [
-      { id: 'SR-2001', subject: 'Fleet Tracker Sync Issue', status: 'Pending', priority: 'Medium', type: 'Technical', createdAt: '16/04/2024', updatedAt: '16/04/2024' },
+      { id: 'SR-2001', subject: 'Fleet Tracker Sync Issue', status: 'Pending', priority: 'Medium', type: 'Technical', createdAt: '16/04/2024', updatedAt: '16/04/2024', subscriptionId: '+44 7700 900222' },
     ],
     orders: [
-      { id: 'ORD-6601', type: 'New Line', status: 'Completed', date: '20/02/2024', items: ['Logistics Fleet Pro Line x5'], total: 275.00 },
+      { id: 'ORD-6601', type: 'New', segment: 'Mobile', status: 'Completed', date: '20/02/2024', items: ['Logistics Fleet Pro Line x5'], total: 275.00, subscriptionId: '+44 7700 900222' },
     ],
     alerts: [
       { id: 'ALT-101', type: 'Network', severity: 'Critical', title: 'Regional Outage', message: 'Manchester Logistics Hub is experiencing a regional fibre outage. 4G backup is active.', timestamp: '17/04/2024' }
@@ -487,7 +488,7 @@ export const mockCustomerData: Record<string, {
     ],
     serviceRequests: [],
     orders: [
-      { id: 'ORD-7701', type: 'Speed Change', status: 'In Progress', date: '17/04/2024', items: ['Fibre Speed Boost 2Gbps'], total: 40.00 },
+      { id: 'ORD-7701', type: 'Modify', segment: 'Fiber', status: 'In Progress', date: '17/04/2024', items: ['Speed Change: Fibre Speed Boost 2Gbps'], total: 40.00, subscriptionId: 'VOIP-MG-HQ' },
     ],
     alerts: [
       { id: 'ALT-201', type: 'Billing', severity: 'Warning', title: 'Payment Method Expiring', message: 'Your Amex card ending in 9988 expires next month. Please update your payment method.', timestamp: '16/04/2024' }

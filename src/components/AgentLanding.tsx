@@ -21,11 +21,63 @@ import {
   ChevronRight,
   LayoutGrid,
   Command,
-  Bell
+  Bell,
+  LineChart as LineChartIcon,
+  CalendarDays
 } from 'lucide-react';
+import { 
+  LineChart, 
+  Line, 
+  ResponsiveContainer, 
+  Tooltip, 
+  XAxis, 
+  YAxis,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  Cell,
+  Legend,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ScatterChart,
+  Scatter,
+  ZAxis
+} from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCustomer } from '../context/CustomerContext';
 import { cn } from '../lib/utils';
+
+const portfolioData = [
+  { name: 'Jan', data: 4500, cost: 8200 },
+  { name: 'Feb', data: 5200, cost: 8900 },
+  { name: 'Mar', data: 6100, cost: 9500 },
+  { name: 'Apr', data: 7800, cost: 11200 },
+];
+
+const distributionData = [
+  { account: 'TechSolutions', service: 'Fixed', count: 140 },
+  { account: 'TechSolutions', service: 'Mobile', count: 320 },
+  { account: 'TechSolutions', service: 'Fiber', count: 90 },
+  { account: 'Chen Logistics', service: 'Fixed', count: 80 },
+  { account: 'Chen Logistics', service: 'Mobile', count: 180 },
+  { account: 'Chen Logistics', service: 'Fiber', count: 40 },
+  { account: 'Rodriguez Media', service: 'Fixed', count: 110 },
+  { account: 'Rodriguez Media', service: 'Mobile', count: 210 },
+  { account: 'Rodriguez Media', service: 'Fiber', count: 60 },
+  { account: 'Nexus Venture', service: 'Fixed', count: 120 },
+  { account: 'Nexus Venture', service: 'Mobile', count: 180 },
+  { account: 'Nexus Venture', service: 'Fiber', count: 130 },
+];
+
+const serviceMap: Record<string, string> = {
+  'Fixed': '#1a56db',
+  'Mobile': '#10b981',
+  'Fiber': '#f59e0b'
+};
 
 export default function AgentLanding() {
   const { allCustomers, setCustomer } = useCustomer();
@@ -136,25 +188,24 @@ export default function AgentLanding() {
               
               <div className="mb-auto">
                 <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-1">Authenticated Terminal</p>
-                <h2 className="text-2xl font-black tracking-tighter mb-1">Sarah Mitchell</h2>
-                <p className="text-[12px] font-bold text-white/60 mb-8 border-l-2 border-primary pl-3">Senior B2B Specialist</p>
+                <h2 className="text-2xl font-black tracking-tighter mb-1">User: Sarah Mitchell</h2>
+                <p className="text-[12px] font-bold text-white/60 mb-6 border-l-2 border-primary pl-3">Corporate admin</p>
                 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-white/10">
-                    <span className="text-[10px] font-bold text-white/40 uppercase">Clearance</span>
-                    <span className="text-[12px] font-black text-emerald-400">LEVEL 4-SIGMA</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-white/10">
-                    <span className="text-[10px] font-bold text-white/40 uppercase">Node ID</span>
-                    <span className="text-[12px] font-black">#992-TX</span>
+                <div className="mb-8 space-y-3">
+                  <p className="text-[11px] font-medium text-white/50 leading-relaxed capitalize">
+                    Responsible for oversight of enterprise-wide telecommunications infrastructure, digital fleet migration, and multi-tier account reconciliations for global strategic partners.
+                  </p>
+                  <div className="flex items-center gap-2 py-1 px-3 bg-white/5 rounded-lg w-fit">
+                    <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">User ID</span>
+                    <span className="text-[11px] font-black text-primary-light">#992-TX</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex items-center justify-between">
+              <div className="mt-auto flex items-center justify-between">
                 <div className="flex items-center gap-2">
                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                   <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Ready for Command</span>
+                   <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">System Active</span>
                 </div>
                 <Settings size={16} className="text-white/20 hover:text-white cursor-pointer transition-colors" />
               </div>
@@ -163,37 +214,64 @@ export default function AgentLanding() {
         </div>
 
         {/* Focal Work Area: Accounts Bento (Sub-grid) */}
-        <div className="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="md:col-span-2 bg-white rounded-[2rem] p-8 border border-border-main shadow-sm h-full">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <LayoutGrid className="w-5 h-5 text-primary" />
-                <h3 className="text-[13px] font-black text-text-main uppercase tracking-[0.1em]">Frequent Accounts Hub</h3>
-              </div>
-              <button className="text-[11px] font-black text-primary hover:underline uppercase tracking-tighter">View Master List</button>
+        <div className="lg:col-span-6 space-y-6">
+          {/* Account Hierarchy Module - Moved & Integrated */}
+          <div className="bg-white rounded-[2rem] p-8 border border-border-main shadow-sm h-full">
+            <div className="flex items-center gap-2 mb-8">
+              <Users className="w-5 h-5 text-primary" />
+              <h3 className="text-[13px] font-black text-text-main uppercase tracking-[0.1em]">Account Ecosystem</h3>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {frequentAccounts.map((customer) => (
-                <div 
-                  key={customer.id} 
-                  onClick={() => setCustomer(customer.id)}
-                  className="p-5 bg-[#f8f9fa] rounded-2xl border border-border-main hover:border-primary/30 hover:bg-white hover:shadow-lg transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 bg-white border border-border-main rounded-xl flex items-center justify-center text-primary font-black shadow-sm group-hover:scale-110 transition-transform">
-                      {customer.companyName.charAt(0)}
+            <div className="max-w-2xl">
+              <div className="relative pl-8">
+                {/* Vertical Connector Line */}
+                <div className="absolute left-[15px] top-4 bottom-8 w-px bg-border-main"></div>
+
+                {/* Primary Parent Node */}
+                <div className="relative mb-10">
+                  <div className="absolute left-[-23px] top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm z-10"></div>
+                  <div 
+                    onClick={() => setCustomer('ACC-982341')}
+                    className="p-5 bg-primary text-white rounded-2xl cursor-pointer hover:bg-primary-dark transition-all shadow-md group flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1">Corporate Parent</p>
+                      <p className="text-[17px] font-black">TechSolutions Global Ltd.</p>
                     </div>
-                    <Star size={14} className="text-primary fill-primary" />
-                  </div>
-                  <h4 className="font-extrabold text-[15px] text-text-main group-hover:text-primary mb-1 truncate">{customer.companyName}</h4>
-                  <p className="text-[10px] font-bold text-text-muted uppercase tracking-tight mb-4">{customer.industry}</p>
-                  <div className="flex items-center justify-between text-[11px] font-black text-text-main pt-4 border-t border-border-main/50">
-                    <span>{customer.totalLines} Units</span>
-                    <ArrowRight size={14} className="text-text-muted group-hover:translate-x-1 transition-transform" />
+                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                      <ArrowUpRight size={20} />
+                    </div>
                   </div>
                 </div>
-              ))}
+
+                {/* Sub-Account Children */}
+                <div className="space-y-4">
+                  {[
+                    { name: 'Chen Logistics & Supply', id: 'ACC-552109', industry: 'Logistics' },
+                    { name: 'Rodriguez Media Group', id: 'ACC-110293', industry: 'Digital' },
+                    { name: 'Nexus Venture Group', id: 'ACC-771100', industry: 'Capital' }
+                  ].map((child, i) => (
+                    <div key={i} className="relative group">
+                      <div className="absolute left-[-23px] top-1/2 -translate-y-1/2 w-4 h-px bg-border-main group-hover:bg-primary transition-colors"></div>
+                      <div 
+                        onClick={() => setCustomer(child.id)}
+                        className="ml-4 p-4 bg-[#f8f9fa] border border-border-main rounded-xl flex items-center justify-between hover:bg-white hover:border-primary/30 transition-all cursor-pointer group/item"
+                      >
+                        <div className="flex items-center gap-4">
+                           <div className="w-10 h-10 rounded-lg bg-white border border-border-main flex items-center justify-center text-[14px] font-black text-primary shadow-sm">
+                             {child.name.charAt(0)}
+                           </div>
+                           <div>
+                             <p className="text-[9px] font-bold text-text-muted uppercase tracking-tight">{child.industry} Unit</p>
+                             <p className="text-[14px] font-bold text-text-main group-hover/item:text-primary transition-colors">{child.name}</p>
+                           </div>
+                        </div>
+                        <ArrowRight size={16} className="text-text-muted group-hover/item:text-primary transition-transform group-hover/item:translate-x-1" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -201,40 +279,166 @@ export default function AgentLanding() {
         {/* Global Monitoring & Rapid Actions (Right Column) */}
         <div className="lg:col-span-3 space-y-6">
           {/* NOC Monitoring Module */}
-          <div className="bg-white rounded-[2rem] border border-border-main overflow-hidden shadow-sm group">
-            <div className="p-6">
+          <div className="bg-white rounded-[2rem] border border-border-main overflow-hidden shadow-sm group h-full">
+            <div className="p-6 h-full flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-[12px] font-black text-text-main uppercase tracking-widest">Ops Overview</h3>
                 <Activity size={16} className="text-emerald-500 animate-pulse" />
               </div>
-              <div className="aspect-video bg-bg-app rounded-xl mb-4 relative overflow-hidden">
+              <div className="flex-1 bg-bg-app rounded-xl mb-4 relative overflow-hidden min-h-[120px]">
                 <img src="https://picsum.photos/seed/heatmap/400/250?grayscale" alt="Map" className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:scale-105 transition-transform duration-[8s]" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent flex items-end p-4">
                   <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Zone: Global North</span>
                 </div>
               </div>
-              <button className="w-full py-3 bg-primary text-white rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">Launch NOC Visualizer</button>
+              <div className="space-y-4 mb-4">
+                <div className="flex justify-between items-center p-3 bg-bg-app rounded-xl border border-border-main">
+                  <span className="text-[10px] font-bold text-text-muted uppercase">NOC Status</span>
+                  <span className="text-[11px] font-black text-emerald-600">OPERATIONAL</span>
+                </div>
+              </div>
+              <button className="w-full py-3 bg-primary text-white rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all mt-auto">Launch Visualizer</button>
             </div>
           </div>
+        </div>
 
-          {/* Efficiency Analytics Module */}
-          <div className="bg-white rounded-[2rem] border border-border-main p-8 shadow-sm">
-            <h3 className="text-[12px] font-black text-text-main uppercase tracking-widest mb-6">Execution Analytics</h3>
-            <div className="space-y-6">
-              {[
-                { label: 'CSAT Score', value: '4.92', progress: 92, color: 'bg-emerald-500' },
-                { label: 'SLA Adherence', value: '99.8%', progress: 98, color: 'bg-primary' },
-              ].map((metric, i) => (
-                <div key={i}>
-                  <div className="flex justify-between items-end mb-2">
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-tight">{metric.label}</span>
-                    <span className="text-[14px] font-black text-text-main">{metric.value}</span>
-                  </div>
-                  <div className="h-1.5 w-full bg-bg-app rounded-full overflow-hidden">
-                    <motion.div initial={{ width: 0 }} animate={{ width: `${metric.progress}%` }} className={cn("h-full rounded-full", metric.color)} />
-                  </div>
+        {/* Portfolio Intelligence Dashboard - FULL WIDTH */}
+        <div className="lg:col-span-12">
+          <div className="bg-white rounded-[2rem] p-8 lg:p-10 border border-border-main shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                  <TrendingUp className="w-6 h-6" />
                 </div>
-              ))}
+                <div>
+                  <h3 className="text-[18px] font-black text-text-main tracking-tight uppercase">Portfolio Intelligence</h3>
+                  <p className="text-[11px] font-bold text-text-muted uppercase tracking-widest">Global Ecosystem Performance • Q2 2024</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2 px-4 py-2 bg-bg-app rounded-full border border-border-main">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                  <span className="text-[10px] font-black text-text-main uppercase tracking-widest">Real-time Stream Active</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
+              {/* Left Column: Account-wise Service Inventory */}
+              <div className="xl:col-span-8">
+                <div className="flex items-center justify-between mb-6">
+                  <p className="text-[12px] font-black text-text-main uppercase tracking-[0.2em]">Consolidated Fleet Inventory</p>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    { name: 'TechSolutions Global Ltd.', fixed: 142, mobile: 324, fiber: 92, status: 'Healthy' },
+                    { name: 'Chen Logistics & Supply', fixed: 84, mobile: 182, fiber: 42, status: 'Critical' },
+                    { name: 'Rodriguez Media Group', fixed: 112, mobile: 214, fiber: 64, status: 'Healthy' },
+                    { name: 'Nexus Venture Group', fixed: 124, mobile: 188, fiber: 132, status: 'Healthy' }
+                  ].map((account, i) => (
+                    <div key={i} className="group flex flex-col md:flex-row items-start md:items-center justify-between p-5 bg-[#fcfdfe] border border-border-main rounded-2xl hover:bg-white hover:shadow-xl transition-all hover:border-primary/20">
+                      <div className="flex-1 mb-4 md:mb-0">
+                        <p className="text-[15px] font-black text-text-main group-hover:text-primary transition-colors">{account.name}</p>
+                        <div className="flex items-center gap-3 mt-1">
+                          <p className="text-[10px] font-bold text-text-muted uppercase tracking-tighter">ID: ACC-0{i}X-24</p>
+                          <span className="text-text-muted/30">•</span>
+                          <p className="text-[10px] font-bold text-text-muted uppercase tracking-tighter">Primary Node: EMEA-4</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center flex-wrap gap-x-12 gap-y-4 w-full md:w-auto md:text-right">
+                        <div>
+                          <p className="text-[11px] font-bold text-text-muted uppercase mb-1">Fixed</p>
+                          <p className="text-[18px] font-black text-text-main">{account.fixed}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-text-muted uppercase mb-1">Mobile</p>
+                          <p className="text-[18px] font-black text-text-main">{account.mobile}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-text-muted uppercase mb-1">Fiber</p>
+                          <p className="text-[18px] font-black text-text-main">{account.fiber}</p>
+                        </div>
+                        <div className="md:w-24 text-right">
+                          <p className="text-[10px] font-bold text-text-muted uppercase mb-2">Connectivity</p>
+                          <span className={cn(
+                            "text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block border",
+                            account.status === 'Healthy' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-red-50 text-red-600 border-red-100"
+                          )}>{account.status}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Strategic KPIs */}
+              <div className="xl:col-span-4 flex flex-col pt-2 xl:border-l border-border-main xl:pl-10">
+                <div className="space-y-8">
+                   <div className="grid grid-cols-2 gap-6">
+                      <div className="p-6 bg-[#1a1a1a] text-white rounded-3xl shadow-xl hover:scale-[1.02] transition-transform cursor-pointer">
+                        <p className="text-[11px] font-bold text-white/40 uppercase mb-2 tracking-widest">Open Orders</p>
+                        <div className="flex items-end justify-between">
+                           <p className="text-[32px] font-black leading-none">42</p>
+                           <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
+                             <ArrowUpRight size={18} className="text-primary-light" />
+                           </div>
+                        </div>
+                      </div>
+                      <div className="p-6 bg-white border border-border-main rounded-3xl shadow-sm hover:scale-[1.02] transition-transform cursor-pointer group">
+                        <p className="text-[11px] font-bold text-text-muted uppercase mb-2 tracking-widest">Active Issues</p>
+                        <div className="flex items-end justify-between">
+                           <p className="text-[32px] font-black leading-none text-red-600">18</p>
+                           <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                             <AlertTriangle size={18} />
+                           </div>
+                        </div>
+                      </div>
+                   </div>
+
+                   <div className="p-8 bg-[#f8f9fa] rounded-3xl border border-border-main">
+                      <div className="flex justify-between items-center mb-6">
+                         <div>
+                           <p className="text-[11px] font-black text-text-muted uppercase tracking-widest mb-1">SLA Compliance</p>
+                           <p className="text-[28px] font-black text-text-main tracking-tighter">99.82%</p>
+                         </div>
+                         <div className="w-14 h-14 rounded-full border-4 border-emerald-500/20 border-t-emerald-500 flex items-center justify-center">
+                            <Activity size={24} className="text-emerald-500" />
+                         </div>
+                      </div>
+                      <div className="h-2.5 w-full bg-white rounded-full overflow-hidden mb-4 border border-border-main">
+                        <motion.div initial={{ width: 0 }} animate={{ width: '99.8%' }} className="h-full bg-emerald-500 rounded-full" />
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <p className="text-[10px] font-bold text-text-muted uppercase">Target Threshold: 99.5%</p>
+                        <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest px-2 py-0.5 bg-emerald-100 rounded">EXCEEDING</span>
+                      </div>
+                   </div>
+
+                   <div className="space-y-4">
+                      <p className="text-[11px] font-black text-text-muted uppercase tracking-[0.2em] mb-4">Financial Snapshots</p>
+                      
+                      <div className="group relative p-6 bg-white border border-border-main rounded-3xl hover:border-primary/40 transition-all overflow-hidden">
+                        <div className="absolute right-[-10px] bottom-[-10px] opacity-5 text-primary rotate-12 transition-transform group-hover:scale-110">
+                          <CreditCard size={80} />
+                        </div>
+                        <div className="relative z-10 flex justify-between items-center">
+                          <div>
+                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Portfolio MRR</p>
+                            <p className="text-[24px] font-black text-text-main">£142.5k</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-[10px] font-bold text-emerald-600 uppercase mb-1">Net Growth</p>
+                            <div className="flex items-center gap-1 text-emerald-600 font-black">
+                              <TrendingUp size={14} />
+                              <span>+12.4%</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

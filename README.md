@@ -1,4 +1,4 @@
-# TelcoConnect B2B Agent Portal
+# TelcoConnect Customer Admin Portal
 
 View your app in AI Studio: [https://ai.studio/apps/339525ce-6c70-4734-8da3-a8310ff84751](https://ai.studio/apps/339525ce-6c70-4734-8da3-a8310ff84751)
 
@@ -15,11 +15,11 @@ View your app in AI Studio: [https://ai.studio/apps/339525ce-6c70-4734-8da3-a831
    npm run dev
    ```
 
-A professional, enterprise-grade portal designed for telecommunications agents to manage B2B customer accounts, network health, and financial operations.
+A professional, enterprise-grade portal designed for telecommunications administrators to manage B2B customer accounts, network health, and financial operations.
 
 ## 🚀 Key Features
 
-- **Agent Command Center:** A mission-control style landing page with global network statistics.
+- **Admin Command Center:** A mission-control style landing page with global network statistics.
 - **Secure Authentication:** Hardware-verified session authorization simulation.
 - **Customer Overview:** Comprehensive dashboard for data usage, revenue trends, and interaction logs.
 - **Subscription Management:** Full lifecycle control over corporate mobile, fibre, and VoIP lines.
@@ -57,4 +57,4 @@ A professional, enterprise-grade portal designed for telecommunications agents t
 
 ## 📈 Demo Scenarios
 
-The portal includes pre-configured mock data for various business cases, including a **Critical Usage Spike** scenario for **Nexus Venture Group**, demonstrating how agents can use proactive insights to suggest bandwidth upgrades.
+The portal includes pre-configured mock data for various business cases, including a **Critical Usage Spike** scenario for **Nexus Venture Group**, demonstrating how admins can use proactive insights to suggest bandwidth upgrades.
