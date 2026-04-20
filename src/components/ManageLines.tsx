@@ -471,89 +471,89 @@ export default function ManageLines() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.03 }}
                 className={cn(
-                  "bg-white rounded-lg border p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:border-primary/40 transition-all group shadow-sm",
-                  isNearingLimit ? "border-red-200 bg-red-50/10 shadow-red-100/50" : "border-border-main"
+                  "bg-white rounded-lg border p-4 flex flex-col lg:flex-row lg:items-center gap-4 hover:border-primary/40 transition-all group shadow-sm",
+                  isNearingLimit ? "border-red-200 bg-red-50/10" : "border-border-main"
                 )}
               >
-                <div className="flex items-center gap-4 flex-1">
+                <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div className={cn(
-                    "w-12 h-12 rounded-lg flex items-center justify-center transition-colors border",
+                    "w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors border",
                     sub.status === 'Active' 
                       ? (isNearingLimit ? "bg-red-100 text-red-600 border-red-200" : "bg-primary-light text-primary border-primary/10") 
                       : "bg-[#f1f3f5] text-text-muted border-border-main"
                   )}>
                     <Icon className="w-6 h-6" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <h3 className="text-[15px] font-bold text-text-main whitespace-nowrap">{sub.phoneNumber}</h3>
-                      <span className={cn(
-                        "px-2 py-0.5 text-[9px] uppercase font-bold tracking-tight rounded-md border",
-                        getStatusColor(sub.status)
-                      )}>
-                        {sub.status}
-                      </span>
-                      {isNearingLimit && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 text-[9px] uppercase font-bold tracking-tight rounded-md bg-red-600 text-white border-red-600 animate-pulse">
-                          <AlertCircle className="w-2.5 h-2.5" /> Limit Warning
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                      <h3 className="text-[15px] font-extrabold text-text-main whitespace-nowrap">{sub.phoneNumber}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className={cn(
+                          "px-2 py-0.5 text-[9px] uppercase font-bold tracking-tight rounded-md border shrink-0",
+                          getStatusColor(sub.status)
+                        )}>
+                          {sub.status}
                         </span>
-                      )}
+                        {isNearingLimit && (
+                          <span className="flex items-center gap-1 px-2 py-0.5 text-[9px] uppercase font-bold tracking-tight rounded-md bg-red-600 text-white border-red-600 animate-pulse shrink-0">
+                            <AlertCircle className="w-2.5 h-2.5" /> Limit Warning
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 text-[12px] font-medium text-text-muted">
+                    <div className="flex flex-wrap items-center gap-3 text-[12px] font-medium text-text-muted">
                       <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5 text-primary/60" /> {sub.plan}</span>
                       <span className="flex items-center gap-1"><Smartphone className="w-3.5 h-3.5" /> {sub.device}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-8">
-                  <div className="flex items-center gap-6 text-right hidden xl:flex">
-                    <div className="flex flex-col">
+                <div className="flex flex-col sm:flex-row lg:items-center gap-6 lg:gap-8 w-full lg:w-auto">
+                  <div className="hidden xl:flex items-center gap-4 text-right">
+                    <div className="flex flex-col min-w-[65px]">
                       <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">M.R.R.</span>
                       <span className="text-[13px] font-black text-text-main">£{sub.monthlyCost.toFixed(2)}</span>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col min-w-[65px]">
                       <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest leading-none mb-1">Unbilled</span>
                       <span className="text-[13px] font-black text-amber-600">£{sub.unbilledUsage.estimatedCost.toFixed(2)}</span>
                     </div>
                   </div>
 
                   {/* Data Usage bar */}
-                  <div className="min-w-[160px] flex-1 lg:flex-none">
+                  <div className="w-full sm:w-[180px] lg:flex-shrink-0">
                     <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-1">
-                        <span className={cn(
-                          "text-[10px] font-bold uppercase tracking-wider",
-                          isNearingLimit ? "text-red-600" : "text-text-muted"
-                        )}>Data Usage</span>
-                      </div>
+                      <span className={cn(
+                        "text-[10px] font-bold uppercase tracking-wider",
+                        isNearingLimit ? "text-red-600" : "text-text-muted"
+                      )}>Data Usage</span>
                       <span className={cn(
                         "text-[11px] font-bold",
                         isNearingLimit ? "text-red-700" : "text-text-main"
-                      )}>{sub.dataUsed} / {sub.dataLimit}</span>
+                      )}>{sub.dataUsed} / {sub.dataLimit === 'Unlimited' ? '∞' : sub.dataLimit}</span>
                     </div>
-                    <div className="h-2 w-full bg-[#f1f3f5] rounded-full overflow-hidden border border-border-main p-0.5">
+                    <div className="h-1.5 w-full bg-[#f1f3f5] rounded-full overflow-hidden border border-border-main p-0.5">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${usagePercent * 100}%` }}
                         className={cn(
                           "h-full rounded-full transition-all duration-1000",
-                          isNearingLimit ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" : "bg-primary shadow-[0_0_4px_rgba(0,86,179,0.1)]"
+                          isNearingLimit ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" : "bg-primary"
                         )}
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 lg:min-w-[120px] justify-end">
                     <button 
                       onClick={() => setSelectedLineId(sub.id)}
-                      className="px-4 py-2 bg-text-main text-white text-[11px] font-black rounded-lg hover:bg-black transition-all uppercase tracking-widest shadow-sm"
+                      className="whitespace-nowrap px-4 py-2 bg-text-main text-white text-[11px] font-black rounded-lg hover:bg-black transition-all uppercase tracking-widest shadow-sm"
                     >
                       Manage
                     </button>
                     <button 
                       onClick={() => setSelectedLineId(sub.id)}
-                      className="p-2 bg-bg-app border border-border-main rounded-lg text-text-muted hover:text-primary hover:border-primary/20 transition-all opacity-0 lg:group-hover:opacity-100"
+                      className="p-2 bg-bg-app border border-border-main rounded-lg text-text-muted hover:text-primary hover:border-primary/20 transition-all opacity-0 lg:group-hover:opacity-100 shrink-0"
                     >
                       <ArrowRightLeft className="w-4 h-4" />
                     </button>
