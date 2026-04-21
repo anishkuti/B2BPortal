@@ -530,7 +530,7 @@ export default function AddSubscription({ onClose, onSuccess }: AddSubscriptionP
                onClick={handleSubmit}
                className="px-10 py-4 bg-emerald-600 text-white text-[11px] font-black rounded-xl hover:bg-emerald-700 transition-all flex items-center gap-3 shadow-xl uppercase tracking-[2px] active:scale-95 shadow-emerald-600/20"
              >
-               Submit Provisioning Order <Check className="w-4 h-4" />
+               Submit Order <Check className="w-4 h-4" />
              </button>
            )}
         </div>
