@@ -130,3 +130,12 @@ export interface Order {
   total: number;
   subscriptionId?: string; // Associated subscription/mobile number
 }
+
+export interface Contract {
+  id: string;
+  title: string;
+  date: string;
+  status: 'In Force' | 'Active' | 'Expired';
+  type: 'Primary' | 'Addendum' | 'SLA' | 'Compliance';
+  description: string;
+}

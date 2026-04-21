@@ -1,4 +1,4 @@
-import { Subscription, Bill, PaymentMethod, UsageData, Customer, Offering, ServiceRequest, Order, Alert } from './types';
+import { Subscription, Bill, PaymentMethod, UsageData, Customer, Offering, ServiceRequest, Order, Contract, Alert } from './types';
 
 export const mockCustomers: Customer[] = [
   {
@@ -93,6 +93,7 @@ export const mockCustomerData: Record<string, {
   offerings: Offering[],
   serviceRequests: ServiceRequest[],
   orders: Order[],
+  contracts: Contract[],
   alerts: Alert[]
 }> = {
   'ACC-982341': {
@@ -311,6 +312,11 @@ export const mockCustomerData: Record<string, {
       { id: 'ALT-001', type: 'Network', severity: 'Warning', title: 'Planned Maintenance', message: 'London HQ fibre lines will undergo maintenance on April 20th between 02:00 - 04:00 AM GMT.', timestamp: '16/04/2024' },
       { id: 'ALT-002', type: 'Billing', severity: 'Critical', title: 'Bill Past Due', message: 'Invoice INV-2024-004 is past due. Please settle to avoid service interruption.', timestamp: '15/04/2024' },
       { id: 'ALT-003', type: 'Security', severity: 'Info', title: 'New Login Detected', message: 'A new login was recorded from an unrecognized device in London, UK.', timestamp: '17/04/2024' }
+    ],
+    contracts: [
+      { title: 'Master Service Agreement', id: 'MSA-2024-991', date: 'Jan 15, 2024', status: 'In Force', type: 'Primary', description: 'Main governing document for all enterprise connectivity services.' },
+      { title: 'Fleet Maintenance Addendum', id: 'FMA-2024-102', date: 'Feb 02, 2024', status: 'In Force', type: 'Addendum', description: 'Extended support and replacement terms for mobile device fleet.' },
+      { title: 'SLA Level: Platinum Plus', id: 'SLA-PLAT-001', date: 'Jan 15, 2024', status: 'Active', type: 'SLA', description: 'Guaranteed 99.99% uptime with 2-hour onsite response time.' },
     ]
   },
   'ACC-552109': {
@@ -417,6 +423,9 @@ export const mockCustomerData: Record<string, {
     ],
     alerts: [
       { id: 'ALT-101', type: 'Network', severity: 'Critical', title: 'Regional Outage', message: 'Manchester Logistics Hub is experiencing a regional fibre outage. 4G backup is active.', timestamp: '17/04/2024' }
+    ],
+    contracts: [
+      { title: 'Logistics Primary Service Agreement', id: 'PSA-LOG-552', date: 'Mar 15, 2021', status: 'In Force', type: 'Primary', description: 'Logistics-specific service agreement for large scale fleet operations.' }
     ]
   },
   'ACC-110293': {
@@ -492,6 +501,9 @@ export const mockCustomerData: Record<string, {
     ],
     alerts: [
       { id: 'ALT-201', type: 'Billing', severity: 'Warning', title: 'Payment Method Expiring', message: 'Your Amex card ending in 9988 expires next month. Please update your payment method.', timestamp: '16/04/2024' }
+    ],
+    contracts: [
+      { title: 'Media Production Master Agreement', id: 'MPA-MEDIA-110', date: 'Nov 20, 2023', status: 'In Force', type: 'Primary', description: 'Comprehensive agreement for media-grade data links and studio VoIP.' }
     ]
   },
   'ACC-771100': {
@@ -547,6 +559,9 @@ export const mockCustomerData: Record<string, {
     orders: [],
     alerts: [
       { id: 'ALT-NEX-001', type: 'Utility', severity: 'Warning', title: 'Data Threshold Reached', message: 'Main HQ line has exceeded 85% of monthly allotted data. Significant spike detected since Friday.', timestamp: '17/04/2024' }
+    ],
+    contracts: [
+      { title: 'Global Enterprise MSA', id: 'GEM-771-NEX', date: 'Feb 10, 2023', status: 'In Force', type: 'Primary', description: 'Global agreement covering high-capacity transit and managed security.' }
     ]
   }
 };

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Customer, Subscription, Bill, PaymentMethod, UsageData, Offering, ServiceRequest, Order, MarketingPreferences, Alert } from '../types';
+import { Customer, Subscription, Bill, PaymentMethod, UsageData, Offering, ServiceRequest, Order, Contract, MarketingPreferences, Alert } from '../types';
 import { mockCustomers, mockCustomerData } from '../mockData';
 
 interface CustomerContextType {
@@ -11,6 +11,7 @@ interface CustomerContextType {
   offerings: Offering[];
   serviceRequests: ServiceRequest[];
   orders: Order[];
+  contracts: Contract[];
   alerts: Alert[];
   allCustomers: Customer[];
   setCustomer: (customerId: string | null) => void;
@@ -45,6 +46,7 @@ export function CustomerProvider({ children }: { children: ReactNode }) {
     offerings: [],
     serviceRequests: [],
     orders: [],
+    contracts: [],
     alerts: []
   };
 
@@ -57,6 +59,7 @@ export function CustomerProvider({ children }: { children: ReactNode }) {
     offerings: data.offerings,
     serviceRequests: data.serviceRequests,
     orders: data.orders,
+    contracts: data.contracts,
     alerts: data.alerts,
     allCustomers: customers,
     setCustomer,
